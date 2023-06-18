@@ -2,26 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.card {
+  background: var(--surface-card);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+.form-demo .card {
+  min-width: 450px;
+}
+.form-demo .card form {
+  margin-top: 2rem;
+}
+
+.form-demo .card .field {
+  margin-bottom: 1.5rem;
+}
+.justify-content-center {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin-top: 5%;
+  margin-right: 2%;
+}
+@media screen and (max-width: 960px) {
+  .form-demo .card {
+      width: 80%;
   }
 }
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@media screen and (max-width: 640px) {
+  .form-demo .card {
+      width: 100%;
+      min-width: 0;
+  }
 }
