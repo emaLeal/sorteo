@@ -14,9 +14,14 @@ export async function getData(cookie) {
   return json;
 }
 
+export async function postSorteo(data) {
+  
+}
+
 export default async function AdminHubPage() {
   const cookieStore = cookies().get("miToken");
   const data = await getData(cookieStore);
+
   return (
     <div>
       <ListaSorteo data={data.data} />

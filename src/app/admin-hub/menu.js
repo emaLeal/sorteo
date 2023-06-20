@@ -12,6 +12,8 @@ const items = [
   },
 ];
 
-export default function MenuAdmin() {
+const MenuAdmin = () => {
   return <Menu model={items}></Menu>;
 }
+
+export default MenuAdmin
