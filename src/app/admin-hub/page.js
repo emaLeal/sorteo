@@ -1,30 +1,25 @@
-import { cookies } from "next/headers";
-import ListaSorteo from "./lista_sorteo";
+import ListaEventos from "./lista_eventos";
 
-export async function getData(cookie) {
+export async function getData() {
   const headers = new Headers({
     "Content-type": "application/json",
   });
-  headers.append("Set-Cookie", `${cookie.value}`);
-  const res = await fetch("http://localhost:3000/api/sorteo", {
+  const res = await fetch("http://localhost:3000/api/eventos", {
     headers,
-    cache: "no-store",
+    next: {
+      revalidate: 10,
+    },
   });
   const json = await res.json();
   return json;
 }
 
-export async function postSorteo(data) {
-  
-}
-
 export default async function AdminHubPage() {
-  const cookieStore = cookies().get("miToken");
-  const data = await getData(cookieStore);
+  const data = await getData();
 
   return (
     <div>
-      <ListaSorteo data={data.data} />
+      <ListaEventos data={data.data} />
     </div>
   );
 }

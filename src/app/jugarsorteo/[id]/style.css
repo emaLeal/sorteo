@@ -1,0 +1,40 @@
+#app {
+    height: 100%;
+}
+
+html,
+body
+ {
+    height: 70%;
+}
+
+
+
+.swiper {
+    width: 50%;
+    height: 50%;
+}
+
+.swiper-slide {
+    
+    text-align: center;
+    font-size: 18px;
+
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+overflow-y: hidden;
+overflow-x: hidden;
+width: 100%;
+margin: 0;
+}
+
+.centered {
+    transform: translate(-50%, 0);
+}
+
+
