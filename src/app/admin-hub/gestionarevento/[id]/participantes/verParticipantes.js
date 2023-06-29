@@ -4,10 +4,13 @@ import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { FileUpload } from "primereact/fileupload";
 import { read, utils } from "xlsx";
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
+import { Toast } from "primereact/toast";
 
 const VerParticipantes = ({ participantData, evento }) => {
+  const toast = useRef(null)
+
   const onUpload = ({ files }) => {
     const [file] = files;
     console.log(file);
@@ -26,6 +29,7 @@ const VerParticipantes = ({ participantData, evento }) => {
           cargo: row.cargo,
           evento_id: evento,
           correo: row.correo,
+          cedula: row.cedula
         };
         participantes.push(dataEl);
       });
@@ -38,7 +42,14 @@ const VerParticipantes = ({ participantData, evento }) => {
           "Content-type": "application/json",
         },
       }).then((res) => {
-        console.log(res);
+        if (res.status === 201) {
+          toast.current.show({
+            severity: "success",
+            summary: "Participantes Creados",
+            detail: "Se han subido correctamente los participantes",
+            life: 3000,
+          });
+        }
       });
     };
     reader.readAsBinaryString(file);
@@ -74,6 +85,7 @@ const VerParticipantes = ({ participantData, evento }) => {
 
   return (
     <>
+      <Toast ref={toast} />
       <div className="mx-28 my-4">
         <DataTable
           value={participantData}
@@ -84,6 +96,7 @@ const VerParticipantes = ({ participantData, evento }) => {
           paginator
         >
           <Column field="nombre" header="Nombre Participante" />
+          <Column field="cedula" header='Cedula de Participante' />
           <Column field="correo" header="Correo Participante" />
           <Column field="cargo" header="Cargo Participante" />
           <Column header="Foto del Participante" body={imgBody} />

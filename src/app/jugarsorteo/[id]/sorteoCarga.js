@@ -1,14 +1,13 @@
 "use client";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import Aos from "aos";
 
 // import required modules
-import { Autoplay, Virtual } from "swiper";
+import { Autoplay } from "swiper";
 import { useEffect, useState } from "react";
 import SwiperData from "../swiperData";
-import { Button } from "primereact/button";
 import { Pagination } from "swiper";
+import { Button } from "primereact/button";
 
 const SorteoCarga = ({ data, sort }) => {
   const [usuarios, setUsuarios] = useState([]);
@@ -30,7 +29,6 @@ const SorteoCarga = ({ data, sort }) => {
 
   useEffect(() => {
     setUsuarios(shuffle(data.data));
-    Aos.init();
   }, [data.data]);
 
   const m = () => {
@@ -163,41 +161,35 @@ const SorteoCarga = ({ data, sort }) => {
 
     setTimeout(() => {
       changeSpeed(500);
-    }, 10000);
+    }, 12000);
 
     setTimeout(() => {
       changeSpeed(1500);
     }, 14000);
 
     setTimeout(() => {
-      setGanador(usuarios[3]);
       m();
+      setGanador(usuarios[swiper.realIndex]);
       swiper.autoplay.stop();
     }, 16000);
   };
 
   return (
     <>
-      <div className="flex justify-center font-bold text-center text-5xl my-4 text-black">
-        <h1>{sort.data.nombre}</h1>
+      <div>
+        <h1 className="text-center font-bold text-blue-600 text-4xl p-4">
+          {sort.data.nombre_evento}
+        </h1>
       </div>
-      {ganador && (
-        <div
-          data-aos="zoom-in"
-          className="centered text-black fixed left-1/2 font-bold text-3xl"
-        >
-          <h1>{ganador.nombre} es el/la ganador/a del sorteo</h1>
-        </div>
-      )}
       <Swiper
         direction={"vertical"}
-        spaceBetween={50}
         loop
+        spaceBetween={100}
         onSwiper={SetSwiper}
         autoplay={false}
         allowTouchMove={false}
         modules={[Autoplay, Pagination]}
-        className="absolute mySwiper my-12 left-0 right-0"
+        className="mySwiper h-full my-12 mx-72"
       >
         {usuarios.map((data, index) => {
           return (
@@ -207,16 +199,10 @@ const SorteoCarga = ({ data, sort }) => {
           );
         })}
       </Swiper>
-
-      <div className="w-1/6 my-4">
-        <Button
-          label="Iniciar Sorteo"
-          className="absolute top-2/3 left-0 right-0 ml-auto mr-auto"
-          onClick={start}
-          disabled={ganador && true}
-        />
+      <div className="mt-72 flex justify-center" >
+        <Button className="p-button p-button-primary" label="Iniciar Sorteo" onClick={start} />
+        <Button className="p-button p-button-primary" label="L " />
       </div>
-      <canvas id="canvas"></canvas>
     </>
   );
 };

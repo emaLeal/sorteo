@@ -1,5 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-
 import { post } from "@/app/lib/fetchMethod";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
@@ -7,24 +7,25 @@ import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import { useEffect, useRef, useState } from "react";
 
+const initialForm = {
+  nombre: "",
+  evento_id: "",
+};
+
 const CrearSorteoDialog = ({ visible, onHide, data, evento }) => {
-  const initialForm = {
-    nombre: "",
-    evento_id: evento,
-  };
   const [form, setForm] = useState(initialForm);
-  const toast = useRef(null)
+  const toast = useRef(null);
 
   useEffect(() => {
     if (data === null || data === undefined) {
-      setForm(initialForm);
+      setForm({ ...form, evento_id: evento });
     } else {
       setForm({
         nombre: data.nombre,
         evento_id: evento,
       });
     }
-  }, [data, evento]);
+  }, []);
 
   const handleChange = (e) => {
     setForm({

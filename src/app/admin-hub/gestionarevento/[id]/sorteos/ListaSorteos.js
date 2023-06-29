@@ -1,9 +1,8 @@
-'use client'
-import Image from "next/image";
-import Link from "next/link";
+"use client";
+import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
-import { ConfirmDialog } from "primereact/confirmdialog";
+import { confirmDialog, ConfirmDialog } from "primereact/confirmdialog";
 import { DataTable } from "primereact/datatable";
 import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
@@ -12,9 +11,13 @@ import CrearSorteoDialog from "./CrearSorteoDialog";
 const ListaSorteos = ({ data, evento }) => {
   const [visible, setVisible] = useState(false);
   const [sorteos, setSorteos] = useState(data);
+  const [visibleS, setVisibleS] = useState(false);
   const [prevData, setPrevData] = useState(null);
   const toast = useRef(null);
-  
+
+  const onHideS = () => {
+    setVisibleS(!visibleS)
+  };
 
   const header = () => {
     return (
@@ -48,6 +51,12 @@ const ListaSorteos = ({ data, evento }) => {
           className="p-button mr-2 p-button-danger p-button-rounded"
           onClick={(rowData) => del(rowData.id)}
         />
+        <Button
+          className="p-button p-button-secondary p-button-rounded"
+          icon="pi pi-right-arrow"
+          tooltip="Jugar Sorteo"
+          onClick={() => setVisibleS(!visibleS)}
+        />
       </div>
     );
   };
@@ -77,6 +86,9 @@ const ListaSorteos = ({ data, evento }) => {
     setPrevData(rowData);
   };
 
+  const sorteoJugado = (rowData) => {
+    return <Checkbox checked={rowData.jugado} disabled />;
+  };
 
   const onHide = () => setVisible(!visible);
 
@@ -84,7 +96,12 @@ const ListaSorteos = ({ data, evento }) => {
     <>
       <ConfirmDialog />
       <Toast ref={toast} />
-      <CrearSorteoDialog evento={evento} visible={visible} onHide={onHide} data={prevData} />
+      <CrearSorteoDialog
+        evento={evento}
+        visible={visible}
+        onHide={onHide}
+        data={prevData}
+      />
       <div className="mx-28 my-12">
         <DataTable
           value={sorteos}
@@ -92,11 +109,12 @@ const ListaSorteos = ({ data, evento }) => {
           emptyMessage="No se encontraron sorteos"
         >
           <Column field="nombre" header="Nombre Evento" />
+          <Column field="jugado" header="Sorteo Jugado" body={sorteoJugado} />
           <Column body={Acciones} header="Acciones" />
         </DataTable>
       </div>
     </>
   );
-}
+};
 
-export default ListaSorteos
+export default ListaSorteos;
