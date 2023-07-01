@@ -1,4 +1,6 @@
 import ListaEventos from "./lista_eventos";
+import Menu from "./menu";
+
 
 export async function getData() {
   const headers = new Headers({
@@ -7,7 +9,7 @@ export async function getData() {
   const res = await fetch("http://localhost:3000/api/eventos", {
     headers,
     next: {
-      revalidate: 10,
+      revalidate: 1,
     },
   });
   const json = await res.json();
@@ -18,8 +20,11 @@ export default async function AdminHubPage() {
   const data = await getData();
 
   return (
-    <div>
-      <ListaEventos data={data.data} />
-    </div>
+    <>
+      <Menu />
+      <div>
+        <ListaEventos data={data.data} />
+      </div>
+    </>
   );
 }

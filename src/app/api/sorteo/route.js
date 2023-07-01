@@ -5,8 +5,8 @@ export async function POST(req) {
   const body = await req.json();
   try {
     const result = await executeQuery({
-      query: "INSERT INTO sorteos (nombre, evento_id) values (?, ?)",
-      values: [body.nombre, body.evento_id],
+      query: "INSERT INTO sorteos (nombre, evento_id, jugado) values (?, ?, ?)",
+      values: [body.nombre, body.evento_id, false],
     });
     console.log(result);
     return NextResponse.json({ message: "sorteo creado" }, { status: 201 });

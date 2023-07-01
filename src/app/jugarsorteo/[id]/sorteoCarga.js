@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -5,15 +6,17 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // import required modules
 import { Autoplay } from "swiper";
 import { useEffect, useState } from "react";
-import SwiperData from "../swiperData";
+import SwiperData from "./swiperData";
 import { Pagination } from "swiper";
 import { Button } from "primereact/button";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { useRouter } from "next/navigation";
 
-const SorteoCarga = ({ data, sort }) => {
+const SorteoCarga = ({ data, sorteoId }) => {
   const [usuarios, setUsuarios] = useState([]);
   const [swiper, SetSwiper] = useState(null);
   const [ganador, setGanador] = useState(null);
-
+  const router = useRouter();
   const changeSpeed = (speed) => {
     swiper.params.autoplay.delay = speed;
   };
@@ -28,14 +31,19 @@ const SorteoCarga = ({ data, sort }) => {
   };
 
   useEffect(() => {
-    setUsuarios(shuffle(data.data));
-  }, [data.data]);
+    const part = shuffle(data.participantes);
+    const sort = part.filter((par) => {
+      if (par !== null) return par;
+    });
+    setUsuarios(sort);
+  }, []);
 
   const m = () => {
-    let W = window.innerWidth;
-    let H = window.innerHeight;
     const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
+    let W = window.innerWidth;
+    let H = window.innerHeight;
+
     const maxConfettis = 150;
     const particles = [];
 
@@ -168,17 +176,43 @@ const SorteoCarga = ({ data, sort }) => {
     }, 14000);
 
     setTimeout(() => {
-      m();
       setGanador(usuarios[swiper.realIndex]);
       swiper.autoplay.stop();
+      m();
     }, 16000);
+  };
+
+  const declararGanador = () => {
+    confirmDialog({
+      header: "Declarar Ganador?",
+      message: `Quieres declarar a ${ganador.nombre} como el ganador del sorteo?`,
+      acceptLabel: "Declarar Ganador",
+      rejectLabel: "Cancelar",
+      accept: () => {
+        fetch("http://localhost:3000/api/declararganador", {
+          method: "PUT",
+          body: JSON.stringify({
+            ganador: ganador.id,
+            id: data.data.id,
+          }),
+        }).then((res) => {
+          if (res.ok) {
+            router.push(
+              `/admin-hub/gestionarevento/${data.data.evento_id}/sorteos`
+            );
+          }
+        });
+      },
+      reject: () => {},
+    });
   };
 
   return (
     <>
+      <ConfirmDialog />
       <div>
-        <h1 className="text-center font-bold text-blue-600 text-4xl p-4">
-          {sort.data.nombre_evento}
+        <h1 className="absolute text-center font-bold text-black text-4xl p-4 left-0 right-0">
+          {data.data.nombre}
         </h1>
       </div>
       <Swiper
@@ -189,7 +223,7 @@ const SorteoCarga = ({ data, sort }) => {
         autoplay={false}
         allowTouchMove={false}
         modules={[Autoplay, Pagination]}
-        className="mySwiper h-full my-12 mx-72"
+        className="absolute mySwiper overflow-y-hidden h-full w-1/2 my-20 mx-80"
       >
         {usuarios.map((data, index) => {
           return (
@@ -199,10 +233,31 @@ const SorteoCarga = ({ data, sort }) => {
           );
         })}
       </Swiper>
-      <div className="mt-72 flex justify-center" >
-        <Button className="p-button p-button-primary" label="Iniciar Sorteo" onClick={start} />
-        <Button className="p-button p-button-primary" label="L " />
+      <div className="absolute mt-96 left-0 right-0 flex justify-center">
+        <Button
+          className="p-button p-button-primary mr-2"
+          label={ganador ? "Reiniciar" : "Iniciar Sorteo"}
+          onClick={start}
+        />
+        {ganador && (
+          <Button
+            className="p-button p-button-primary"
+            label="Declarar Ganador"
+            onClick={declararGanador}
+          />
+        )}
+        <Button
+          className="fixed p-button p-button-primary p-button-rounded top-1 left-1"
+          icon="pi pi-angle-left"
+          tooltip="Regresar"
+          onClick={() =>
+            router.push(
+              `/admin-hub/gestionarevento/${data.data.evento_id}/sorteos`
+            )
+          }
+        />
       </div>
+      <canvas id="canvas"></canvas>
     </>
   );
 };

@@ -67,7 +67,7 @@ const ListaEventos = ({ data }) => {
         const res = delOne(`/api/sorteo/${id}`).then((resp) => {
           if (resp.status === 204) {
             toast.current.show({
-              severity: "danger",
+              severity: "error",
               summary: "Sorteo Eliminado",
               detail: "Se ha eliminado el sorteo",
               life: 3000,
@@ -102,7 +102,7 @@ const ListaEventos = ({ data }) => {
       <ConfirmDialog />
       <Toast ref={toast} />
       <CrearEventoDialog visible={visible} onHide={onHide} data={prevData} />
-      <div className="mx-28 my-32">
+      <div className="mx-28 my-12">
         <DataTable
           value={eventos}
           header={header}

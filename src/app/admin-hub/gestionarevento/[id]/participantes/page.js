@@ -3,9 +3,7 @@ import VerParticipantes from "./verParticipantes";
 
 export async function getData(id) {
   const res = await fetch(`http://localhost:3000/api/eventos/${id}`, {
-    next: {
-      revalidate: 10,
-    },
+    cache: 'no-store'
   });
 
   const json = await res.json();
@@ -15,9 +13,7 @@ export async function getData(id) {
 
 export async function getParticipant(id) {
   const res = await fetch(`http://localhost:3000/api/participante/${id}`, {
-    next: {
-      revalidate: 10,
-    },
+    cache: 'no-store'
   });
 
   const json = await res.json();

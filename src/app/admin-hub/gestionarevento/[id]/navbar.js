@@ -4,7 +4,9 @@ import { ButtonPrime } from "./sorteos/buttonprime";
 import Link from "next/link";
 
 export async function getEvent(id) {
-  const res = await fetch(`http://localhost:3000/api/eventos/${id}`);
+  const res = await fetch(`http://localhost:3000/api/eventos/${id}`,{
+    cache: 'no-store'
+  });
 
   const json = await res.json();
 

@@ -1,0 +1,20 @@
+import executeQuery from "@/app/lib/db";
+import { NextResponse } from "next/server";
+
+export async function PUT(req) {
+  const body = await req.json();
+
+  try {
+    const result = await executeQuery({
+      query: "UPDATE sorteos SET ganador_id=?, jugado=? WHERE id=?",
+      values: [body.ganador, true, body.id],
+    });
+    console.log(result);
+    return NextResponse.json(
+      { message: "Sorteo Actualizado" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+}

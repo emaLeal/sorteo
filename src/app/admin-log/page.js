@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import "../globals.css";
 import { useRouter } from "next/navigation";
 import AdminForm from "./adminform";
@@ -22,7 +22,7 @@ export default async function AdminPage() {
 
   return (
     <main className="h-screen pt-10">
-     <AdminForm onSubmit={onSubmit} />
+      <AdminForm onSubmit={onSubmit} />
     </main>
   );
 }

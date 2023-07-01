@@ -7,16 +7,18 @@ import { DataTable } from "primereact/datatable";
 import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
 import CrearSorteoDialog from "./CrearSorteoDialog";
+import { redirect, useRouter } from "next/navigation";
 
 const ListaSorteos = ({ data, evento }) => {
   const [visible, setVisible] = useState(false);
   const [sorteos, setSorteos] = useState(data);
   const [visibleS, setVisibleS] = useState(false);
   const [prevData, setPrevData] = useState(null);
+  const router = useRouter();
   const toast = useRef(null);
 
   const onHideS = () => {
-    setVisibleS(!visibleS)
+    setVisibleS(!visibleS);
   };
 
   const header = () => {
@@ -36,6 +38,9 @@ const ListaSorteos = ({ data, evento }) => {
     );
   };
 
+  const jugarSorteo = (id) => router.push(`/jugarsorteo/${id}`);
+  const detallesSorteo = (d) => console.log(d)
+
   const Acciones = (rowData) => {
     return (
       <div>
@@ -53,9 +58,9 @@ const ListaSorteos = ({ data, evento }) => {
         />
         <Button
           className="p-button p-button-secondary p-button-rounded"
-          icon="pi pi-right-arrow"
-          tooltip="Jugar Sorteo"
-          onClick={() => setVisibleS(!visibleS)}
+          icon={`pi ${rowData.jugado === 1 ? "pi-eye" : "pi-fast-forward"}`}
+          tooltip={rowData.jugado === 1 ? "Ver Datos Sorteo" : "Jugar Sorteo"}
+          onClick={rowData.jugado === 1 ? () => detallesSorteo(rowData) : () => jugarSorteo(rowData.id)}
         />
       </div>
     );
@@ -87,7 +92,7 @@ const ListaSorteos = ({ data, evento }) => {
   };
 
   const sorteoJugado = (rowData) => {
-    return <Checkbox checked={rowData.jugado} disabled />;
+    return <Checkbox checked={rowData.jugado === 1} disabled />;
   };
 
   const onHide = () => setVisible(!visible);
