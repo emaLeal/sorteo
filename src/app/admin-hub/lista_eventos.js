@@ -9,26 +9,31 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import Image from "next/image";
 import CrearEventoDialog from "./crear-evento-dialog";
 import Link from "next/link";
+import InvitacionDialog from "./invitaciondialog";
 
 const ListaEventos = ({ data }) => {
   const [visible, setVisible] = useState(false);
   const [eventos, setEventos] = useState(data);
+  const [eventoData, setEventoData] = useState(undefined);
   const [prevData, setPrevData] = useState(null);
+  const [invitacionVisible, setInvitacionVisible] = useState(false);
   const toast = useRef(null);
 
   const header = () => {
     return (
       <div className="flex justify-between">
         <span className="font-bold self-center text-xl">Lista de Eventos</span>
-        <Button
-          icon="pi pi-plus"
-          className="p-button p-button-success p-button-text"
-          tooltip="Crear Evento"
-          onClick={() => {
-            setPrevData(null);
-            setVisible(!visible);
-          }}
-        />
+        <div>
+          <Button
+            icon="pi pi-plus"
+            className="p-button p-button-success p-button-text"
+            tooltip="Crear Evento"
+            onClick={() => {
+              setPrevData(null);
+              setVisible(!visible);
+            }}
+          />
+        </div>
       </div>
     );
   };
@@ -55,6 +60,11 @@ const ListaEventos = ({ data }) => {
             tooltip="Gestionar Evento"
           />
         </Link>
+        <Button
+          icon="pi pi-eye"
+          className="p-button p-button-primary p-button-rounded"
+          onClick={() => onHideInvitacion(rowData)}
+        />
       </div>
     );
   };
@@ -95,11 +105,23 @@ const ListaEventos = ({ data }) => {
     );
   };
 
+  const onHideInvitacion = (data) => {
+    if (data !== undefined) {
+      setEventoData(data);
+    }
+    setInvitacionVisible(!invitacionVisible);
+  };
+
   const onHide = () => setVisible(!visible);
 
   return (
     <>
       <ConfirmDialog />
+      <InvitacionDialog
+        visible={invitacionVisible}
+        onHide={onHideInvitacion}
+        evento_data={eventoData}
+      />
       <Toast ref={toast} />
       <CrearEventoDialog visible={visible} onHide={onHide} data={prevData} />
       <div className="mx-28 my-12">

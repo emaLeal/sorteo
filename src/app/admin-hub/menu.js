@@ -1,18 +1,24 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { SlideMenu } from "primereact/slidemenu";
 import React, { useRef } from "react";
 
 const Menu = () => {
   const menu = useRef(null);
+  const router = useRouter();
   const items = [
     {
       label: "Cerrar Sesion",
       icon: "pi pi-sign-out",
+      command: () =>
+        fetch("http://localhost:3000/api/logout").then((res) => {
+          if (res.ok) router.push("/admin-log");
+        }),
     },
   ];
   return (
-    <div className="card flex justify-end">
+    <div className="flex justify-end">
       <SlideMenu
         ref={menu}
         model={items}
