@@ -5,18 +5,23 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   const body = await req.json();
   try {
-    base64Img.img(
+    let img = base64Img.imgSync(
       body.foto_evento,
       `public/fotos_eventos`,
-      `${body.nombre_evento}`,
-      (err, filepath) => {}
+      `${body.nombre_evento}`
     );
+    console.log(img);
+
+    const m = img.replaceAll("\\", "/");
+    const imgUrl = m.replace("public", "");
+    console.log(imgUrl);
+
     const result = await executeQuery({
       query:
         "INSERT INTO evento (nombre_evento, foto_evento, empresa) values(?, ?, ?)",
       values: [
         body.nombre_evento,
-        `/fotos_eventos/${body.nombre_evento}.jpg`,
+        imgUrl,
         body.empresa,
       ],
     });

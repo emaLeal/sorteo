@@ -1,7 +1,7 @@
 import executeQuery from "@/app/lib/db";
 import { NextResponse } from "next/server";
 
-export async function DELETE(params) {
+export async function DELETE(req, params) {
   const { id } = params.params;
   try {
     const result = await executeQuery({
@@ -10,9 +10,10 @@ export async function DELETE(params) {
     });
     return NextResponse.json(
       { message: "Eliminado con exito" },
-      { status: 204 }
+      { status: 200 }
     );
   } catch (e) {
+    console.log(e)
     return NextResponse.json({ e }, { status: 500 });
   }
 }

@@ -19,23 +19,34 @@ export async function PUT(req, params) {
   const { id } = params.params;
   const body = await req.json();
   try {
-    base64Img.img(
-      body.foto_evento,
-      `public/fotos_eventos`,
-      `${body.nombre_evento}`,
-      (err, filepath) => {
-      }
-    );
-    const result = await executeQuery({
-      query:
-        "UPDATE evento SET nombre_evento=?, foto_evento=?, empresa=? WHERE id=?",
-      values: [
-        body.nombre_evento,
-        `/fotos_eventos/${body.nombre_evento}.jpg`,
-        body.empresa,
-        id,
-      ],
+    const select = await executeQuery({
+      query: "select * from evento where id=?",
+      values: [id],
     });
+    if (select[0].foto_evento !== body.foto_evento) {
+      const img = base64Img.imgSync(
+        body.foto_evento,
+        `public/fotos_eventos`,
+        `body.nombre_evento`
+      );
+
+      const m = img.replaceAll("\\", "/");
+
+      const imgUrl = m.replace("public", "");
+
+      const result = await executeQuery({
+        query:
+          "UPDATE evento SET nombre_evento=?, foto_evento=?, empresa=? WHERE id=?",
+        values: [body.nombre_evento, imgUrl, body.empresa, id],
+      });
+    } else {
+      const result = await executeQuery({
+        query:
+          "UPDATE evento SET nombre_evento=?, foto_evento=?, empresa=? WHERE id=?",
+        values: [body.nombre_evento, body.foto_evento, body.empresa, id],
+      });
+    }
+
     return NextResponse.json(
       { message: "Evento Correctamente Actualizado" },
       { status: 200 }
@@ -53,7 +64,7 @@ export async function DELETE(req, params) {
       values: [id],
     });
     console.log(result);
-    return NextResponse.json({ message: "Evento Eliminado" }, { status: 204 });
+    return NextResponse.json({ message: "Evento Eliminado" }, { status: 200  });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }

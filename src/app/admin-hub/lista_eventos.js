@@ -51,7 +51,7 @@ const ListaEventos = ({ data }) => {
           icon="pi pi-trash"
           tooltip="Eliminar Evento"
           className="p-button mr-2 p-button-danger p-button-rounded"
-          onClick={(rowData) => del(rowData.id)}
+          onClick={() => del(rowData.id)}
         />
         <Link href={`/admin-hub/gestionarevento/${rowData.id}`}>
           <Button
@@ -74,8 +74,10 @@ const ListaEventos = ({ data }) => {
       header: "Eliminar Evento",
       message: "Estas seguro que quieres eliminar este evento?",
       accept: () => {
-        const res = delOne(`/api/sorteo/${id}`).then((resp) => {
-          if (resp.status === 204) {
+        fetch(`http://localhost:3000/api/eventos/${id}`, {
+          method: "DELETE",
+        }).then((resp) => {
+          if (resp.status === 200) {
             toast.current.show({
               severity: "error",
               summary: "Sorteo Eliminado",

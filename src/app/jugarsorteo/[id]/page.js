@@ -28,5 +28,14 @@ export default async function JugarSorteoPage({ params }) {
   if (data.data.jugado === 1) {
     redirect("/");
   }
-  return <SorteoCarga data={data} sorteoId={id} />;
+  return (
+    <>
+      <div>
+        <h1 className="absolute text-center font-bold text-black text-4xl p-4 left-0 right-0">
+          {data.data.nombre}
+        </h1>
+      </div>
+      <SorteoCarga data={data} />;
+    </>
+  );
 }

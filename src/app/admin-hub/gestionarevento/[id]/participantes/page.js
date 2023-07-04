@@ -1,4 +1,3 @@
-import Link from "next/link";
 import VerParticipantes from "./verParticipantes";
 
 export async function getData(id) {

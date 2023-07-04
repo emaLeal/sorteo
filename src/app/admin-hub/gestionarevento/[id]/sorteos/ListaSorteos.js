@@ -8,6 +8,7 @@ import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
 import CrearSorteoDialog from "./CrearSorteoDialog";
 import { redirect, useRouter } from "next/navigation";
+import { delOne } from "@/app/lib/fetchMethod";
 
 const ListaSorteos = ({ data, evento }) => {
   const [visible, setVisible] = useState(false);
@@ -39,7 +40,7 @@ const ListaSorteos = ({ data, evento }) => {
   };
 
   const jugarSorteo = (id) => router.push(`/jugarsorteo/${id}`);
-  const detallesSorteo = (d) => console.log(d)
+  const detallesSorteo = (d) => console.log(d);
 
   const Acciones = (rowData) => {
     return (
@@ -54,13 +55,17 @@ const ListaSorteos = ({ data, evento }) => {
           icon="pi pi-trash"
           tooltip="Eliminar Sorteo"
           className="p-button mr-2 p-button-danger p-button-rounded"
-          onClick={(rowData) => del(rowData.id)}
+          onClick={() => del(rowData.id)}
         />
         <Button
           className="p-button p-button-secondary p-button-rounded"
           icon={`pi ${rowData.jugado === 1 ? "pi-eye" : "pi-fast-forward"}`}
           tooltip={rowData.jugado === 1 ? "Ver Datos Sorteo" : "Jugar Sorteo"}
-          onClick={rowData.jugado === 1 ? () => detallesSorteo(rowData) : () => jugarSorteo(rowData.id)}
+          onClick={
+            rowData.jugado === 1
+              ? () => detallesSorteo(rowData)
+              : () => jugarSorteo(rowData.id)
+          }
         />
       </div>
     );
@@ -70,11 +75,15 @@ const ListaSorteos = ({ data, evento }) => {
     confirmDialog({
       header: "Eliminar Evento",
       message: "Estas seguro que quieres eliminar este evento?",
+      acceptLabel: "Eliminar",
+      rejectLabel: "No",
       accept: () => {
-        const res = delOne(`/api/sorteo/${id}`).then((resp) => {
-          if (resp.status === 204) {
+        fetch(`http://localhost:3000/api/sorteo/${id}`, {
+          method: "DELETE",
+        }).then((res) => {
+          if (res.status === 200) {
             toast.current.show({
-              severity: "danger",
+              severity: "error",
               summary: "Sorteo Eliminado",
               detail: "Se ha eliminado el sorteo",
               life: 3000,

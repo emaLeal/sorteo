@@ -55,7 +55,7 @@ export default function AdminForm({ onSubmit }) {
             </div>
             <Button
               type="submit"
-              label="Iniciar Secion"
+              label="Iniciar Sesión"
               tooltip="Iniciar Sesión"
               className="mt-2 p-button-primary p-button-text p-button-rounded"
             />

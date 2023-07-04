@@ -2,7 +2,6 @@
 "use client";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
 // import required modules
 import { Autoplay } from "swiper";
 import { useEffect, useState } from "react";
@@ -12,7 +11,7 @@ import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useRouter } from "next/navigation";
 
-const SorteoCarga = ({ data, sorteoId }) => {
+const SorteoCarga = ({ data }) => {
   const [usuarios, setUsuarios] = useState([]);
   const [swiper, SetSwiper] = useState(null);
   const [ganador, setGanador] = useState(null);
@@ -210,11 +209,6 @@ const SorteoCarga = ({ data, sorteoId }) => {
   return (
     <>
       <ConfirmDialog />
-      <div>
-        <h1 className="absolute text-center font-bold text-black text-4xl p-4 left-0 right-0">
-          {data.data.nombre}
-        </h1>
-      </div>
       <Swiper
         direction={"vertical"}
         loop

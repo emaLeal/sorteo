@@ -1,7 +1,6 @@
 import ListaEventos from "./lista_eventos";
 import Menu from "./menu";
 
-
 export async function getData() {
   const headers = new Headers({
     "Content-type": "application/json",
