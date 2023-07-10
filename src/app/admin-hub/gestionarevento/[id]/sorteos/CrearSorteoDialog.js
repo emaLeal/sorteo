@@ -25,7 +25,7 @@ const CrearSorteoDialog = ({ visible, onHide, data, evento }) => {
         evento_id: evento,
       });
     }
-  }, []);
+  }, [data]);
 
   const handleChange = (e) => {
     setForm({
