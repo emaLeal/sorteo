@@ -2,28 +2,32 @@ import executeQuery from "@/app/lib/db";
 import base64Img from "base64-img";
 import { NextResponse } from "next/server";
 
+const formatString = (string) => {
+  const m = string.replaceAll("\\", "/");
+  const formatedString = m.replace("public", "");
+  return formatedString;
+};
+
 export async function POST(req) {
   const body = await req.json();
   try {
-    let img = base64Img.imgSync(
+    let imgEvento = base64Img.imgSync(
       body.foto_evento,
       `public/fotos_eventos`,
       `${body.nombre_evento}`
     );
-    console.log(img);
-
-    const m = img.replaceAll("\\", "/");
-    const imgUrl = m.replace("public", "");
-    console.log(imgUrl);
+    const imgEmpresa = base64Img.imgSync(
+      body.foto_empresa,
+      "public/fotos_empresas",
+      body.empresa
+    );
+    const imgUrlEvento = formatString(imgEvento);
+    const imgUrlEmpresa = formatString(imgEmpresa);
 
     const result = await executeQuery({
       query:
-        "INSERT INTO evento (nombre_evento, foto_evento, empresa) values(?, ?, ?)",
-      values: [
-        body.nombre_evento,
-        imgUrl,
-        body.empresa,
-      ],
+        "INSERT INTO evento (nombre_evento, foto_evento, empresa, foto_empresa) values(?, ?, ?, ?)",
+      values: [body.nombre_evento, imgUrlEvento, body.empresa, imgUrlEmpresa],
     });
     return NextResponse.json(
       { message: "Evento Satisfactoriamente Creado" },

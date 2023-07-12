@@ -1,15 +1,29 @@
 "use client";
-import { Button } from "primereact/button";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { FileUpload } from "primereact/fileupload";
 import { read, utils } from "xlsx";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Toast } from "primereact/toast";
+import useSWR from "swr";
+import { fetcher } from "@/app/lib/fetcher";
+import { Button } from "primereact/button";
 
-const VerParticipantes = ({ participantData, evento }) => {
-  const toast = useRef(null)
+const VerParticipantes = ({ evento }) => {
+  const toast = useRef(null);
+  const { data, error, mutate } = useSWR(
+    `/api/participante/${evento}`,
+    fetcher
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      mutate();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [mutate]);
 
   const onUpload = ({ files }) => {
     const [file] = files;
@@ -29,13 +43,13 @@ const VerParticipantes = ({ participantData, evento }) => {
           cargo: row.cargo,
           evento_id: evento,
           correo: row.correo,
-          cedula: row.cedula
+          cedula: row.cedula,
         };
         participantes.push(dataEl);
       });
       console.log(participantes);
 
-      fetch("http://localhost:3000/api/participantes", {
+      fetch("/api/participantes", {
         method: "POST",
         body: JSON.stringify(participantes),
         headers: {
@@ -83,12 +97,39 @@ const VerParticipantes = ({ participantData, evento }) => {
     );
   };
 
+  const descalificar = (id) => {
+    fetch(`/api/descalificar/${id}`, { method: "PUT" }).then((res) => {});
+  };
+
+  const habilitar = (id) => {
+    fetch(`/api/habilitar/${id}`, { method: "PUT" }).then((res) => {});
+  };
+
+  const Acciones = (rowData) => {
+    return (
+      <Button
+        className="p-button p-button-primary p-button-rounded"
+        tooltip={
+          rowData.participara === 1 ? "Descalificar" : "Habilitar usuario"
+        }
+        icon={`pi ${
+          rowData.participara === 1 ? "pi-circle-fill" : "pi-circle"
+        }`}
+        onClick={() =>
+          rowData.participara === 1
+            ? descalificar(rowData.id)
+            : habilitar(rowData.id)
+        }
+      />
+    );
+  };
+
   return (
     <>
       <Toast ref={toast} />
       <div className="mx-28 my-4">
         <DataTable
-          value={participantData}
+          value={data === undefined ? [] : data.data}
           header={header}
           emptyMessage="No se encontraron participantes"
           rows={3}
@@ -96,10 +137,11 @@ const VerParticipantes = ({ participantData, evento }) => {
           paginator
         >
           <Column field="nombre" header="Nombre Participante" />
-          <Column field="cedula" header='Cedula de Participante' />
+          <Column field="cedula" header="Cedula de Participante" />
           <Column field="correo" header="Correo Participante" />
           <Column field="cargo" header="Cargo Participante" />
           <Column header="Foto del Participante" body={imgBody} />
+          <Column header="Acciones" body={Acciones} />
         </DataTable>
       </div>
     </>

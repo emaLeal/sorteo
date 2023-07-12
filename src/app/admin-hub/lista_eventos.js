@@ -2,7 +2,7 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { delOne } from "../lib/fetchMethod";
 import { Toast } from "primereact/toast";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
@@ -10,14 +10,25 @@ import Image from "next/image";
 import CrearEventoDialog from "./crear-evento-dialog";
 import Link from "next/link";
 import InvitacionDialog from "./invitaciondialog";
+import useSWR from "swr";
+import { fetcher } from "../lib/fetcher";
 
-const ListaEventos = ({ data }) => {
+const ListaEventos = () => {
   const [visible, setVisible] = useState(false);
-  const [eventos, setEventos] = useState(data);
+  const [eventos, setEventos] = useState([]);
   const [eventoData, setEventoData] = useState(undefined);
   const [prevData, setPrevData] = useState(null);
   const [invitacionVisible, setInvitacionVisible] = useState(false);
   const toast = useRef(null);
+  const { data, error, mutate } = useSWR("/api/eventos", fetcher);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      mutate();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [mutate]);
 
   const header = () => {
     return (
@@ -37,6 +48,10 @@ const ListaEventos = ({ data }) => {
       </div>
     );
   };
+
+  useEffect(() => {
+    setEventos(data);
+  }, [data]);
 
   const Acciones = (rowData) => {
     return (
@@ -74,14 +89,14 @@ const ListaEventos = ({ data }) => {
       header: "Eliminar Evento",
       message: "Estas seguro que quieres eliminar este evento?",
       accept: () => {
-        fetch(`http://localhost:3000/api/eventos/${id}`, {
+        fetch(`api/eventos/${id}`, {
           method: "DELETE",
         }).then((resp) => {
           if (resp.status === 200) {
             toast.current.show({
               severity: "error",
-              summary: "Sorteo Eliminado",
-              detail: "Se ha eliminado el sorteo",
+              summary: "Evento Eliminado",
+              detail: "Se ha eliminado el evento",
               life: 3000,
             });
           }
@@ -114,7 +129,9 @@ const ListaEventos = ({ data }) => {
     setInvitacionVisible(!invitacionVisible);
   };
 
-  const onHide = () => setVisible(!visible);
+  const onHide = () => {
+    setVisible(!visible);
+  };
 
   return (
     <>
@@ -128,7 +145,7 @@ const ListaEventos = ({ data }) => {
       <CrearEventoDialog visible={visible} onHide={onHide} data={prevData} />
       <div className="mx-28 my-12">
         <DataTable
-          value={eventos}
+          value={data === undefined ? [] : data.data}
           header={header}
           emptyMessage="No se encontraron eventos"
         >

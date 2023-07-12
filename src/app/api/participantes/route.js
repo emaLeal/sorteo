@@ -8,14 +8,15 @@ export async function POST(req) {
     try {
       const result = await executeQuery({
         query:
-          "INSERT INTO participantes (nombre, cargo, foto, evento_id, correo, cedula) values(?, ?, ?, ?, ?, ?)",
+          "INSERT INTO participantes (nombre, cargo, foto, evento_id, correo, cedula, participara) values(?, ?, ?, ?, ?, ?, ?)",
         values: [
           parti.nombre,
           parti.cargo,
           "/user.png",
           parti.evento_id,
           parti.correo,
-          parti.cedula
+          parti.cedula,
+          false
         ],
       });
       console.log(result);

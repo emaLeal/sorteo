@@ -1,5 +1,13 @@
 import executeQuery from "@/app/lib/db";
 import { NextResponse } from "next/server";
+import base64Img from "base64-img";
+import { unlink } from "fs";
+
+const formatString = (string) => {
+  const m = string.replaceAll("\\", "/");
+  const formatedString = m.replace("public", "");
+  return formatedString;
+};
 
 export async function DELETE(req, params) {
   const { id } = params.params;
@@ -13,7 +21,7 @@ export async function DELETE(req, params) {
       { status: 200 }
     );
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return NextResponse.json({ e }, { status: 500 });
   }
 }
@@ -44,6 +52,49 @@ export async function GET(req, params) {
 
     return NextResponse.json(
       { data: result[0], participantes: re },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+}
+
+export async function PUT(req, params) {
+  const { id } = params.params;
+  const body = await req.json();
+
+  try {
+    const result = await executeQuery({
+      query: "SELECT * FROM sorteos where id=?",
+      values: [id],
+    });
+
+    let imgUrlPremio = body.premio_foto
+
+    if (result[0].premio_foto !== body.premio_foto) {
+      const imgPremioSorteo = base64Img.imgSync(
+        body.premio_foto,
+        "public/fotos_sorteos",
+        body.nombre
+      );
+
+      imgUrlPremio = formatString(imgPremioSorteo);
+      const premio_foto = result[0].premio_foto;
+      if (imgUrlPremio !== premio_foto) {
+        unlink(`public${premio_foto}`, (err) => {
+          if (err) throw err;
+        });
+      }
+    }
+
+   
+    const act = await executeQuery({
+      query: "UPDATE sorteos set nombre=?, premio=?, premio_foto=? where id=?",
+      values: [body.nombre, body.premio, imgUrlPremio, id],
+    });
+
+    return NextResponse.json(
+      { message: "Sorteo Actualizado" },
       { status: 200 }
     );
   } catch (error) {

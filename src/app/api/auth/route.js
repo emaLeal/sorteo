@@ -1,5 +1,4 @@
 import executeQuery from "@/app/lib/db";
-import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
@@ -11,6 +10,7 @@ export async function POST(req) {
       query: "SELECT * FROM admin WHERE usuario=? and contrasena=?",
       values: [body.usuario, body.contrasena],
     });
+
     const m = {
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 30,
       id: result[0].id,

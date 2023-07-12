@@ -5,22 +5,29 @@ import { Column } from "primereact/column";
 import { confirmDialog, ConfirmDialog } from "primereact/confirmdialog";
 import { DataTable } from "primereact/datatable";
 import { Toast } from "primereact/toast";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CrearSorteoDialog from "./CrearSorteoDialog";
-import { redirect, useRouter } from "next/navigation";
-import { delOne } from "@/app/lib/fetchMethod";
+import Image from "next/image";
+import useSWR from "swr";
+import { fetcher } from "@/app/lib/fetcher";
 
-const ListaSorteos = ({ data, evento }) => {
+const ListaSorteos = ({ evento }) => {
   const [visible, setVisible] = useState(false);
-  const [sorteos, setSorteos] = useState(data);
   const [visibleS, setVisibleS] = useState(false);
   const [prevData, setPrevData] = useState(null);
-  const router = useRouter();
+  const { data, error, mutate } = useSWR(`/api/sorteos/${evento}`, fetcher);
   const toast = useRef(null);
-
   const onHideS = () => {
     setVisibleS(!visibleS);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      mutate();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [mutate]);
 
   const header = () => {
     return (
@@ -31,7 +38,7 @@ const ListaSorteos = ({ data, evento }) => {
           className="p-button p-button-success p-button-text"
           tooltip="Crear Sorteo"
           onClick={() => {
-            setPrevData(null);
+            setPrevData();
             setVisible(!visible);
           }}
         />
@@ -39,7 +46,6 @@ const ListaSorteos = ({ data, evento }) => {
     );
   };
 
-  const jugarSorteo = (id) => router.push(`/jugarsorteo/${id}`);
   const detallesSorteo = (d) => console.log(d);
 
   const Acciones = (rowData) => {
@@ -59,13 +65,9 @@ const ListaSorteos = ({ data, evento }) => {
         />
         <Button
           className="p-button p-button-secondary p-button-rounded"
-          icon={`pi ${rowData.jugado === 1 ? "pi-eye" : "pi-fast-forward"}`}
-          tooltip={rowData.jugado === 1 ? "Ver Datos Sorteo" : "Jugar Sorteo"}
-          onClick={
-            rowData.jugado === 1
-              ? () => detallesSorteo(rowData)
-              : () => jugarSorteo(rowData.id)
-          }
+          icon="pi  pi-eye"
+          tooltip={"Ver Datos Sorteo"}
+          onClick={() => detallesSorteo(rowData)}
         />
       </div>
     );
@@ -78,7 +80,7 @@ const ListaSorteos = ({ data, evento }) => {
       acceptLabel: "Eliminar",
       rejectLabel: "No",
       accept: () => {
-        fetch(`http://localhost:3000/api/sorteo/${id}`, {
+        fetch(`/api/sorteo/${id}`, {
           method: "DELETE",
         }).then((res) => {
           if (res.status === 200) {
@@ -104,7 +106,20 @@ const ListaSorteos = ({ data, evento }) => {
     return <Checkbox checked={rowData.jugado === 1} disabled />;
   };
 
-  const onHide = () => setVisible(!visible);
+  const onHide = () => {
+    setVisible(!visible);
+  };
+
+  const imgPremio = (rowData) => {
+    return (
+      <Image
+        width={150}
+        height={150}
+        alt={rowData.premio}
+        src={rowData.premio_foto}
+      />
+    );
+  };
 
   return (
     <>
@@ -118,12 +133,14 @@ const ListaSorteos = ({ data, evento }) => {
       />
       <div className="mx-28 my-12">
         <DataTable
-          value={sorteos}
+          value={data === undefined ? [] : data.data}
           header={header}
           emptyMessage="No se encontraron sorteos"
         >
           <Column field="nombre" header="Nombre Evento" />
           <Column field="jugado" header="Sorteo Jugado" body={sorteoJugado} />
+          <Column field="premio" header="Premio del Sorteo" />
+          <Column header="Imagen del Premio" body={imgPremio} />
           <Column body={Acciones} header="Acciones" />
         </DataTable>
       </div>

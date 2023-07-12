@@ -1,8 +1,8 @@
--- MariaDB dump 10.19-11.0.2-MariaDB, for Linux (x86_64)
+-- MariaDB dump sorteosorteoeventoparticipantes10.19-11.0.2-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: sorteo
 -- ------------------------------------------------------
--- Server version	11.0.2-MariaDB
+-- Server version	11.sorteo0.2-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
