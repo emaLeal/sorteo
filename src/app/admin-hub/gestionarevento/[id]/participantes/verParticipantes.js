@@ -9,10 +9,11 @@ import { Toast } from "primereact/toast";
 import useSWR from "swr";
 import { fetcher } from "@/app/lib/fetcher";
 import { Button } from "primereact/button";
+import { ClipLoader } from "react-spinners";
 
 const VerParticipantes = ({ evento }) => {
   const toast = useRef(null);
-  const { data, error, mutate } = useSWR(
+  const { data, error, mutate, isLoading } = useSWR(
     `/api/participante/${evento}`,
     fetcher
   );
@@ -24,6 +25,10 @@ const VerParticipantes = ({ evento }) => {
 
     return () => clearInterval(interval);
   }, [mutate]);
+
+  if (isLoading) {
+    return <ClipLoader color="#fff" loading={isLoading} size={500} />;
+  }
 
   const onUpload = ({ files }) => {
     const [file] = files;

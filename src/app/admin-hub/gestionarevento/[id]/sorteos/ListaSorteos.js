@@ -10,12 +10,13 @@ import CrearSorteoDialog from "./CrearSorteoDialog";
 import Image from "next/image";
 import useSWR from "swr";
 import { fetcher } from "@/app/lib/fetcher";
+import { ClipLoader } from "react-spinners";
 
 const ListaSorteos = ({ evento }) => {
   const [visible, setVisible] = useState(false);
   const [visibleS, setVisibleS] = useState(false);
   const [prevData, setPrevData] = useState(null);
-  const { data, error, mutate } = useSWR(`/api/sorteos/${evento}`, fetcher);
+  const { data, error, mutate, isLoading } = useSWR(`/api/sorteos/${evento}`, fetcher);
   const toast = useRef(null);
   const onHideS = () => {
     setVisibleS(!visibleS);
@@ -28,6 +29,10 @@ const ListaSorteos = ({ evento }) => {
 
     return () => clearInterval(interval);
   }, [mutate]);
+
+  if (isLoading) {
+    return <ClipLoader color="#fff" loading={isLoading} size={500} />;
+  }
 
   const header = () => {
     return (

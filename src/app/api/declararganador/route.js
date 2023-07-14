@@ -6,8 +6,9 @@ export async function PUT(req) {
 
   try {
     const result = await executeQuery({
-      query: "UPDATE sorteos SET ganador_id=?, jugado=? WHERE id=?",
-      values: [body.ganador, true, body.id],
+      query:
+        "UPDATE sorteos SET ganador_id=?, nombre_ganador=?, jugado=? WHERE id=?",
+      values: [body.ganador, body.ganador_nombre, true, body.id],
     });
     console.log(result);
     return NextResponse.json(

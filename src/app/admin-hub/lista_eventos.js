@@ -12,15 +12,17 @@ import Link from "next/link";
 import InvitacionDialog from "./invitaciondialog";
 import useSWR from "swr";
 import { fetcher } from "../lib/fetcher";
+import { useRouter } from "next/navigation";
+import { MoonLoader } from "react-spinners";
 
 const ListaEventos = () => {
   const [visible, setVisible] = useState(false);
-  const [eventos, setEventos] = useState([]);
   const [eventoData, setEventoData] = useState(undefined);
   const [prevData, setPrevData] = useState(null);
   const [invitacionVisible, setInvitacionVisible] = useState(false);
   const toast = useRef(null);
-  const { data, error, mutate } = useSWR("/api/eventos", fetcher);
+  const { data, error, mutate, isLoading } = useSWR("/api/eventos", fetcher);
+  const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,9 +51,15 @@ const ListaEventos = () => {
     );
   };
 
-  useEffect(() => {
-    setEventos(data);
-  }, [data]);
+  if (isLoading) {
+    return (
+      <>
+        <div className="flex justify-center">
+          <MoonLoader color="#fff" loading={isLoading} size={350} />
+        </div>
+      </>
+    );
+  }
 
   const Acciones = (rowData) => {
     return (
@@ -77,9 +85,16 @@ const ListaEventos = () => {
         </Link>
         <Button
           icon="pi pi-eye"
-          className="p-button p-button-primary p-button-rounded"
+          className="p-button p-button-primary p-button-rounded mr-2"
           onClick={() => onHideInvitacion(rowData)}
         />
+        <Link href={`/jugarevento/${rowData.id}`}>
+          <Button
+            icon="pi pi-play"
+            tooltip="Jugar evento"
+            className="p-button p-button-primary p-button-rounded"
+          />
+        </Link>
       </div>
     );
   };

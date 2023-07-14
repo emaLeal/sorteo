@@ -11,7 +11,6 @@ export async function middleware(request) {
           new TextEncoder().encode(process.env.SECRET)
         );
       } catch (error) {
-        console.log(error);
         return NextResponse.redirect(new URL("/admin-log", request.url));
       }
     }
@@ -30,7 +29,6 @@ export async function middleware(request) {
         );
         return NextResponse.redirect(new URL("/admin-hub", request.url));
       } catch (error) {
-        console.log(error);
       }
     }
   }
