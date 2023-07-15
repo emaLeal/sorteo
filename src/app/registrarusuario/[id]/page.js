@@ -1,3 +1,4 @@
+import Image from "next/image";
 import FormRegistro from "./FormRegistro";
 
 export async function getData(id) {
@@ -29,6 +30,14 @@ export default async function RegistrarUsuarioPage({ params }) {
     <>
       <div className="text-center my-4 text-4xl font-bold">
         <h1>{data.data.nombre_evento}</h1>
+      </div>
+      <div className="flex justify-center">
+        <Image
+          src={data.data.foto_evento}
+          width={200}
+          height={200}
+          alt={data.data.nombre_evento}
+        />
       </div>
       <div className="text-center my-4">
         <span>

@@ -211,7 +211,7 @@ const SorteoCarga = ({ data, estilo }) => {
           }),
         }).then((res) => {
           if (res.ok) {
-            router.push(`/jugarevento/29`);
+            router.push(`/jugarevento/${data.data.evento_id}`);
           }
         });
       },

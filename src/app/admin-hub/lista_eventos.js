@@ -84,15 +84,16 @@ const ListaEventos = () => {
           />
         </Link>
         <Button
+          tooltip="Ver QR de invitación"
           icon="pi pi-eye"
-          className="p-button p-button-primary p-button-rounded mr-2"
+          className="p-button p-button-secondary p-button-rounded mr-2"
           onClick={() => onHideInvitacion(rowData)}
         />
         <Link href={`/jugarevento/${rowData.id}`}>
           <Button
-            icon="pi pi-play"
+            icon="pi pi-step-forward"
             tooltip="Jugar evento"
-            className="p-button p-button-primary p-button-rounded"
+            className="p-button p-button-success p-button-rounded"
           />
         </Link>
       </div>

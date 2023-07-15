@@ -29,58 +29,58 @@ const MenuSorteo = ({ id }) => {
 
   const onHide = () => setVisible(!visible);
 
-  const templateNoJugado = (sorteo) => {
-    return (
-      <>
-        <div className="my-2">
-          <label>Premio del Sorteo: {sorteo.premio}</label>
-          <div className="flex justify-center my-2">
-            <Image
-              src={sorteo.premio_foto}
-              alt={sorteo.nombre}
-              width={150}
-              height={150}
-            />
-          </div>
-        </div>
-        <div>
-          <Button
-            onClick={() => {
-              setVisible(!visible);
-              setDatosSorteo(sorteo);
-            }}
-            label="Jugar Sorteo"
-            className="p-button p-button-primary p-button-rounded"
-          />
-        </div>
-      </>
-    );
-  };
-
-  const templateJugado = (sorteo) => {
-    return (
-      <>
-        <div className="my-2">
-          <label>Premio del Sorteo: {sorteo.premio}</label>
-          <div className="flex justify-center my-2">
-            <Image
-              src={sorteo.premio_foto}
-              alt={sorteo.nombre}
-              width={150}
-              height={150}
-            />
-          </div>
-        </div>
-        <div>
-          <label className="font-bold">
-            Ganador del Sorteo: {sorteo.nombre_ganador}
-          </label>
-        </div>
-      </>
-    );
-  };
-
   useEffect(() => {
+    const templateNoJugado = (sorteo) => {
+      return (
+        <>
+          <div className="my-2">
+            <label>Premio del Sorteo: {sorteo.premio}</label>
+            <div className="flex justify-center my-2">
+              <Image
+                src={sorteo.premio_foto}
+                alt={sorteo.nombre}
+                width={150}
+                height={150}
+              />
+            </div>
+          </div>
+          <div>
+            <Button
+              onClick={() => {
+                setVisible(true);
+                setDatosSorteo(sorteo);
+              }}
+              label="Jugar Sorteo"
+              className="p-button p-button-primary p-button-rounded"
+            />
+          </div>
+        </>
+      );
+    };
+
+    const templateJugado = (sorteo) => {
+      return (
+        <>
+          <div className="my-2">
+            <label>Premio del Sorteo: {sorteo.premio}</label>
+            <div className="flex justify-center my-2">
+              <Image
+                src={sorteo.premio_foto}
+                alt={sorteo.nombre}
+                width={150}
+                height={150}
+              />
+            </div>
+          </div>
+          <div>
+            <label className="font-bold">
+              Ganador del Sorteo: {sorteo.nombre_ganador}
+            </label>
+          </div>
+        </>
+      );
+    };
+
     if (data !== undefined) {
       const sortItems = [];
 

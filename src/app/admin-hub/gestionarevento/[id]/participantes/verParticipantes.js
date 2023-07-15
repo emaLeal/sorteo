@@ -9,7 +9,7 @@ import { Toast } from "primereact/toast";
 import useSWR from "swr";
 import { fetcher } from "@/app/lib/fetcher";
 import { Button } from "primereact/button";
-import { ClipLoader } from "react-spinners";
+import { MoonLoader } from "react-spinners";
 
 const VerParticipantes = ({ evento }) => {
   const toast = useRef(null);
@@ -27,7 +27,13 @@ const VerParticipantes = ({ evento }) => {
   }, [mutate]);
 
   if (isLoading) {
-    return <ClipLoader color="#fff" loading={isLoading} size={500} />;
+    return (
+      <>
+        <div className="flex justify-center">
+          <MoonLoader color="#fff" loading={isLoading} size={500} />;
+        </div>
+      </>
+    );
   }
 
   const onUpload = ({ files }) => {
@@ -138,7 +144,7 @@ const VerParticipantes = ({ evento }) => {
           header={header}
           emptyMessage="No se encontraron participantes"
           rows={3}
-          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Roles"
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Participantes"
           paginator
         >
           <Column field="nombre" header="Nombre Participante" />

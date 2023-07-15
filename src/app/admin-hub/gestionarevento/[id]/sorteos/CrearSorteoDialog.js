@@ -108,7 +108,7 @@ const CrearSorteoDialog = ({ visible, onHide, data, evento }) => {
                     id="nombre"
                     onChange={handleChange}
                   />
-                  <label htmlFor="nombre">Nombre del Evento</label>
+                  <label htmlFor="nombre">Nombre del Sorteo</label>
                 </span>
               </div>
               <div className="field mb-4">

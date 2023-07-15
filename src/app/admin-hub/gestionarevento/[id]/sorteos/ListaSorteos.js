@@ -10,13 +10,16 @@ import CrearSorteoDialog from "./CrearSorteoDialog";
 import Image from "next/image";
 import useSWR from "swr";
 import { fetcher } from "@/app/lib/fetcher";
-import { ClipLoader } from "react-spinners";
+import { MoonLoader } from "react-spinners";
 
 const ListaSorteos = ({ evento }) => {
   const [visible, setVisible] = useState(false);
   const [visibleS, setVisibleS] = useState(false);
   const [prevData, setPrevData] = useState(null);
-  const { data, error, mutate, isLoading } = useSWR(`/api/sorteos/${evento}`, fetcher);
+  const { data, error, mutate, isLoading } = useSWR(
+    `/api/sorteos/${evento}`,
+    fetcher
+  );
   const toast = useRef(null);
   const onHideS = () => {
     setVisibleS(!visibleS);
@@ -31,7 +34,13 @@ const ListaSorteos = ({ evento }) => {
   }, [mutate]);
 
   if (isLoading) {
-    return <ClipLoader color="#fff" loading={isLoading} size={500} />;
+    return (
+      <>
+        <div className="flex justify-center">
+          <MoonLoader color="#fff" loading={isLoading} size={500} />;
+        </div>
+      </>
+    );
   }
 
   const header = () => {
@@ -118,8 +127,8 @@ const ListaSorteos = ({ evento }) => {
   const imgPremio = (rowData) => {
     return (
       <Image
-        width={150}
-        height={150}
+        width={100}
+        height={100}
         alt={rowData.premio}
         src={rowData.premio_foto}
       />
@@ -140,6 +149,9 @@ const ListaSorteos = ({ evento }) => {
         <DataTable
           value={data === undefined ? [] : data.data}
           header={header}
+          paginator
+          rows={2}
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Sorteos"
           emptyMessage="No se encontraron sorteos"
         >
           <Column field="nombre" header="Nombre Evento" />

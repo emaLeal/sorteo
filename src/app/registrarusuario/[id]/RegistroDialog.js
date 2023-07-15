@@ -1,4 +1,5 @@
 "use client";
+import SubirFoto from "@/components/subirfoto";
 import Image from "next/image";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
@@ -17,20 +18,6 @@ const RegistroDialog = ({ visible, onHide, data }) => {
     cedula: "",
   });
   const toast = useRef(null);
-
-  const uploadHandler = async (e) => {
-    const file = e.files[0];
-
-    const reader = new FileReader();
-    const blob = await fetch(file.objectURL).then((r) => r.blob()); // blob:url
-
-    reader.readAsDataURL(blob);
-
-    reader.onloadend = () => {
-      const base64data = reader.result;
-      setParticipanteData({ ...participanteData, foto: base64data });
-    };
-  };
 
   useEffect(() => {
     if (data !== null) {
@@ -58,7 +45,7 @@ const RegistroDialog = ({ visible, onHide, data }) => {
   return (
     <>
       <Toast ref={toast} />
-      <Dialog visible={visible} onHide={onHide} modal header={"Registrarte"}>
+      <Dialog visible={visible} onHide={onHide} className="w-1/2" modal header={"Registrarte"}>
         <div className="mb-4 flex justify-between text-xl">
           <span className="font-bold">Nombre Participante: </span>
           <span>{participanteData.nombre}</span>
@@ -84,13 +71,11 @@ const RegistroDialog = ({ visible, onHide, data }) => {
           />
         </div>
         <div className="my-4">
-          <FileUpload
-            mode="advanced"
-            cancelLabel="Cancelar"
-            chooseLabel="Elegir Imagen"
-            uploadLabel="Subir Imagen"
-            customUpload
-            uploadHandler={uploadHandler}
+          <SubirFoto
+            setForm={setParticipanteData}
+            form={participanteData}
+            field={"foto"}
+            title={"Foto para usuario"}
           />
         </div>
         <div className="flex justify-end">

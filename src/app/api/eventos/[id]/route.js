@@ -94,10 +94,44 @@ export async function DELETE(req, params) {
       if (err) throw err;
     });
 
-    const result = await executeQuery({
-      query: "DELETE FROM evento WHERE id=?",
+    const sorteos = await executeQuery({
+      query: "SELECT * FROM sorteos where evento_id=?",
       values: [id],
     });
+
+    sorteos.forEach((sorteo) => {
+      unlink("public" + sorteo.premio_foto, (err) => {
+        if (err) throw err;
+      });
+    });
+
+    const participantes = await executeQuery({
+      query: "SELECT * FROM participantes where evento_id=?",
+      values: [id],
+    });
+
+    participantes.forEach((participante) => {
+      if (participante.foto !== "/user.png") {
+        unlink("public" + participante.foto);
+      }
+    });
+
+    const delSorteo = await executeQuery({
+      query: "DELETE from sorteos where evento_id=?",
+      values: [id],
+    });
+
+    const delParticipantes = await executeQuery({
+      query: "DELETE FROM participantes where evento_id=?",
+      values: [id],
+    });
+
+    const result = await executeQuery({
+      query: "DELETE FROM evento where id=?",
+      values: [id],
+    });
+    console.log(result);
+
     return NextResponse.json({ message: "Evento Eliminado" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });

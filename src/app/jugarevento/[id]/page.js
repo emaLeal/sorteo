@@ -16,7 +16,7 @@ export default async function JugarSorteoPage({ params }) {
 
   return (
     <>
-      <div className="my-12 ">
+      <div className="my-12 mx-48">
         <div className="text-center">
           <span className="font-bold text-3xl">{data.data.nombre_evento}</span>
           <Image
