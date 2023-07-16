@@ -12,7 +12,7 @@ const Menu = () => {
       label: "Cerrar Sesion",
       icon: "pi pi-sign-out",
       command: () =>
-        fetch("http://localhost:3000/api/logout").then((res) => {
+        fetch("/api/logout").then((res) => {
           if (res.ok) router.push("/admin-log");
         }),
     },
