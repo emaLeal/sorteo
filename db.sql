@@ -16,12 +16,10 @@
 
 
 -- Volcando estructura de base de datos para sorteo
-DROP DATABASE IF EXISTS `sorteo`;
 CREATE DATABASE IF NOT EXISTS `sorteo` /*!40100 DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci */;
 USE `sorteo`;
 
 -- Volcando estructura para tabla sorteo.admin
-DROP TABLE IF EXISTS `admin`;
 CREATE TABLE IF NOT EXISTS `admin` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `correo` varchar(80) DEFAULT NULL,
@@ -33,7 +31,6 @@ CREATE TABLE IF NOT EXISTS `admin` (
 -- La exportación de datos fue deseleccionada.
 
 -- Volcando estructura para tabla sorteo.evento
-DROP TABLE IF EXISTS `evento`;
 CREATE TABLE IF NOT EXISTS `evento` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_evento` varchar(100) DEFAULT NULL,
@@ -46,7 +43,6 @@ CREATE TABLE IF NOT EXISTS `evento` (
 -- La exportación de datos fue deseleccionada.
 
 -- Volcando estructura para tabla sorteo.participantes
-DROP TABLE IF EXISTS `participantes`;
 CREATE TABLE IF NOT EXISTS `participantes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
@@ -65,7 +61,6 @@ CREATE TABLE IF NOT EXISTS `participantes` (
 -- La exportación de datos fue deseleccionada.
 
 -- Volcando estructura para tabla sorteo.sorteos
-DROP TABLE IF EXISTS `sorteos`;
 CREATE TABLE IF NOT EXISTS `sorteos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,

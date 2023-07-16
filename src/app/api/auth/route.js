@@ -11,6 +11,13 @@ export async function POST(req) {
       values: [body.usuario, body.contrasena],
     });
 
+    if (result.length === 0) {
+      return NextResponse.json(
+        { message: "Credenciales Incorrectos" },
+        { status: 400 }
+      );
+    }
+
     const m = {
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 30,
       id: result[0].id,

@@ -2,9 +2,11 @@
 import "../globals.css";
 import { useRouter } from "next/navigation";
 import AdminForm from "./adminform";
+import { useState } from "react";
 
-export default async function AdminPage() {
+export default function AdminPage() {
   const router = useRouter();
+  const [error, setError] = useState(null);
   const onSubmit = async (e) => {
     e.preventDefault();
     fetch("/api/auth", {
@@ -13,16 +15,23 @@ export default async function AdminPage() {
         usuario: e.target.user.value,
         contrasena: e.target.password.value,
       }),
-    }).then((res) => {
-      if (res.status === 200) {
-        router.push("/admin-hub");
-      }
-    });
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          router.push("/admin-hub");
+        }
+        if (res.status === 400) {
+          throw res
+        }
+      })
+      .catch((e) => {
+        setError('Credenciales incorrectos')
+      });
   };
 
   return (
     <main className="h-screen pt-10">
-      <AdminForm onSubmit={onSubmit} />
+      <AdminForm onSubmit={onSubmit} error={error} />
     </main>
   );
 }

@@ -7,7 +7,7 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import React from "react";
 
-export default function AdminForm({ onSubmit }) {
+export default function AdminForm({ onSubmit, error }) {
   React.useEffect(() => {
     Aos.init();
   }, []);
@@ -59,6 +59,7 @@ export default function AdminForm({ onSubmit }) {
               tooltip="Iniciar Sesión"
               className="mt-2 p-button-primary p-button-text p-button-rounded"
             />
+            <div className="mt-2">{error && <span className="text-red-400 font-bold">{error}</span>}</div>
           </form>
         </div>
       </div>
