@@ -48,12 +48,15 @@ export async function GET(req, params) {
         return part;
       }
     });
+
+    const data = result.filter((ev) => {
+      ev.premio_foto = base64Img.base64Sync("public" + ev.premio_foto);
+      return ev;
+    });
+
     const re = await Promise.all(sort);
 
-    return NextResponse.json(
-      { data: result[0], participantes: re },
-      { status: 200 }
-    );
+    return NextResponse.json({ data, participantes: re }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
@@ -69,7 +72,7 @@ export async function PUT(req, params) {
       values: [id],
     });
 
-    let imgUrlPremio = body.premio_foto
+    let imgUrlPremio = body.premio_foto;
 
     if (result[0].premio_foto !== body.premio_foto) {
       const imgPremioSorteo = base64Img.imgSync(
@@ -87,7 +90,6 @@ export async function PUT(req, params) {
       }
     }
 
-   
     const act = await executeQuery({
       query: "UPDATE sorteos set nombre=?, premio=?, premio_foto=? where id=?",
       values: [body.nombre, body.premio, imgUrlPremio, id],

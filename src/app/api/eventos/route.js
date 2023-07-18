@@ -1,12 +1,7 @@
 import executeQuery from "@/app/lib/db";
+import formatString from "@/app/lib/formatString";
 import base64Img from "base64-img";
 import { NextResponse } from "next/server";
-
-const formatString = (string) => {
-  const m = string.replaceAll("\\", "/");
-  const formatedString = m.replace("public", "");
-  return formatedString;
-};
 
 export async function POST(req) {
   const body = await req.json();
@@ -14,12 +9,12 @@ export async function POST(req) {
     let imgEvento = base64Img.imgSync(
       body.foto_evento,
       `public/fotos_eventos`,
-      `${body.nombre_evento}`
+      body.nombre_evento + Date.now()
     );
     const imgEmpresa = base64Img.imgSync(
       body.foto_empresa,
       "public/fotos_empresas",
-      body.empresa
+      body.empresa + Date.now()
     );
     const imgUrlEvento = formatString(imgEvento);
     const imgUrlEmpresa = formatString(imgEmpresa);
@@ -43,7 +38,13 @@ export async function GET() {
     const result = await executeQuery({
       query: "SELECT * FROM evento",
     });
-    return NextResponse.json({ data: result }, { status: 200 });
+
+    const data = result.filter((ev) => {
+      ev.foto_evento = base64Img.base64Sync("public" + ev.foto_evento);
+      ev.foto_empresa = base64Img.base64Sync("public" + ev.foto_empresa);
+      return ev;
+    });
+    return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }

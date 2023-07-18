@@ -2,12 +2,7 @@ import executeQuery from "@/app/lib/db";
 import { NextResponse } from "next/server";
 import base64Img from "base64-img";
 import { unlink } from "fs";
-
-const formatString = (string) => {
-  const m = string.replaceAll("\\", "/");
-  const formatedString = m.replace("public", "");
-  return formatedString;
-};
+import formatString from "@/app/lib/formatString";
 
 export async function GET(req, params) {
   const { id } = params.params;
@@ -16,7 +11,14 @@ export async function GET(req, params) {
       query: "SELECT * FROM evento WHERE id=?",
       values: [id],
     });
-    return NextResponse.json({ data: result[0] }, { status: 200 });
+    const data = result.filter((evento) => {
+      evento.foto_evento = base64Img.base64Sync("public" + evento.foto_evento);
+      evento.foto_empresa = base64Img.base64Sync(
+        "public" + evento.foto_empresa
+      );
+      return evento;
+    });
+    return NextResponse.json({ data: data[0] }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
@@ -41,7 +43,7 @@ export async function PUT(req, params) {
       const img = base64Img.imgSync(
         body.foto_evento,
         `public/fotos_eventos`,
-        body.nombre_evento
+        body.nombre_evento + Date.now()
       );
 
       imgEvento = formatString(img);
