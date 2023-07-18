@@ -3,7 +3,6 @@ import SubirFoto from "@/components/subirfoto";
 import Image from "next/image";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import { FileUpload } from "primereact/fileupload";
 import { Toast } from "primereact/toast";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -26,7 +25,7 @@ const RegistroDialog = ({ visible, onHide, data }) => {
   }, [data]);
 
   const onSubmit = () => {
-    fetch("http://localhost:3000/api/registrarparticipante", {
+    fetch("/api/registrarparticipante", {
       body: JSON.stringify(participanteData),
       method: "PUT",
     }).then((res) => {
@@ -45,7 +44,13 @@ const RegistroDialog = ({ visible, onHide, data }) => {
   return (
     <>
       <Toast ref={toast} />
-      <Dialog visible={visible} onHide={onHide} className="w-1/2" modal header={"Registrarte"}>
+      <Dialog
+        visible={visible}
+        onHide={onHide}
+        className="w-1/2"
+        modal
+        header={"Registrarte"}
+      >
         <div className="mb-4 flex justify-between text-xl">
           <span className="font-bold">Nombre Participante: </span>
           <span>{participanteData.nombre}</span>

@@ -2,7 +2,7 @@ import Image from "next/image";
 import FormRegistro from "./FormRegistro";
 
 export async function getData(id) {
-  const res = await fetch(`http://localhost:3000/api/eventos/${id}`, {
+  const res = await fetch(`${process.env.COMPLETE_HOST}/api/eventos/${id}`, {
     cache: "no-store",
   });
 
@@ -12,9 +12,12 @@ export async function getData(id) {
 }
 
 export async function getParticipantes(id) {
-  const res = await fetch(`http://localhost:3000/api/participante/${id}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.COMPLETE_HOST}/api/participante/${id}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   const json = await res.json();
 
