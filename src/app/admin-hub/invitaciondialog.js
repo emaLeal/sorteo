@@ -10,7 +10,7 @@ const InvitacionDialog = ({ visible, onHide, evento_data }) => {
     nombre_evento: "",
   });
   const qrCodeRef = useRef(null);
-  const invitacionLink = `/registrarusuario/${eventoData.id}`;
+  const invitacionLink = `http://localhost:3000/registrarusuario/${eventoData.id}`;
   useEffect(() => {
     if (evento_data === undefined) {
       setEventoData({
