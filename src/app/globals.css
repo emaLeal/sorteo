@@ -12,6 +12,7 @@
 .form-demo .card {
   min-width: 450px;
 }
+
 .form-demo .card form {
   margin-top: 2rem;
 }
@@ -19,6 +20,7 @@
 .form-demo .card .field {
   margin-bottom: 1.5rem;
 }
+
 .justify-content-center {
   display: flex;
   align-items: flex-end;
@@ -26,14 +28,16 @@
   margin-top: 5%;
   margin-right: 2%;
 }
+
 @media screen and (max-width: 960px) {
   .form-demo .card {
-      width: 80%;
+    width: 80%;
   }
 }
+
 @media screen and (max-width: 640px) {
   .form-demo .card {
-      width: 100%;
-      min-width: 0;
+    width: 100%;
+    min-width: 0;
   }
 }

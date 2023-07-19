@@ -10,7 +10,6 @@ const InvitacionDialog = ({ visible, onHide, evento_data }) => {
     nombre_evento: "",
   });
   const qrCodeRef = useRef(null);
-  const invitacionLink = `https://admin.smartie.com.co/registrarusuario/${eventoData.id}`;
   useEffect(() => {
     if (evento_data === undefined) {
       setEventoData({
@@ -54,10 +53,12 @@ const InvitacionDialog = ({ visible, onHide, evento_data }) => {
   const header = () => {
     return <h1>Invitacion de {evento_data.nombre_evento}</h1>;
   };
+  const invitacionLink = `https://admin.smartie.com.co/registrarusuario/${eventoData.id}`;
+
 
   return (
     <Dialog
-      className="w-1/4"
+      className="sm:w-1/4"
       visible={visible}
       onHide={onHide}
       header={header}

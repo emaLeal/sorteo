@@ -10,7 +10,6 @@ const FormRegistro = ({ participantes }) => {
   const [cedula, setCedula] = useState("");
   const [visible, setVisible] = useState("");
   const [data, setData] = useState(null);
-  const [notFound, setNotFound] = useState(false);
   const onHide = () => setVisible(!visible);
 
   const getParticipante = () => {

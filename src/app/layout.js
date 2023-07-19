@@ -8,6 +8,7 @@ import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "./admin-log/background.css";
+import "./globals.css";
 
 export default function RootLayout({ children }) {
   return (

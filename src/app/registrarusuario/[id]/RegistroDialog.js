@@ -47,23 +47,23 @@ const RegistroDialog = ({ visible, onHide, data }) => {
       <Dialog
         visible={visible}
         onHide={onHide}
-        className="w-1/2"
+        className="md:w-1/2 lg:w-1/2"
         modal
         header={"Registrarte"}
       >
-        <div className="mb-4 flex justify-between text-xl">
+        <div className="mb-4 flex flex-col md:flex-row lg:flex-row md:justify-between lg:flex-row lg:text-xl">
           <span className="font-bold">Nombre Participante: </span>
           <span>{participanteData.nombre}</span>
         </div>
-        <div className="mb-4 flex justify-between text-xl">
+        <div className="mb-4 flex flex-col md:flex-row lg:flex-row md:justify-between lg:flex-row lg:text-xl">
           <span className="font-bold">Correo Participante: </span>
           <span>{participanteData.correo}</span>
         </div>
-        <div className="mb-4 flex justify-between text-xl">
+        <div className="mb-4 flex flex-col md:flex-row lg:flex-row md:justify-between lg:flex-row lg:text-xl">
           <span className="font-bold">Cedula Participante: </span>
           <span>{participanteData.cedula}</span>
         </div>
-        <div className="mb-4 flex justify-between text-xl">
+        <div className="mb-4 flex flex-col md:flex-row lg:flex-row md:justify-between lg:flex-row lg:text-xl">
           <span className="font-bold">Cargo Participante: </span>
           <span>{participanteData.cargo}</span>
         </div>

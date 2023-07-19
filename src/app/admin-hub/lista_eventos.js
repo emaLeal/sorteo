@@ -3,7 +3,6 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { useState, useRef, useEffect } from "react";
-import { delOne } from "../lib/fetchMethod";
 import { Toast } from "primereact/toast";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import Image from "next/image";
@@ -63,20 +62,23 @@ const ListaEventos = () => {
 
   const Acciones = (rowData) => {
     return (
-      <div>
+      <div className="max-sm:flex">
         <Button
           icon="pi pi-pencil"
           tooltip="Editar Evento"
-          className="p-button mr-2 p-button-warning p-button-rounded"
+          className="p-button sm:mr-2 p-button-warning p-button-rounded "
           onClick={() => edit(rowData)}
         />
         <Button
           icon="pi pi-trash"
           tooltip="Eliminar Evento"
-          className="p-button mr-2 p-button-danger p-button-rounded"
+          className="p-button sm:mr-2 p-button-danger p-button-rounded"
           onClick={() => del(rowData.id)}
         />
-        <Link href={`/admin-hub/gestionarevento/${rowData.id}`}>
+        <Link
+          href={`/admin-hub/gestionarevento/${rowData.id}`}
+          className="max-sm:hidden"
+        >
           <Button
             icon="pi pi-calendar"
             className="p-button p-button-primary p-button-rounded mr-2"
@@ -93,7 +95,7 @@ const ListaEventos = () => {
           <Button
             icon="pi pi-step-forward"
             tooltip="Jugar evento"
-            className="p-button p-button-success p-button-rounded"
+            className="p-button p-button-success p-button-rounded max-sm:hidden"
           />
         </Link>
       </div>
@@ -160,14 +162,16 @@ const ListaEventos = () => {
       />
       <Toast ref={toast} />
       <CrearEventoDialog visible={visible} onHide={onHide} data={prevData} />
-      <div className="mx-28 my-12">
+      <div className="my-12 sm:mx-28 sm:my-12">
         <DataTable
           value={data === undefined ? [] : data.data}
           header={header}
+          rows={2}
+          paginator
           emptyMessage="No se encontraron eventos"
         >
           <Column field="nombre_evento" header="Nombre Evento" />
-          <Column field="empresa" header="Empresa" />
+          <Column field="empresa" header="Empresa" className="max-sm:hidden" />
           <Column header="Foto de Evento" body={imgBody} />
           <Column body={Acciones} header="Acciones" />
         </DataTable>

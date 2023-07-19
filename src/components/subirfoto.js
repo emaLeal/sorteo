@@ -127,7 +127,7 @@ const SubirFoto = ({ setForm, form, field, title }) => {
   const chooseOptions = {
     icon: "pi pi-fw pi-images",
     iconOnly: true,
-    className: "custom-choose-btn p-button-rounded p-button-outlined w-1",
+    className: "custom-choose-btn p-button-rounded p-button-outlined lg:w-1",
   };
 
   return (
