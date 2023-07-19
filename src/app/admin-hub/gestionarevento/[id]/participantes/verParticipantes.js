@@ -118,21 +118,42 @@ const VerParticipantes = ({ evento }) => {
 
   const Acciones = (rowData) => {
     return (
-      <Button
-        className="p-button p-button-primary p-button-rounded"
-        tooltip={
-          rowData.participara === 1 ? "Descalificar" : "Habilitar usuario"
-        }
-        icon={`pi ${
-          rowData.participara === 1 ? "pi-circle-fill" : "pi-circle"
-        }`}
-        onClick={() =>
-          rowData.participara === 1
-            ? descalificar(rowData.id)
-            : habilitar(rowData.id)
-        }
-      />
+      <>
+        <Button
+          className="p-button p-button-primary p-button-rounded mr-2"
+          tooltip={
+            rowData.participara === 1 ? "Descalificar" : "Habilitar usuario"
+          }
+          icon={`pi ${
+            rowData.participara === 1 ? "pi-circle-fill" : "pi-circle"
+          }`}
+          onClick={() =>
+            rowData.participara === 1
+              ? descalificar(rowData.id)
+              : habilitar(rowData.id)
+          }
+        />
+        <Button
+          className="p-button p-button-danger p-button-rounded"
+          tooltip="Eliminar Participante"
+          icon="pi pi-trash"
+          onClick={() => eliminarParticipante(rowData.id)}
+        />
+      </>
     );
+  };
+
+  const eliminarParticipante = (id) => {
+    fetch(`/api/participante/${id}`, { method: "DELETE" }).then((res) => {
+      if (res.status === 200) {
+        toast.current.show({
+          severity: "error",
+          summary: "Participante eliminado",
+          detail: "Se ha eliminado el participante",
+          life: 3000,
+        });
+      }
+    });
   };
 
   return (

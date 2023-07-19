@@ -11,9 +11,25 @@ export async function GET(req, params) {
     });
     const data = result.filter((participante) => {
       participante.foto = base64Sync("public" + participante.foto);
-      return participante
+      return participante;
     });
     return NextResponse.json({ data }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+}
+
+export async function DELETE(req, params) {
+  const { id } = params.params;
+  try {
+    const result = await executeQuery({
+      query: "DELETE FROM participantes where id=?",
+      values: [id],
+    });
+    return NextResponse.json(
+      { message: "Participante eliminado" },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }

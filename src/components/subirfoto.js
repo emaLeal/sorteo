@@ -141,7 +141,7 @@ const SubirFoto = ({ setForm, form, field, title }) => {
         auto
         uploadHandler={imgUploader}
         multiple={false}
-        maxFileSize={1000000}
+        maxFileSize={5000000}
         chooseOptions={chooseOptions}
         onClear={onTemplateClear}
         onSelect={onTemplateSelect}
