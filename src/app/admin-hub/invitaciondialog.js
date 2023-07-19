@@ -53,8 +53,7 @@ const InvitacionDialog = ({ visible, onHide, evento_data }) => {
   const header = () => {
     return <h1>Invitacion de {evento_data.nombre_evento}</h1>;
   };
-  const invitacionLink = `https://admin.smartie.com.co/registrarusuario/${eventoData.id}`;
-
+  const invitacionLink = `https://eventos.smartie.com.co/registrarusuario/${eventoData.id}`;
 
   return (
     <Dialog
