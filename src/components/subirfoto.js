@@ -109,7 +109,7 @@ const SubirFoto = ({ setForm, form, field, title }) => {
         {chooseButton}
 
         <div className="flex align-items-center gap-3 ml-auto">
-          <span>{formatedValue} / 5 MB</span>
+          <span>{formatedValue} / 1 MB</span>
           <ProgressBar
             value={value}
             showValue={false}
