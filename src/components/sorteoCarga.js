@@ -11,6 +11,7 @@ import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useRouter } from "next/navigation";
 import { Virtual } from "swiper";
+import Link from "next/link";
 
 const SorteoCarga = ({ data, estilo }) => {
   const [usuarios, setUsuarios] = useState([]);
@@ -168,8 +169,6 @@ const SorteoCarga = ({ data, estilo }) => {
       changeSpeed(1);
     }, 2000);
 
- 
-
     setTimeout(() => {
       setGanador(usuarios[swiper.realIndex]);
       swiper.autoplay.stop();
@@ -205,7 +204,7 @@ const SorteoCarga = ({ data, estilo }) => {
   return (
     <>
       <ConfirmDialog />
-     
+
       <div>
         <Swiper
           direction={estilo}
@@ -234,11 +233,17 @@ const SorteoCarga = ({ data, estilo }) => {
           />
           {ganador && (
             <Button
-              className="p-button p-button-primary p-button-rounded w-full"
+              className="p-button p-button-primary mb-2 p-button-rounded w-full"
               label="Declarar Ganador"
               onClick={declararGanador}
             />
           )}
+          <Link href={`/jugarevento/${data.data.evento_id}`}>
+            <Button
+              className="p-button p-button-primary p-button-rounded w-full"
+              label="Volver"
+            />
+          </Link>
         </div>
       </div>
 
