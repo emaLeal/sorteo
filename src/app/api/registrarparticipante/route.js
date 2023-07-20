@@ -24,7 +24,14 @@ export async function PUT(req) {
     });
     return NextResponse.json(
       { message: "Participante Registrado" },
-      { status: 200 }
+      {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "http://localhost:8080",
+          "Access-Control-Allow-Methods": "PUT",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        },
+      }
     );
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
