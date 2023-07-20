@@ -21,6 +21,9 @@ const InvitacionDialog = ({ visible, onHide, evento_data }) => {
     }
   }, [evento_data]);
 
+  const invitacionLink = `https://eventos.smartie.com.co/registrarusuario/${eventoData.id}`;
+
+
   const handleDownload = () => {
     if (qrCodeRef.current) {
       html2canvas(qrCodeRef.current).then((canvas) => {
@@ -45,6 +48,7 @@ const InvitacionDialog = ({ visible, onHide, evento_data }) => {
           className="p-button p-button-info p-button-rounded w-2"
           icon="pi pi-paperclip"
           tooltip="Copiar Link de Invitación"
+          onClick={() => navigator.clipboard.writeText(invitacionLink)}
         />
       </>
     );
@@ -53,7 +57,6 @@ const InvitacionDialog = ({ visible, onHide, evento_data }) => {
   const header = () => {
     return <h1>Invitacion de {evento_data.nombre_evento}</h1>;
   };
-  const invitacionLink = `https://eventos.smartie.com.co/registrarusuario/${eventoData.id}`;
 
   return (
     <Dialog
