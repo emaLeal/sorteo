@@ -10,7 +10,7 @@ const SwiperData = ({ data }) => {
         width={250}
         alt={data.nombre}
       />
-      <span className="font-bold text-2xl text-black mt-2 ml-8">
+      <span className="font-bold text-2xl text-black mt-2">
         {data.nombre}
       </span>
     </div>
