@@ -165,28 +165,10 @@ const SorteoCarga = ({ data, estilo }) => {
     swiper.autoplay.start();
     swiper.params.autoplay.disableOnInteraction = false;
     setTimeout(() => {
-      changeSpeed(400);
+      changeSpeed(1);
     }, 2000);
 
-    setTimeout(() => {
-      changeSpeed(200);
-    }, 4000);
-
-    setTimeout(() => {
-      changeSpeed(100);
-    }, 6000);
-
-    setTimeout(() => {
-      changeSpeed(10);
-    }, 7000);
-
-    setTimeout(() => {
-      changeSpeed(500);
-    }, 12000);
-
-    setTimeout(() => {
-      changeSpeed(1500);
-    }, 14000);
+ 
 
     setTimeout(() => {
       setGanador(usuarios[swiper.realIndex]);
