@@ -5,10 +5,8 @@ import { fetcher } from "../lib/fetcher";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { Checkbox } from "primereact/checkbox";
-import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import Image from "next/image";
-import Link from "next/link";
 import SorteoDialog from "./SorteoDialog";
 
 const MenuSorteo = ({ id }) => {

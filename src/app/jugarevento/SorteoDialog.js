@@ -48,7 +48,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
 
       <Link
         className="font-bold text-2xl"
-        href={`/jugarevento/${id}/sorteo/${encodeURIComponent(
+        href={`/sorteo/${encodeURIComponent(
           JSON.stringify({ id, estilo, sorteo_id: datosSorteo.id })
         )}`}
       >

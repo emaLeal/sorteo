@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
 import { useEffect, useRef, useState } from "react";
 import "swiper/css";
-import SwiperData from "./swiperData";
+import SwiperData from "../app/jugarevento/[id]/swiperData";
 import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useRouter } from "next/navigation";
@@ -223,7 +223,8 @@ const SorteoCarga = ({ data, estilo }) => {
   return (
     <>
       <ConfirmDialog />
-      <div className="ml-auto mr-auto">
+     
+      <div>
         <Swiper
           direction={estilo}
           loop
@@ -233,7 +234,7 @@ const SorteoCarga = ({ data, estilo }) => {
           allowTouchMove={false}
           modules={[Autoplay, Virtual]}
           virtual
-          className={`absolute mySwiper h-full w-full left-1/2 top-24`}
+          className={`absolute mySwiper w-1/6 h-2/3 inset-x-1/4 top-32`}
         >
           {usuarios.map((data, index) => {
             return (
@@ -243,7 +244,7 @@ const SorteoCarga = ({ data, estilo }) => {
             );
           })}
         </Swiper>
-        <div className="absolute w-1/6 top-2 left-1/4">
+        <div className="absolute ">
           <Button
             className="p-button p-button-primary mb-2 p-button-rounded w-full"
             label={ganador ? "Reiniciar" : "Iniciar Sorteo"}
