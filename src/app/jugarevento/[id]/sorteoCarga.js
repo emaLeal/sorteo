@@ -119,14 +119,14 @@ const SorteoCarga = ({ data, estilo }) => {
     return results;
   }
 
-  window.addEventListener("resize", function () {
-    const canvas = canvaRef.current;
-    const context = canvas.getContext("2d");
-    const W = window.innerWidth;
-    const H = window.innerHeight;
-    canvas.width = W;
-    canvas.height = H;
-  });
+  // window.addEventListener("resize", function () {
+  //   const canvas = canvaRef.current;
+  //   const context = canvas.getContext("2d");
+  //   const W = window.innerWidth;
+  //   const H = window.innerHeight;
+  //   canvas.width = W;
+  //   canvas.height = H;
+  // });
 
   function initializeConfetti() {
     const canvas = canvaRef.current;
@@ -211,6 +211,7 @@ const SorteoCarga = ({ data, estilo }) => {
           }),
         }).then((res) => {
           if (res.ok) {
+            console.log(data);
             router.push(`/jugarevento/${data.data.evento_id}`);
           }
         });
@@ -218,7 +219,6 @@ const SorteoCarga = ({ data, estilo }) => {
       reject: () => {},
     });
   };
-
 
   return (
     <>

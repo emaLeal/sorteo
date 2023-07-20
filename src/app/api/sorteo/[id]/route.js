@@ -45,6 +45,7 @@ export async function GET(req, params) {
         values: [part.id],
       });
       if (ganador.length === 0) {
+        part.foto = base64Img.base64Sync("public" + part.foto);
         return part;
       }
     });
@@ -56,7 +57,10 @@ export async function GET(req, params) {
 
     const re = await Promise.all(sort);
 
-    return NextResponse.json({ data, participantes: re }, { status: 200 });
+    return NextResponse.json(
+      { data: data[0], participantes: re },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
