@@ -3,9 +3,9 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "primereact/button";
-import { edit, post } from "../lib/fetchMethod";
+import { edit, post } from "../../lib/fetchMethod";
 import { Toast } from "primereact/toast";
-import SubirFoto from "../../components/subirfoto";
+import SubirFoto from "../subirfoto";
 
 const initialForm = {
   nombre_evento: "",

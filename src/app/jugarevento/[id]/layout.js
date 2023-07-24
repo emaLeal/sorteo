@@ -1,5 +1,5 @@
+import MenuSorteo from "@/app/components/jugarevento/menusorteo";
 import Link from "next/link";
-import MenuSorteo from "../menusorteo";
 
 export async function getData(id) {
   const res = await fetch(`${process.env.COMPLETE_HOST}/api/eventos/${id}`, {

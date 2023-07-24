@@ -6,18 +6,19 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
 import { useEffect, useRef, useState } from "react";
 import "swiper/css";
-import SwiperData from "../app/jugarevento/[id]/swiperData";
 import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useRouter } from "next/navigation";
 import { Virtual } from "swiper";
 import Link from "next/link";
+import SwiperData from "./swiperData";
 
 const SorteoCarga = ({ data, estilo }) => {
   const [usuarios, setUsuarios] = useState([]);
   const [swiper, SetSwiper] = useState(null);
   const [ganador, setGanador] = useState(null);
   const [animationFrame, setAnimationFrame] = useState(null);
+  const [playing, setPlaying] = useState(false)
   const canvaRef = useRef(null);
   const maxConfettis = 150;
   const possibleColors = [
@@ -161,6 +162,7 @@ const SorteoCarga = ({ data, estilo }) => {
   }
 
   const start = () => {
+    setPlaying(true)
     stopConfetti();
     setGanador(null);
     swiper.autoplay.start();
@@ -173,6 +175,7 @@ const SorteoCarga = ({ data, estilo }) => {
       setGanador(usuarios[swiper.realIndex]);
       swiper.autoplay.stop();
       initializeConfetti();
+      setPlaying(false)
     }, 16000);
   };
 
@@ -225,7 +228,7 @@ const SorteoCarga = ({ data, estilo }) => {
             );
           })}
         </Swiper>
-        <div className="absolute ">
+        {!playing && <div className="absolute">
           <Button
             className="p-button p-button-primary mb-2 p-button-rounded w-full"
             label={ganador ? "Reiniciar" : "Iniciar Sorteo"}
@@ -244,7 +247,7 @@ const SorteoCarga = ({ data, estilo }) => {
               label="Volver"
             />
           </Link>
-        </div>
+        </div>}
       </div>
 
       <canvas id="canvas" ref={canvaRef}></canvas>

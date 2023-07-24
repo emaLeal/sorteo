@@ -10,7 +10,7 @@ import CrearEventoDialog from "./crear-evento-dialog";
 import Link from "next/link";
 import InvitacionDialog from "./invitaciondialog";
 import useSWR from "swr";
-import { fetcher } from "../lib/fetcher";
+import { fetcher } from "../../lib/fetcher";
 import { useRouter } from "next/navigation";
 import { MoonLoader } from "react-spinners";
 

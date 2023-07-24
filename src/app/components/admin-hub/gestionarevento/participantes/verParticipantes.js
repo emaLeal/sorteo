@@ -8,8 +8,11 @@ import Image from "next/image";
 import { Toast } from "primereact/toast";
 import useSWR from "swr";
 import { fetcher } from "@/app/lib/fetcher";
+import { FilterMatchMode } from "primereact/api";
 import { Button } from "primereact/button";
 import { MoonLoader } from "react-spinners";
+import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
 
 const VerParticipantes = ({ evento }) => {
   const toast = useRef(null);
@@ -17,6 +20,19 @@ const VerParticipantes = ({ evento }) => {
     `/api/participante/${evento}`,
     fetcher
   );
+  const [filters, setFilters] = useState({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    participara: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  });
+  const [globalFilterValue, setGlobalFilterValue] = useState("");
+  const [participar, setParticipar] = useState("");
+
+  const options = [
+    { label: "Cancelar Filtro", value: null },
+    { label: "Habilitado", value: "1" },
+    { label: "No habilitado", value: "0" },
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -86,12 +102,38 @@ const VerParticipantes = ({ evento }) => {
     );
   };
 
+  const onGlobalFilterChange = (e) => {
+    const value = e.target.value;
+    let _filters = { ...filters };
+
+    _filters[e.target.name].value = value;
+
+    setFilters(_filters);
+    if (e.target.name === "participara") {
+      setParticipar(value);
+    } else if (e.target.name === "nombre") {
+      setGlobalFilterValue(value);
+    }
+  };
+
   const header = () => {
     return (
       <div className="flex justify-between">
-        <span className="font-bold self-center text-xl">
-          Lista de Participantes
-        </span>
+        <div>
+          <InputText
+            placeholder="Escribe un nombre"
+            value={globalFilterValue}
+            name="nombre"
+            onChange={onGlobalFilterChange}
+          />
+          <Dropdown
+            options={options}
+            name="participara"
+            value={participar}
+            onChange={onGlobalFilterChange}
+            placeholder="Estado de los participantes"
+          />
+        </div>
         <div className="flex ">
           <FileUpload
             mode="basic"
@@ -165,8 +207,10 @@ const VerParticipantes = ({ evento }) => {
           header={header}
           emptyMessage="No se encontraron participantes"
           rows={3}
+          globalFilterFields={["nombre", "participara"]}
           currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Participantes"
           paginator
+          filters={filters}
         >
           <Column field="nombre" header="Nombre Participante" />
           <Column field="cedula" header="Cedula de Participante" />

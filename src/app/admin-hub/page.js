@@ -1,5 +1,5 @@
-import ListaEventos from "./lista_eventos";
-import Menu from "./menu";
+import ListaEventos from "../components/admin-hub/lista_eventos";
+import Menu from "../components/admin-hub/menu";
 
 export default async function AdminHubPage() {
 
