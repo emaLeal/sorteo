@@ -121,14 +121,7 @@ const SorteoCarga = ({ data, estilo }) => {
     return results;
   }
 
-  // window.addEventListener("resize", function () {
-  //   const canvas = canvaRef.current;
-  //   const context = canvas.getContext("2d");
-  //   const W = window.innerWidth;
-  //   const H = window.innerHeight;
-  //   canvas.width = W;
-  //   canvas.height = H;
-  // });
+
 
   function initializeConfetti() {
     const canvas = canvaRef.current;
