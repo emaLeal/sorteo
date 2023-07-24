@@ -215,7 +215,7 @@ const SorteoCarga = ({ data, estilo }) => {
           allowTouchMove={false}
           modules={[Autoplay, Virtual]}
           virtual
-          className={`absolute mySwiper w-1/6 h-3/4 inset-x-1/4 top-32`}
+          className={`absolute mySwiper w-1/6 h-5/6 inset-x-1/4 top-32`}
         >
           {usuarios.map((data, index) => {
             return (

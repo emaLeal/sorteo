@@ -17,7 +17,10 @@ export default async function EventoLayout({ params, children }) {
   return (
     <>
       <div className="flex flex-row overflow-hidden">
-        <div className="bg-slate-500 h-screen w-3">
+        <div
+          className="w-full h-screen sm:w-3"
+          style={{ background: "#071426" }}
+        >
           <div className="mb-4 border-b-2">
             <span className="font-bold text-2xl ml-2">Lista de Sorteos</span>
           </div>

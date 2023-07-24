@@ -16,7 +16,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
       visible={visible}
       onHide={onHide}
       header={datosSorteo.nombre}
-      className="w-1/3"
+      className="sm:w-1/3"
       modal
     >
       <div className="flex justify-between my-2">

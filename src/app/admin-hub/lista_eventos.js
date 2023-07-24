@@ -136,7 +136,6 @@ const ListaEventos = () => {
         src={rowData.foto_evento}
         width={100}
         height={50}
-        unoptimized={false}
       />
     );
   };
