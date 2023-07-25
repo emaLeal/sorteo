@@ -18,7 +18,7 @@ const SorteoCarga = ({ data, estilo }) => {
   const [swiper, SetSwiper] = useState(null);
   const [ganador, setGanador] = useState(null);
   const [animationFrame, setAnimationFrame] = useState(null);
-  const [playing, setPlaying] = useState(false)
+  const [playing, setPlaying] = useState(false);
   const canvaRef = useRef(null);
   const maxConfettis = 150;
   const possibleColors = [
@@ -121,8 +121,6 @@ const SorteoCarga = ({ data, estilo }) => {
     return results;
   }
 
-
-
   function initializeConfetti() {
     const canvas = canvaRef.current;
     const context = canvas.getContext("2d");
@@ -155,7 +153,7 @@ const SorteoCarga = ({ data, estilo }) => {
   }
 
   const start = () => {
-    setPlaying(true)
+    setPlaying(true);
     stopConfetti();
     setGanador(null);
     swiper.autoplay.start();
@@ -165,11 +163,24 @@ const SorteoCarga = ({ data, estilo }) => {
     }, 2000);
 
     setTimeout(() => {
-      setGanador(usuarios[swiper.realIndex]);
       swiper.autoplay.stop();
-      initializeConfetti();
-      setPlaying(false)
+      setGanador(usuarios[swiper.realIndex]);
     }, 16000);
+
+    setTimeout(() => {
+      let currentSlide = swiper.slides[swiper.realIndex];
+      if (currentSlide) {
+        console.log(currentSlide)
+        const childElement = currentSlide.querySelector('.flex')
+        if (childElement) {
+          childElement.classList.add('ganador')
+          console.log(childElement)
+
+        }
+      }
+      initializeConfetti();
+      setPlaying(false);
+    }, 18000);
   };
 
   const declararGanador = () => {
@@ -221,26 +232,28 @@ const SorteoCarga = ({ data, estilo }) => {
             );
           })}
         </Swiper>
-        {!playing && <div className="absolute">
-          <Button
-            className="p-button p-button-primary mb-2 p-button-rounded w-full"
-            label={ganador ? "Reiniciar" : "Iniciar Sorteo"}
-            onClick={start}
-          />
-          {ganador && (
+        {!playing && (
+          <div className="absolute">
             <Button
               className="p-button p-button-primary mb-2 p-button-rounded w-full"
-              label="Declarar Ganador"
-              onClick={declararGanador}
+              label={ganador ? "Reiniciar" : "Iniciar Sorteo"}
+              onClick={start}
             />
-          )}
-          <Link href={`/jugarevento/${data.data.evento_id}`}>
-            <Button
-              className="p-button p-button-primary p-button-rounded w-full"
-              label="Volver"
-            />
-          </Link>
-        </div>}
+            {ganador && (
+              <Button
+                className="p-button p-button-primary mb-2 p-button-rounded w-full"
+                label="Declarar Ganador"
+                onClick={declararGanador}
+              />
+            )}
+            <Link href={`/jugarevento/${data.data.evento_id}`}>
+              <Button
+                className="p-button p-button-primary p-button-rounded w-full"
+                label="Volver"
+              />
+            </Link>
+          </div>
+        )}
       </div>
 
       <canvas id="canvas" ref={canvaRef}></canvas>

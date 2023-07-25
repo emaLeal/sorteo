@@ -29,9 +29,9 @@ const VerParticipantes = ({ evento }) => {
   const [participar, setParticipar] = useState("");
 
   const options = [
-    { label: "Cancelar Filtro", value: null },
     { label: "Habilitado", value: "1" },
     { label: "No habilitado", value: "0" },
+    { label: "Cancelar Filtro", value: null }
   ];
 
   useEffect(() => {

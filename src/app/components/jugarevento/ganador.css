@@ -1,0 +1,14 @@
+.ganador {
+  animation: ganadorAnimation 3s linear;
+}
+
+@keyframes ganadorAnimation {
+  0% {
+    background-color: aqua;
+    padding: 2%;
+  }
+
+  100% {
+    padding: 10%;
+  }
+}
