@@ -107,6 +107,7 @@ export async function DELETE(req, params) {
       });
     });
 
+
     const participantes = await executeQuery({
       query: "SELECT * FROM participantes where evento_id=?",
       values: [id],

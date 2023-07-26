@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { jwtVerify } from "jose";
 import Image from "next/image";
 import SorteoCarga from "@/app/components/jugarevento/sorteoCarga";
-import logo from '/public/logo.png'
+import logo from "/public/logo.png";
 
 export async function getData(id) {
   const res = await fetch(`http://localhost:3000/api/sorteo/${id}`, {
@@ -42,7 +42,10 @@ export default async function SorteoPage({ params }) {
 
   return (
     <>
-      <div className="flex justify-center font-bold text-3xl mb-2 p-2" style={{background: '#508ec3'}}>
+      <div
+        className="flex justify-center font-bold text-3xl mb-2 p-2"
+        style={{ background: "#508ec3" }}
+      >
         <h1 className="mx-4">{evento.data.nombre_evento}</h1>
         <Image
           src={logo}
@@ -51,7 +54,12 @@ export default async function SorteoPage({ params }) {
           alt={data.data.nombre_evento}
         />
       </div>
-      <SorteoCarga data={data} estilo={parametros.estilo} />;
+      <SorteoCarga
+        data={data}
+        estilo={parametros.estilo}
+        duracion={parametros.duracion}
+      />
+      ;
     </>
   );
 }

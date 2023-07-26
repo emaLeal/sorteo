@@ -13,7 +13,7 @@ import { Virtual } from "swiper";
 import Link from "next/link";
 import SwiperData from "./swiperData";
 
-const SorteoCarga = ({ data, estilo }) => {
+const SorteoCarga = ({ data, estilo, duracion }) => {
   const [usuarios, setUsuarios] = useState([]);
   const [swiper, SetSwiper] = useState(null);
   const [ganador, setGanador] = useState(null);
@@ -153,34 +153,33 @@ const SorteoCarga = ({ data, estilo }) => {
   }
 
   const start = () => {
+    const roulette = document.getElementById("roulette");
     setPlaying(true);
     stopConfetti();
     setGanador(null);
     swiper.autoplay.start();
     swiper.params.autoplay.disableOnInteraction = false;
-    setTimeout(() => {
-      changeSpeed(1);
-    }, 2000);
+    changeSpeed(1);
 
     setTimeout(() => {
       swiper.autoplay.stop();
       setGanador(usuarios[swiper.realIndex]);
-    }, 16000);
+    }, duracion * 1000);
 
     setTimeout(() => {
+      roulette.play();
       let currentSlide = swiper.slides[swiper.realIndex];
       if (currentSlide) {
-        console.log(currentSlide)
-        const childElement = currentSlide.querySelector('.flex')
+        console.log(currentSlide);
+        const childElement = currentSlide.querySelector(".flex");
         if (childElement) {
-          childElement.classList.add('ganador')
-          console.log(childElement)
-
+          childElement.classList.add("ganador");
+          console.log(childElement);
         }
       }
       initializeConfetti();
       setPlaying(false);
-    }, 18000);
+    }, (duracion + 1) * 1000);
   };
 
   const declararGanador = () => {
@@ -257,6 +256,7 @@ const SorteoCarga = ({ data, estilo }) => {
       </div>
 
       <canvas id="canvas" ref={canvaRef}></canvas>
+      <audio id="roulette" src="/mixkit-coin-win-notification-1992.mp3" />
     </>
   );
 };

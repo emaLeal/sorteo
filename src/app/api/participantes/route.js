@@ -19,7 +19,6 @@ export async function POST(req) {
           false
         ],
       });
-      console.log(result);
     } catch (error) {
       console.log(error);
     }
