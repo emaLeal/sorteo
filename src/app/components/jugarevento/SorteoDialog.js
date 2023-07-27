@@ -20,7 +20,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
   ];
   const [estilo, setEstilo] = useState(null);
   const [duracion, setDuracion] = useState(18);
-  const [audio, setAudio] = useState("");
+  const [audio, setAudio] = useState("/audio-1.mp3");
 
   const playAudio = (value) => {
     const audioPlay = new Audio(value);

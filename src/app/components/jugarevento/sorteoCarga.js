@@ -210,7 +210,7 @@ const SorteoCarga = ({ data, estilo, duracion, audio }) => {
           autoplay={false}
           allowTouchMove={false}
           modules={[Autoplay]}
-          className={`absolute mySwiper w-full h-full overflow-y-hidden`}
+          className={`absolute mySwiper w-full h-5/6 overflow-y-hidden`}
         >
           {usuarios.map((data, index) => {
             return (
