@@ -3,7 +3,7 @@ import './ganador.css'
 
 const SwiperData = ({ data }) => {
   return (
-    <div className="flex flex-column">
+    <div className="flex justify-center flex-column items-center">
       <Image
         src={data.foto}
         className="rounded-full"

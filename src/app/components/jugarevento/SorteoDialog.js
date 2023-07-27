@@ -14,13 +14,18 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
   ];
   const audios = [
     { label: "AUDIO 1", value: "/audio-1.mp3" },
-    { label: "", value: "" },
-    { label: "", value: "" },
-    { label: "", value: "" },
+    { label: "AUDIO 2", value: "/audio-2.mp3" },
+    { label: "AUDIO 3", value: "/audio-3.mp3" },
+    { label: "AUDIO 4", value: "/audio-4.mp3" },
   ];
   const [estilo, setEstilo] = useState(null);
   const [duracion, setDuracion] = useState(18);
   const [audio, setAudio] = useState("");
+
+  const playAudio = (value) => {
+    const audioPlay = new Audio(value);
+    audioPlay.play();
+  };
   return (
     <Dialog
       visible={visible}
@@ -60,7 +65,26 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
         <Slider value={duracion} onChange={(e) => setDuracion(e.value)} />
         <span>{duracion} Segundos</span>
       </div>
-      <div className="block my-2"></div>
+      <div className=" my-2">
+        <span className="font-bold text-xl">Audio del Ganador: </span>
+        <div className="flex justify-around">
+          {audios.map((option) => (
+            <div key={option.value}>
+              <RadioButton
+                inputId={option.value}
+                name="radioButton"
+                value={option.value}
+                onChange={(e) => {
+                  setAudio(e.value);
+                  playAudio(e.value);
+                }}
+                checked={audio === option.value}
+              />
+              <label htmlFor={option.value}>{option.label}</label>
+            </div>
+          ))}
+        </div>
+      </div>
       <div className="my-2">
         <Link
           className="font-bold text-2xl"
@@ -69,6 +93,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
               id,
               estilo,
               duracion,
+              audio,
               sorteo_id: datosSorteo.id,
             })
           )}`}

@@ -1,5 +1,5 @@
 .ganador {
-  animation: ganadorAnimation 3s linear;
+  animation: ganadorAnimation 5s linear;
 }
 
 @keyframes ganadorAnimation {

@@ -9,11 +9,10 @@ import "swiper/css";
 import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useRouter } from "next/navigation";
-import { Virtual } from "swiper";
 import Link from "next/link";
 import SwiperData from "./swiperData";
 
-const SorteoCarga = ({ data, estilo, duracion }) => {
+const SorteoCarga = ({ data, estilo, duracion, audio }) => {
   const [usuarios, setUsuarios] = useState([]);
   const [swiper, SetSwiper] = useState(null);
   const [ganador, setGanador] = useState(null);
@@ -153,7 +152,7 @@ const SorteoCarga = ({ data, estilo, duracion }) => {
   }
 
   const start = () => {
-    const roulette = document.getElementById("roulette");
+    const rouletteAudio = new Audio(audio);
     setPlaying(true);
     stopConfetti();
     setGanador(null);
@@ -167,18 +166,9 @@ const SorteoCarga = ({ data, estilo, duracion }) => {
     }, duracion * 1000);
 
     setTimeout(() => {
-      roulette.play();
-      let currentSlide = swiper.slides[swiper.realIndex];
-      if (currentSlide) {
-        console.log(currentSlide);
-        const childElement = currentSlide.querySelector(".flex");
-        if (childElement) {
-          childElement.classList.add("ganador");
-          console.log(childElement);
-        }
-      }
       initializeConfetti();
       setPlaying(false);
+      rouletteAudio.play();
     }, (duracion + 1) * 1000);
   };
 
@@ -211,7 +201,7 @@ const SorteoCarga = ({ data, estilo, duracion }) => {
     <>
       <ConfirmDialog />
 
-      <div>
+      <div className="z-1">
         <Swiper
           direction={estilo}
           loop
@@ -219,9 +209,8 @@ const SorteoCarga = ({ data, estilo, duracion }) => {
           onSwiper={SetSwiper}
           autoplay={false}
           allowTouchMove={false}
-          modules={[Autoplay, Virtual]}
-          virtual
-          className={`absolute mySwiper w-1/6 h-5/6 inset-x-1/4 top-32`}
+          modules={[Autoplay]}
+          className={`absolute mySwiper w-full h-full overflow-y-hidden`}
         >
           {usuarios.map((data, index) => {
             return (
@@ -232,7 +221,7 @@ const SorteoCarga = ({ data, estilo, duracion }) => {
           })}
         </Swiper>
         {!playing && (
-          <div className="absolute">
+          <div className="absolute z-2">
             <Button
               className="p-button p-button-primary mb-2 p-button-rounded w-full"
               label={ganador ? "Reiniciar" : "Iniciar Sorteo"}
@@ -254,9 +243,7 @@ const SorteoCarga = ({ data, estilo, duracion }) => {
           </div>
         )}
       </div>
-
       <canvas id="canvas" ref={canvaRef}></canvas>
-      <audio id="roulette" src="/mixkit-coin-win-notification-1992.mp3" />
     </>
   );
 };

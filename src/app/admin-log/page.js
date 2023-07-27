@@ -1,5 +1,4 @@
 "use client";
-import "../globals.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AdminForm from "../components/admin-log/adminform";

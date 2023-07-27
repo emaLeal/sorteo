@@ -58,8 +58,8 @@ export default async function SorteoPage({ params }) {
         data={data}
         estilo={parametros.estilo}
         duracion={parametros.duracion}
+        audio={parametros.audio}
       />
-      ;
     </>
   );
 }
