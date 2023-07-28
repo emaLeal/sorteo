@@ -35,7 +35,7 @@ const MenuSorteo = ({ id }) => {
             <label>Premio del Sorteo: {sorteo.premio}</label>
             <div className="flex justify-center my-2">
               <Image
-                src={sorteo.premio_foto}
+                src={`/api/foto${sorteo.premio_foto}`}
                 alt={sorteo.nombre}
                 width={150}
                 height={150}
@@ -63,7 +63,7 @@ const MenuSorteo = ({ id }) => {
             <label>Premio del Sorteo: {sorteo.premio}</label>
             <div className="flex justify-center my-2">
               <Image
-                src={sorteo.premio_foto}
+                src={`/api/foto${sorteo.premio_foto}`}
                 alt={sorteo.nombre}
                 width={150}
                 height={150}

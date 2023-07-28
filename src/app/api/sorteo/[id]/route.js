@@ -4,8 +4,6 @@ import base64Img from "base64-img";
 import { unlink } from "fs";
 import formatString from "@/app/lib/formatString";
 
-
-
 export async function DELETE(req, params) {
   const { id } = params.params;
   try {
@@ -49,7 +47,7 @@ export async function GET(req, params) {
     const re = await Promise.all(sort);
 
     return NextResponse.json(
-      { data: data[0], participantes: re },
+      { data: result[0], participantes: re },
       { status: 200 }
     );
   } catch (error) {

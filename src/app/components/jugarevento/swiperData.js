@@ -5,7 +5,7 @@ const SwiperData = ({ data }) => {
   return (
     <div className="flex justify-center flex-column items-center">
       <Image
-        src={data.foto}
+        src={data.foto === '/user.png' ? data.foto : `/api/foto${data.foto}`}
         className="rounded-full"
         height={200}
         width={250}

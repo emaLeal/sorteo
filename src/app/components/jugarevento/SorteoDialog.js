@@ -44,7 +44,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
       </div>
       <div className="flex justify-center my-4">
         <Image
-          src={datosSorteo.premio_foto}
+          src={`/api/foto${datosSorteo.premio_foto}`}
           alt={datosSorteo.nombre}
           width={200}
           height={200}

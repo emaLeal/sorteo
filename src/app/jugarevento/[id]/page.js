@@ -20,14 +20,14 @@ export default async function JugarSorteoPage({ params }) {
         Bienvenido al Evento{" "}
         <span className="font-bold">{data.data.nombre_evento}</span>
         <Image
-          src={data.data.foto_evento}
+          src={`/api/foto${data.data.foto_evento}`}
           alt={data.data.nombre_evento}
           width={250}
           height={200}
         />
         De la Empresa <span className="font-bold">{data.data.empresa}</span>
         <Image
-          src={data.data.foto_empresa}
+          src={`/api/foto${data.data.foto_empresa}`}
           alt={data.data.empresa}
           width={150}
           height={150}
