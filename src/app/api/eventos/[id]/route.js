@@ -96,7 +96,7 @@ export async function DELETE(req, params) {
     });
 
     sorteos.forEach((sorteo) => {
-      unlink("public" + sorteo.premio_foto, (err) => {
+      unlink("img" + sorteo.premio_foto, (err) => {
         if (err) throw err;
       });
     });
@@ -109,7 +109,7 @@ export async function DELETE(req, params) {
 
     participantes.forEach((participante) => {
       if (participante.foto !== "/user.png") {
-        unlink("public" + participante.foto);
+        unlink("img" + participante.foto);
       }
     });
 
