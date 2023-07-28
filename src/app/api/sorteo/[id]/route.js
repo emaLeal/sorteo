@@ -7,6 +7,13 @@ import formatString from "@/app/lib/formatString";
 export async function DELETE(req, params) {
   const { id } = params.params;
   try {
+    const sorteo = await executeQuery({
+      query: "SELECT * FROM sorteos WHERE id=?",
+      values: [id],
+    });
+    unlink("img" + sorteo[0].premio_foto, (err) => {
+      console.log(err);
+    });
     const result = await executeQuery({
       query: "DELETE FROM sorteos WHERE id=?",
       values: [id],
