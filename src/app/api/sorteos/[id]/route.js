@@ -1,7 +1,5 @@
 import executeQuery from "@/app/lib/db";
-import { base64Sync } from "base64-img";
-
-const { NextResponse } = require("next/server");
+import { NextResponse } from "next/server";
 
 export async function GET(req, params) {
   const { id } = params.params;
@@ -16,7 +14,6 @@ export async function GET(req, params) {
         query: "select * from participantes where id=?",
         values: [sort.ganador_id],
       });
-      sort.premio_foto = base64Sync("public" + sort.premio_foto);
       if (gan.length === 1) {
         return {
           ...sort,

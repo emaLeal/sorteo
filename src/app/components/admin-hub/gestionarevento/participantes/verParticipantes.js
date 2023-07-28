@@ -31,7 +31,7 @@ const VerParticipantes = ({ evento }) => {
   const options = [
     { label: "Habilitado", value: "1" },
     { label: "No habilitado", value: "0" },
-    { label: "Cancelar Filtro", value: null }
+    { label: "Cancelar Filtro", value: null },
   ];
 
   useEffect(() => {
@@ -98,7 +98,16 @@ const VerParticipantes = ({ evento }) => {
 
   const imgBody = (rowData) => {
     return (
-      <Image src={rowData.foto} alt={rowData.nombre} width={75} height={75} />
+      <Image
+        src={
+          rowData.foto === "/user.png"
+            ? rowData.foto
+            : `/api/foto${rowData.foto}`
+        }
+        alt={rowData.nombre}
+        width={75}
+        height={75}
+      />
     );
   };
 

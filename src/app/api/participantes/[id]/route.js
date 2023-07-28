@@ -1,19 +1,15 @@
 import executeQuery from "@/app/lib/db";
-import { base64Sync } from "base64-img";
 import { NextResponse } from "next/server";
 
 export async function GET(req, params) {
   const { id } = params.params;
 
   try {
-    const result = await executeQuery({
+    const data = await executeQuery({
       query: "SELECT * FROM participantes WHERE cedula=?",
       values: [id],
     });
-    const data = result.filter((participante) => {
-      participante.foto = base64Sync("public" + participante.foto);
-      return participante;
-    });
+
     if (result.length === 0) {
       return NextResponse.json({ message: "no se encontro" }, { status: 404 });
     }

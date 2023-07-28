@@ -2,12 +2,9 @@ import executeQuery from "@/app/lib/db";
 import { NextResponse } from "next/server";
 import base64Img from "base64-img";
 import { unlink } from "fs";
+import formatString from "@/app/lib/formatString";
 
-const formatString = (string) => {
-  const m = string.replaceAll("\\", "/");
-  const formatedString = m.replace("public", "");
-  return formatedString;
-};
+
 
 export async function DELETE(req, params) {
   const { id } = params.params;
@@ -45,14 +42,8 @@ export async function GET(req, params) {
         values: [part.id],
       });
       if (ganador.length === 0) {
-        part.foto = base64Img.base64Sync("public" + part.foto);
         return part;
       }
-    });
-
-    const data = result.filter((ev) => {
-      ev.premio_foto = base64Img.base64Sync("public" + ev.premio_foto);
-      return ev;
     });
 
     const re = await Promise.all(sort);
@@ -81,14 +72,14 @@ export async function PUT(req, params) {
     if (result[0].premio_foto !== body.premio_foto) {
       const imgPremioSorteo = base64Img.imgSync(
         body.premio_foto,
-        "public/fotos_sorteos",
+        "img/fotos_sorteos",
         body.nombre
       );
 
       imgUrlPremio = formatString(imgPremioSorteo);
       const premio_foto = result[0].premio_foto;
       if (imgUrlPremio !== premio_foto) {
-        unlink(`public${premio_foto}`, (err) => {
+        unlink(`img${premio_foto}`, (err) => {
           if (err) throw err;
         });
       }

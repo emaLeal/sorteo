@@ -1,19 +1,14 @@
 import executeQuery from "@/app/lib/db";
+import formatString from "@/app/lib/formatString";
 import base64Img from "base64-img";
 import { NextResponse } from "next/server";
-
-const formatString = (string) => {
-  const m = string.replaceAll("\\", "/");
-  const formatedString = m.replace("public", "");
-  return formatedString;
-};
 
 export async function POST(req) {
   const body = await req.json();
   try {
     let imgPremio = base64Img.imgSync(
       body.premio_foto,
-      `public/fotos_sorteos`,
+      `img/fotos_sorteos`,
       body.nombre
     );
     const imgUrlPremio = formatString(imgPremio);

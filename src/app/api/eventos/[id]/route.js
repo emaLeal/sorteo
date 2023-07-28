@@ -7,17 +7,11 @@ import formatString from "@/app/lib/formatString";
 export async function GET(req, params) {
   const { id } = params.params;
   try {
-    const result = await executeQuery({
+    const data = await executeQuery({
       query: "SELECT * FROM evento WHERE id=?",
       values: [id],
     });
-    const data = result.filter((evento) => {
-      evento.foto_evento = base64Img.base64Sync("public" + evento.foto_evento);
-      evento.foto_empresa = base64Img.base64Sync(
-        "public" + evento.foto_empresa
-      );
-      return evento;
-    });
+  
     return NextResponse.json({ data: data[0] }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
@@ -37,12 +31,12 @@ export async function PUT(req, params) {
     let imgEvento = body.foto_evento;
 
     if (select[0].foto_evento !== body.foto_evento) {
-      unlink("public" + select[0].foto_evento, (err) => {
+      unlink("img" + select[0].foto_evento, (err) => {
         if (err) throw err;
       });
       const img = base64Img.imgSync(
         body.foto_evento,
-        `public/fotos_eventos`,
+        `img/fotos_eventos`,
         body.nombre_evento + Date.now()
       );
 
@@ -50,12 +44,12 @@ export async function PUT(req, params) {
     }
 
     if (select[0].foto_empresa !== body.foto_empresa) {
-      unlink("public" + select[0].foto_empresa, (err) => {
+      unlink("img" + select[0].foto_empresa, (err) => {
         if (err) throw err;
       });
       const img = base64Img.imgSync(
         body.foto_empresa,
-        `public/fotos_empresas`,
+        `img/fotos_empresas`,
         body.empresa
       );
 
@@ -87,8 +81,8 @@ export async function DELETE(req, params) {
 
     let imgEvento = event[0].foto_evento;
     let imgEmpresa = event[0].foto_empresa;
-    imgEvento = "public" + imgEvento;
-    imgEmpresa = "public" + imgEmpresa;
+    imgEvento = "img" + imgEvento;
+    imgEmpresa = "img" + imgEmpresa;
     unlink(imgEmpresa, (err) => {
       if (err) throw err;
     });

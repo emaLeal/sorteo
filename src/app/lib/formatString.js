@@ -1,6 +1,6 @@
 const formatString = (string) => {
   const m = string.replaceAll("\\", "/");
-  const formatedString = m.replace("public", "");
+  const formatedString = m.replace("img", "");
   return formatedString;
 };
 

@@ -133,7 +133,7 @@ const ListaEventos = () => {
     return (
       <Image
         alt={`${rowData.nombre}`}
-        src={rowData.foto_evento}
+        src={`/api/foto${rowData.foto_evento}`}
         width={100}
         height={50}
       />

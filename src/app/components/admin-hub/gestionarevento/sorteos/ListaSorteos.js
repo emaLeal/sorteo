@@ -130,7 +130,7 @@ const ListaSorteos = ({ evento }) => {
         width={100}
         height={100}
         alt={rowData.premio}
-        src={rowData.premio_foto}
+        src={`/api/foto${rowData.premio_foto}`}
       />
     );
   };
