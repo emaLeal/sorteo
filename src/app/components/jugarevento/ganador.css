@@ -1,14 +1,19 @@
 .ganador {
-  animation: ganadorAnimation 5s linear;
+  animation: ganadorAnimation 1s linear !important;
 }
 
 @keyframes ganadorAnimation {
-  0% {
-    background-color: aqua;
-    padding: 2%;
+  25% {
+    transform: rotate(90deg) scale(.25);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.5);
   }
 
+  75% {
+    transform: rotate(270deg) scale(.75);
+  }
   100% {
-    padding: 10%;
+    transform: rotate(360deg) scale(1);
   }
 }

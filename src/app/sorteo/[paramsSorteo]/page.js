@@ -48,10 +48,11 @@ export default async function SorteoPage({ params }) {
       >
         <h1 className="mx-4">{evento.data.nombre_evento}</h1>
         <Image
+          style={{ width: "auto", height: "auto" }}
           src={logo}
           width={50}
           height={50}
-          alt={data.data.nombre_evento}
+          alt="logo de empresa"
         />
       </div>
       <SorteoCarga

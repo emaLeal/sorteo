@@ -127,7 +127,6 @@ export async function DELETE(req, params) {
       query: "DELETE FROM evento where id=?",
       values: [id],
     });
-    console.log(result);
 
     return NextResponse.json({ message: "Evento Eliminado" }, { status: 200 });
   } catch (error) {
