@@ -28,7 +28,7 @@ const DetalleSorteoDialog = ({ visible, onHide, rowData }) => {
   }, [rowData]);
 
   const footer = () => {
-    
+      
   }
 
   return (
