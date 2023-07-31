@@ -19,9 +19,15 @@ export async function GET(req, params) {
           ...sort,
           nombre_ganador: gan[0].nombre,
           correo_ganador: gan[0].correo,
+          imagen_ganador: gan[0].foto,
         };
       } else {
-        return { ...sort, nombre_ganador: null, correo_ganador: null };
+        return {
+          ...sort,
+          nombre_ganador: null,
+          correo_ganador: null,
+          imagen_ganador: null,
+        };
       }
     });
     const ev = await executeQuery({

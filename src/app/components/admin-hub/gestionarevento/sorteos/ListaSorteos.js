@@ -11,19 +11,18 @@ import Image from "next/image";
 import useSWR from "swr";
 import { fetcher } from "@/app/lib/fetcher";
 import { MoonLoader } from "react-spinners";
+import DetalleSorteoDialog from "./DetalleSorteoDialog";
 
 const ListaSorteos = ({ evento }) => {
   const [visible, setVisible] = useState(false);
-  const [visibleS, setVisibleS] = useState(false);
+  const [visibleDetalle, setVisibleDetalle] = useState(false);
   const [prevData, setPrevData] = useState(null);
+  const [sorteoData, setSorteoData] = useState(null);
   const { data, error, mutate, isLoading } = useSWR(
     `/api/sorteos/${evento}`,
     fetcher
   );
   const toast = useRef(null);
-  const onHideS = () => {
-    setVisibleS(!visibleS);
-  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -51,6 +50,7 @@ const ListaSorteos = ({ evento }) => {
           icon="pi pi-plus"
           className="p-button p-button-success p-button-text"
           tooltip="Crear Sorteo"
+          tooltipOptions={{ position: "bottom" }}
           onClick={() => {
             setPrevData();
             setVisible(!visible);
@@ -60,7 +60,15 @@ const ListaSorteos = ({ evento }) => {
     );
   };
 
-  const detallesSorteo = (d) => console.log(d);
+  const onHideDetalle = () => {
+    setVisibleDetalle(!visibleDetalle);
+  };
+
+  const showDetalle = (data) => {
+    setVisibleDetalle(!visibleDetalle);
+    setSorteoData(data);
+    console.log(data);
+  };
 
   const Acciones = (rowData) => {
     return (
@@ -68,20 +76,23 @@ const ListaSorteos = ({ evento }) => {
         <Button
           icon="pi pi-pencil"
           tooltip="Editar Sorteo"
+          tooltipOptions={{ position: "bottom" }}
           className="p-button mr-2 p-button-warning p-button-rounded"
           onClick={() => edit(rowData)}
         />
         <Button
           icon="pi pi-trash"
           tooltip="Eliminar Sorteo"
+          tooltipOptions={{ position: "bottom" }}
           className="p-button mr-2 p-button-danger p-button-rounded"
           onClick={() => del(rowData.id)}
         />
         <Button
           className="p-button p-button-secondary p-button-rounded"
-          icon="pi  pi-eye"
+          icon="pi pi-eye"
+          tooltipOptions={{ position: "bottom" }}
           tooltip={"Ver Datos Sorteo"}
-          onClick={() => detallesSorteo(rowData)}
+          onClick={() => showDetalle(rowData)}
         />
       </div>
     );
@@ -139,13 +150,18 @@ const ListaSorteos = ({ evento }) => {
     <>
       <ConfirmDialog />
       <Toast ref={toast} />
+      <DetalleSorteoDialog
+        visible={visibleDetalle}
+        onHide={onHideDetalle}
+        rowData={sorteoData}
+      />
       <CrearSorteoDialog
         evento={evento}
         visible={visible}
         onHide={onHide}
         data={prevData}
       />
-      <div className="mx-28 my-12">
+      <div className="mt-6 sm:mx-28 sm:my-12">
         <DataTable
           value={data === undefined ? [] : data.data}
           header={header}
@@ -155,8 +171,17 @@ const ListaSorteos = ({ evento }) => {
           emptyMessage="No se encontraron sorteos"
         >
           <Column field="nombre" header="Nombre Evento" />
-          <Column field="jugado" header="Sorteo Jugado" body={sorteoJugado} />
-          <Column field="premio" header="Premio del Sorteo" />
+          <Column
+            field="jugado"
+            header="Sorteo Jugado"
+            body={sorteoJugado}
+            className="max-sm:hidden"
+          />
+          <Column
+            field="premio"
+            header="Premio del Sorteo"
+            className="max-sm:hidden"
+          />
           <Column header="Imagen del Premio" body={imgPremio} />
           <Column body={Acciones} header="Acciones" />
         </DataTable>
