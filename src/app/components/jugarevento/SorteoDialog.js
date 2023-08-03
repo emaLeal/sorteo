@@ -6,6 +6,7 @@ import { Dropdown } from "primereact/dropdown";
 import { Slider } from "primereact/slider";
 import { RadioButton } from "primereact/radiobutton";
 import { useState } from "react";
+import { Checkbox } from "primereact/checkbox";
 
 const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
   const estilos = [
@@ -20,6 +21,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
   ];
   const [estilo, setEstilo] = useState(null);
   const [duracion, setDuracion] = useState(18);
+  const [noImagen, setNoImagen] = useState(false)
   const [audio, setAudio] = useState("/audio-1.mp3");
 
   const playAudio = (value) => {
@@ -86,6 +88,10 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
         </div>
       </div>
       <div className="my-2">
+          <span className="font-bold text-xl">Sorteo sin Imagenes: </span>
+          <Checkbox value={noImagen} onChange={() => setNoImagen(!noImagen)} checked={noImagen} />
+      </div>
+      <div className="my-2">
         <Link
           className="font-bold text-2xl"
           href={`/sorteo/${encodeURIComponent(
@@ -94,6 +100,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
               estilo,
               duracion,
               audio,
+              noImagen,
               sorteo_id: datosSorteo.id,
             })
           )}`}

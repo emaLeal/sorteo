@@ -1,5 +1,7 @@
 import MenuSorteo from "@/app/components/jugarevento/menusorteo";
 import Link from "next/link";
+import logo from "/public/logo.png";
+import Image from "next/image";
 
 export async function getData(id) {
   const res = await fetch(`${process.env.COMPLETE_HOST}/api/eventos/${id}`, {
@@ -21,7 +23,10 @@ export default async function EventoLayout({ params, children }) {
           className="w-full h-screen sm:w-3"
           style={{ background: "#071426" }}
         >
-          <div className="mb-4 border-b-2">
+          <div className="flex justify-between mb-4 border-b-2 ">
+            <Link href={"/admin-hub"}>
+              <Image src={logo} width={50} height={50} alt="logo" />
+            </Link>
             <span className="font-bold text-2xl ml-2">Lista de Sorteos</span>
           </div>
           <MenuSorteo id={id} />

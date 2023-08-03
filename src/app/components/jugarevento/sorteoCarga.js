@@ -13,15 +13,17 @@ import Link from "next/link";
 import SwiperData from "./swiperData";
 import shuffle from "@/app/lib/shuffle";
 import ConfettiParticle from "@/app/lib/ConfettiParticle";
+import useFullScreen from "@/app/hooks/useFullScreen";
 
-const SorteoCarga = ({ data, estilo, duracion, audio }) => {
+const SorteoCarga = ({ data, estilo, duracion, audio, noImagen }) => {
   const [usuarios, setUsuarios] = useState([]);
   const [swiper, SetSwiper] = useState(null);
   const [ganador, setGanador] = useState(null);
   const [animationFrame, setAnimationFrame] = useState(null);
   const [playing, setPlaying] = useState(false);
   const canvaRef = useRef(null);
-  const [slideWinner, setSlideWinner] = useState(null)
+  const { isFullscreen, toggleFullscreen } = useFullScreen();
+  const [slideWinner, setSlideWinner] = useState(null);
   const router = useRouter();
   const maxConfettis = 150;
 
@@ -33,23 +35,21 @@ const SorteoCarga = ({ data, estilo, duracion, audio }) => {
     if (ganador !== null) {
       console.log(ganador);
       const slideGanador = swiper.slides[swiper.activeIndex];
-      setSlideWinner(slideGanador.firstChild.firstChild)
-    } 
+      setSlideWinner(slideGanador.firstChild.firstChild);
+    }
     if (ganador === null) {
       if (slideWinner !== null) {
-        slideWinner.classList.remove('ganador')
-        setSlideWinner(null)
+        slideWinner.classList.remove("ganador");
+        setSlideWinner(null);
       }
     }
-    
   }, [ganador]);
 
   useEffect(() => {
     if (slideWinner !== null) {
-      slideWinner.classList.add('ganador')
+      slideWinner.classList.add("ganador");
     }
-
-  }, [slideWinner])
+  }, [slideWinner]);
 
   useEffect(() => {
     const part = shuffle(data.participantes);
@@ -185,34 +185,51 @@ const SorteoCarga = ({ data, estilo, duracion, audio }) => {
           autoplay={false}
           allowTouchMove={false}
           modules={[Autoplay]}
-          className={`absolute mySwiper w-full h-5/6 overflow-y-hidden`}
+          className={`absolute mySwiper w-screen h-5/6 overflow-y-hidden`}
         >
           {usuarios.map((data, index) => {
             return (
               <SwiperSlide key={index}>
-                <SwiperData data={data} />
+                <SwiperData data={data} noImagen={noImagen} />
               </SwiperSlide>
             );
           })}
         </Swiper>
         {!playing && (
-          <div className="absolute z-2">
+          <div className="absolute z-2 bottom-0 right-0">
             <Button
-              className="p-button p-button-primary mb-2 p-button-rounded w-full"
-              label={ganador ? "Reiniciar" : "Iniciar Sorteo"}
+              className="p-button p-button-primary mb-2 p-button-rounded mr-2"
+              icon={`pi ${
+                isFullscreen ? "pi-window-minimize" : "pi-window-maximize"
+              }`}
+              onClick={toggleFullscreen}
+              tooltip={
+                isFullscreen ? "Quitar Pantalla Completa" : "Pantalla Completa"
+              }
+              tooltipOptions={{ position: "left" }}
+            />
+            <Button
+              className="p-button p-button-primary mb-2 p-button-rounded mr-2"
+              icon={ganador ? "pi pi-replay" : "pi pi-play"}
               onClick={start}
+              tooltip={ganador ? "Repetir Sorteo" : "Iniciar Sorteo"}
+              tooltipOptions={{ position: "left" }}
             />
             {ganador && (
               <Button
-                className="p-button p-button-primary mb-2 p-button-rounded w-full"
-                label="Declarar Ganador"
+                className="p-button p-button-primary mb-2 p-button-rounded mr-2"
+                icon="pi pi-user-plus"
                 onClick={declararGanador}
+                tooltip="Declarar Ganador"
+                tooltipOptions={{ position: "left" }}
               />
             )}
             <Link href={`/jugarevento/${data.data.evento_id}`}>
               <Button
-                className="p-button p-button-primary p-button-rounded w-full"
-                label="Volver"
+                className="p-button p-button-primary p-button-rounded mb-2 mr-2"
+                icon="pi pi-step-backward"
+                tooltip="Regresar"
+                tooltipOptions={{ position: "left" }}
               />
             </Link>
           </div>
