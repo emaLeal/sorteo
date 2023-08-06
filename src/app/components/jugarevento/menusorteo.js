@@ -8,6 +8,7 @@ import { Button } from "primereact/button";
 import Image from "next/image";
 import SorteoDialog from "./SorteoDialog";
 import { fetcher } from "@/app/lib/fetcher";
+import Link from "next/link";
 
 const MenuSorteo = ({ id }) => {
   const { data, error, mutate, isLoading } = useSWR(
@@ -49,8 +50,16 @@ const MenuSorteo = ({ id }) => {
                 setDatosSorteo(sorteo);
               }}
               label="Jugar Sorteo"
-              className="p-button p-button-primary p-button-rounded"
+              className="p-button p-button-primary p-button-rounded w-full mb-2"
             />
+            {sorteo.pregunta && (
+              <Link href={`/sorteopregunta/${sorteo.id}`}>
+                <Button
+                  label="Jugar con Pregunta"
+                  className="p-button p-button-primary p-button-rounded w-full"
+                />
+              </Link>
+            )}
           </div>
         </>
       );

@@ -14,9 +14,31 @@ export async function POST(req) {
     const imgUrlPremio = formatString(imgPremio);
     const result = await executeQuery({
       query:
-        "INSERT INTO sorteos (nombre, evento_id, jugado, premio, premio_foto) values (?, ?, ?, ?, ?)",
-      values: [body.nombre, body.evento_id, false, body.premio, imgUrlPremio],
+        "INSERT INTO sorteos (nombre, evento_id, jugado, premio, premio_foto, pregunta) values (?, ?, ?, ?, ?, ?)",
+      values: [
+        body.nombre,
+        body.evento_id,
+        false,
+        body.premio,
+        imgUrlPremio,
+        body.pregunta,
+      ],
     });
+    if (body.pregunta === true) {
+      const pregunta = await executeQuery({
+        query:
+          "INSERT into preguntas (sorteo_id, pregunta, opcion1, opcion2, opcion3, opcion4, opcion_verdadera) values (?,?,?,?,?,?,?)",
+        values: [
+          result.insertId,
+          body.preguntalabel,
+          body.opcion1,
+          body.opcion2,
+          body.opcion3,
+          body.opcion4,
+          body.opcionCorrecta,
+        ],
+      });
+    }
     console.log(result);
     return NextResponse.json({ message: "sorteo creado" }, { status: 201 });
   } catch (error) {
