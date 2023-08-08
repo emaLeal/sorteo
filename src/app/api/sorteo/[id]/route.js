@@ -53,6 +53,18 @@ export async function GET(req, params) {
 
     const re = await Promise.all(sort);
 
+    if (result[0].pregunta === 1) {
+      const pregunta = await executeQuery({
+        query: "SELECT * FROM preguntas where sorteo_id=?",
+        values: [id],
+      });
+
+      return NextResponse.json(
+        { data: result[0], participantes: re, pregunta: pregunta[0] },
+        { status: 200 }
+      );
+    }
+
     return NextResponse.json(
       { data: result[0], participantes: re },
       { status: 200 }

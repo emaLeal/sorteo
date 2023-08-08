@@ -14,6 +14,6 @@ export default async function SocketPage({ params }) {
   const { id } = params;
 
   const data = await getData(id);
-  
-  return <SocketComponent />;
+
+  return <SocketComponent data={data} />;
 }
