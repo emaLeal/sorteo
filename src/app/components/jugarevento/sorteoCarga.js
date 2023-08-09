@@ -15,7 +15,7 @@ import shuffle from "@/app/lib/shuffle";
 import ConfettiParticle from "@/app/lib/ConfettiParticle";
 import useFullScreen from "@/app/hooks/useFullScreen";
 
-const SorteoCarga = ({ data, estilo, duracion, audio, noImagen }) => {
+const SorteoCarga = ({ data, estilo, duracion, audio, noImagen, participantes }) => {
   const [usuarios, setUsuarios] = useState([]);
   const [swiper, SetSwiper] = useState(null);
   const [ganador, setGanador] = useState(null);
@@ -52,7 +52,7 @@ const SorteoCarga = ({ data, estilo, duracion, audio, noImagen }) => {
   }, [slideWinner]);
 
   useEffect(() => {
-    const part = shuffle(data.participantes);
+    const part = shuffle(participantes);
     const sort = part.filter((par) => {
       if (par !== null) return par;
     });

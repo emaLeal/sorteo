@@ -60,6 +60,7 @@ export default async function SorteoPage({ params }) {
         duracion={parametros.duracion}
         audio={parametros.audio}
         noImagen={parametros.noImagen}
+        participantes={data.participantes}
       />
     </>
   );
