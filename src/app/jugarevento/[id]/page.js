@@ -16,7 +16,7 @@ export default async function JugarSorteoPage({ params }) {
 
   return (
     <>
-      <div className="hidden sm:block w-full">
+      <div className="hidden sm:block w-full sm:overflow-y-hidden">
         <div className="flex justify-center my-2">
           <span className="font-bold sm:text-4xl">
             {data.data.nombre_evento}

@@ -1,40 +1,40 @@
-"use client";
-import { PanelMenu } from "primereact/panelmenu";
-import useSWR from "swr";
-import { useEffect, useState } from "react";
-import { ClipLoader } from "react-spinners";
-import { Checkbox } from "primereact/checkbox";
-import { Button } from "primereact/button";
-import Image from "next/image";
-import SorteoDialog from "./SorteoDialog";
-import { fetcher } from "@/app/lib/fetcher";
-import Link from "next/link";
+'use client'
+import { PanelMenu } from 'primereact/panelmenu'
+import useSWR from 'swr'
+import { useEffect, useState } from 'react'
+import { ClipLoader } from 'react-spinners'
+import { Checkbox } from 'primereact/checkbox'
+import { Button } from 'primereact/button'
+import Image from 'next/image'
+import SorteoDialog from './SorteoDialog'
+import { fetcher } from '@/app/lib/fetcher'
+import Link from 'next/link'
 
 const MenuSorteo = ({ id }) => {
   const { data, error, mutate, isLoading } = useSWR(
     `/api/sorteos/${id}`,
     fetcher
-  );
-  const [visible, setVisible] = useState(false);
-  const [items, setItems] = useState([]);
-  const [datosSorteo, setDatosSorteo] = useState({});
+  )
+  const [visible, setVisible] = useState(false)
+  const [items, setItems] = useState([])
+  const [datosSorteo, setDatosSorteo] = useState({})
   useEffect(() => {
     const interval = setInterval(() => {
-      mutate();
-    }, 1000);
+      mutate()
+    }, 1000)
 
-    return () => clearInterval(interval);
-  }, [mutate]);
+    return () => clearInterval(interval)
+  }, [mutate])
 
-  const onHide = () => setVisible(!visible);
+  const onHide = () => setVisible(!visible)
 
   useEffect(() => {
-    const templateNoJugado = (sorteo) => {
+    const templateNoJugado = sorteo => {
       return (
         <>
-          <div className="my-2">
+          <div className='my-2 h-52 overflow-y-auto'>
             <label>Premio del Sorteo: {sorteo.premio}</label>
-            <div className="flex justify-center my-2">
+            <div className='flex justify-center my-2'>
               <Image
                 src={`/api/foto${sorteo.premio_foto}`}
                 alt={sorteo.nombre}
@@ -42,35 +42,35 @@ const MenuSorteo = ({ id }) => {
                 height={150}
               />
             </div>
-          </div>
-          <div>
-            <Button
-              onClick={() => {
-                setVisible(true);
-                setDatosSorteo(sorteo);
-              }}
-              label="Jugar Sorteo"
-              className="p-button p-button-primary p-button-rounded w-full mb-2"
-            />
-            {sorteo.pregunta && (
-              <Link href={`/sorteopregunta/${sorteo.id}`}>
-                <Button
-                  label="Jugar con Pregunta"
-                  className="p-button p-button-primary p-button-rounded w-full"
-                />
-              </Link>
-            )}
+            <div>
+              <Button
+                onClick={() => {
+                  setVisible(true)
+                  setDatosSorteo(sorteo)
+                }}
+                label='Jugar Sorteo'
+                className='p-button p-button-primary p-button-rounded w-full mb-2'
+              />
+              {sorteo.pregunta && (
+                <Link href={`/sorteopregunta/${sorteo.id}`}>
+                  <Button
+                    label='Jugar con Pregunta'
+                    className='p-button p-button-primary p-button-rounded w-full'
+                  />
+                </Link>
+              )}
+            </div>
           </div>
         </>
-      );
-    };
+      )
+    }
 
-    const templateJugado = (sorteo) => {
+    const templateJugado = sorteo => {
       return (
         <>
-          <div className="my-2">
+          <div className='my-2'>
             <label>Premio del Sorteo: {sorteo.premio}</label>
-            <div className="flex justify-center my-2">
+            <div className='flex justify-center my-2'>
               <Image
                 src={`/api/foto${sorteo.premio_foto}`}
                 alt={sorteo.nombre}
@@ -80,43 +80,43 @@ const MenuSorteo = ({ id }) => {
             </div>
           </div>
           <div>
-            <label className="font-bold">
+            <label className='font-bold'>
               Ganador del Sorteo: {sorteo.nombre_ganador}
             </label>
           </div>
         </>
-      );
-    };
+      )
+    }
 
     if (data !== undefined) {
-      const sortItems = [];
+      const sortItems = []
 
-      data.data.map((sorteo) => {
+      data.data.map(sorteo => {
         const sorteoItem = {
           label: (
-            <div className="flex justify-between">
+            <div className='flex justify-between '>
               <Checkbox checked={sorteo.jugado === 1} disabled />
-              <span className="ml-4">{sorteo.nombre}</span>
+              <span className='ml-4'>{sorteo.nombre}</span>
             </div>
           ),
           items: [
             {
-              label: "Opciones",
+              label: 'Opciones',
               template: () =>
                 sorteo.jugado === 0
                   ? templateNoJugado(sorteo)
-                  : templateJugado(sorteo),
-            },
-          ],
-        };
-        sortItems.push(sorteoItem);
-      });
-      setItems(sortItems);
+                  : templateJugado(sorteo)
+            }
+          ]
+        }
+        sortItems.push(sorteoItem)
+      })
+      setItems(sortItems)
     }
-  }, [data]);
+  }, [data])
 
   if (isLoading) {
-    return <ClipLoader color="#fff" loading={isLoading} size={200} />;
+    return <ClipLoader color='#fff' loading={isLoading} size={200} />
   }
 
   return (
@@ -127,11 +127,11 @@ const MenuSorteo = ({ id }) => {
         id={id}
         datosSorteo={datosSorteo}
       />
-      <div className="card flex justify-content-center my-2">
-        <PanelMenu model={items} className="w-full md:w-25rem" />
+      <div className='card flex justify-content-center my-2 overflow-y-auto'>
+        <PanelMenu model={items} className='w-full md:w-25rem' />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default MenuSorteo;
+export default MenuSorteo

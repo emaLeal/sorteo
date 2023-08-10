@@ -1,11 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import { redirect, useRouter } from 'next/navigation'
-import { Button } from 'primereact/button'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 import SorteoDialog from './SorteoDialog'
 import SorteoCarga from '../jugarevento/sorteoCarga'
+import CrearLobby from './CrearLobby'
+import LobbyCreado from './LobbyCreado'
+import EmpezarSorteo from './EmpezarSorteo'
+import SorteoTerminado from './SorteoTerminado'
 
 const socket = io('http://localhost:3060')
 
@@ -13,7 +16,7 @@ const SocketComponent = ({ data }) => {
   const [lobby, setLobby] = useState(null)
   const [users, setusers] = useState([])
   const router = useRouter()
-  const [pagina, setPagina] = useState('crear')
+  const [pagina, setPagina] = useState('creado')
   // variables de Dialogo
 
   const [estilo, setEstilo] = useState(null)
@@ -143,178 +146,37 @@ const SocketComponent = ({ data }) => {
       />
       {pagina === 'crear' && (
         <>
-          <Button label='Crear Lobby' onClick={crearLobby} />
+          <CrearLobby crearLobby={crearLobby} />
         </>
       )}
 
       {pagina === 'creado' && (
-        <>
-          <Button label='Cerrar Lobby' onClick={cerrarLobby} />
-          {lobby && <label>{lobby}</label>}
-
-          <ul>
-            {users.map((user, index) => {
-              if (user.participa === true && user.nombre !== 'admin') {
-                return <li key={index}>{user.nombre}</li>
-              }
-            })}
-          </ul>
-          <div className='absolute bottom-0 mx-2 my-2'>
-            {lobby &&
-              users.filter(
-                user => user.participa === true && user.nombre !== 'admin'
-              ).length > 0 && (
-                <Button
-                  label='Empezar'
-                  onClick={() => {
-                    socket.emit('startTournament', {
-                      ...data.pregunta,
-                      lobbyId: lobby
-                    })
-                    setPagina('empezar')
-                  }}
-                />
-              )}
-          </div>
-        </>
+        <LobbyCreado
+          cerrarLobby={cerrarLobby}
+          users={users}
+          lobby={lobby}
+          socket={socket}
+          setPagina={setPagina}
+          data={data}
+        />
       )}
 
       {pagina === 'empezar' && (
-        <>
-          <label>Pagina Empezar</label>
-          <Button label='Volver' onClick={() => setPagina('crear')} />
-          <ul>
-            {users.map((user, index) => {
-              if (user.respuesta !== null) {
-                return <li key={index}>{user.nombre} ha respondido</li>
-              }
-            })}
-            <label>
-              Usuarios Faltantes por responder:{' '}
-              {
-                users.filter(
-                  user => user.respuesta === null && user.nombre !== 'admin'
-                ).length
-              }
-            </label>
-          </ul>
-          <Button label='Finalizar Sorteo' onClick={finalizarSorteo} />
-        </>
+        <EmpezarSorteo
+          setPagina={setPagina}
+          users={users}
+          finalizarSorteo={finalizarSorteo}
+        />
       )}
 
       {pagina === 'terminar' && (
-        <>
-          <label>Torneo Finalizado</label>
-          {users.filter(
-            user => user.acertado === true && user.nombre !== 'admin'
-          ).length === 1 && (
-            <>
-              <label>
-                El ganador del Sorteo es:{' '}
-                {
-                  users.find(
-                    user => user.acertado === true && user.nombre !== 'admin'
-                  ).nombre
-                }
-              </label>
-              <Button
-                label='Declarar Ganador'
-                onClick={() =>
-                  declararGanador(
-                    users.find(
-                      user => user.acertado === true && user.nombre !== 'admin'
-                    )
-                  )
-                }
-              />
-            </>
-          )}
-          {users.filter(
-            user => user.acertado === true && user.nombre !== 'admin'
-          ).length > 1 && (
-            <>
-              <label>Los ganadores del sorteo son:</label>
-              <ul>
-                {users.map((user, index) => {
-                  if (user.acertado === true && user.nombre !== 'admin') {
-                    return <li key={index}>{user.nombre}</li>
-                  }
-                })}
-              </ul>
-            </>
-          )}
-          <label>Que Respondieron: </label>
-          <div className='flex flex-column'>
-            <div>
-              <label
-                className={`${
-                  data.pregunta.opcion_verdadera === 1 && 'text-green-500'
-                }`}
-              >
-                {data.pregunta.opcion1}
-              </label>
-              <label
-                className={`${
-                  data.pregunta.opcion_verdadera === 1 && 'text-green-500'
-                }`}
-              >
-                {users.filter(user => user.respuesta === 1).length}
-              </label>
-            </div>
-            <div>
-              <label
-                className={`${
-                  data.pregunta.opcion_verdadera === 2 && 'text-green-500'
-                }`}
-              >
-                {data.pregunta.opcion2}
-              </label>
-              <label
-                className={`${
-                  data.pregunta.opcion_verdadera === 2 && 'text-green-500'
-                }`}
-              >
-                {users.filter(user => user.respuesta === 2).length}
-              </label>
-            </div>
-            <div>
-              <label
-                className={`${
-                  data.pregunta.opcion_verdadera === 3 && 'text-green-500'
-                }`}
-              >
-                {data.pregunta.opcion3}
-              </label>
-              <label
-                className={`${
-                  data.pregunta.opcion_verdadera === 3 && 'text-green-500'
-                }`}
-              >
-                {users.filter(user => user.respuesta === 3).length}
-              </label>
-            </div>
-            <div>
-              <label
-                className={`${
-                  data.pregunta.opcion_verdadera === 4 && 'text-green-500'
-                }`}
-              >
-                {data.pregunta.opcion4}
-              </label>
-              <label
-                className={`${
-                  data.pregunta.opcion_verdadera === 4 && 'text-green-500'
-                }`}
-              >
-                {users.filter(user => user.respuesta === 4).length}
-              </label>
-            </div>
-          </div>
-          <Button
-            onClick={() => setVisible(!visible)}
-            label='Empezar Sorteo Aleatorio'
-          />
-        </>
+        <SorteoTerminado
+          users={users}
+          declararGanador={declararGanador}
+          visible={visible}
+          data={data}
+          setVisible={setVisible}
+        />
       )}
       {pagina === 'aleatorio' && (
         <SorteoCarga
