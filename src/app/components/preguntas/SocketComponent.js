@@ -9,6 +9,7 @@ import CrearLobby from './CrearLobby'
 import LobbyCreado from './LobbyCreado'
 import EmpezarSorteo from './EmpezarSorteo'
 import SorteoTerminado from './SorteoTerminado'
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 
 const socket = io('http://localhost:3060')
 
@@ -16,7 +17,7 @@ const SocketComponent = ({ data }) => {
   const [lobby, setLobby] = useState(null)
   const [users, setusers] = useState([])
   const router = useRouter()
-  const [pagina, setPagina] = useState('creado')
+  const [pagina, setPagina] = useState('crear')
   // variables de Dialogo
 
   const [estilo, setEstilo] = useState(null)
@@ -105,22 +106,30 @@ const SocketComponent = ({ data }) => {
     setPagina('crear')
   }
 
-  const declararGanador = async ganador => {
-    const body = {
-      id: data.data.id,
-      ganador: ganador.id,
-      ganador_nombre: ganador.nombre
-    }
+  const declararGanador = ganador => {
+    confirmDialog({
+      message: `Seguro que quiere declarar a ${ganador.nombre} como el Ganador del Sorteo?`,
+      header: 'Confirmacion',
+      accept: async () => {
+        const body = {
+          id: data.data.id,
+          ganador: ganador.id,
+          ganador_nombre: ganador.nombre
+        }
 
-    const res = await fetch('/api/declararganador', {
-      method: 'PUT',
-      body: JSON.stringify(body)
+        const res = await fetch('/api/declararganador', {
+          method: 'PUT',
+          body: JSON.stringify(body)
+        })
+        if (res.ok) {
+          socket.emit('deleteLobby', lobby)
+          localStorage.removeItem('socketUser')
+          router.push(`/jugarevento/${data.data.evento_id}`)
+        }
+      },
+      acceptLabel: 'Declarar Ganador',
+      rejectLabel: 'Cancelar'
     })
-    if (res.ok) {
-      socket.emit('deleteLobby', lobby)
-      localStorage.removeItem('socketUser')
-      router.push(`/jugarevento/${data.data.evento_id}`)
-    }
   }
 
   const onHide = () => {
@@ -129,6 +138,7 @@ const SocketComponent = ({ data }) => {
 
   return (
     <>
+      <ConfirmDialog />
       <SorteoDialog
         audio={audio}
         setAudio={setAudio}
