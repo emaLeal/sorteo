@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { Button } from 'primereact/button'
-import React from 'react'
+import React, { useState } from 'react'
+import QrDialog from './QrDialog'
 
 const LobbyCreado = ({
   cerrarLobby,
@@ -10,8 +11,10 @@ const LobbyCreado = ({
   setPagina,
   data
 }) => {
+  const [visible, setVisible] = useState(false)
   return (
     <>
+      <QrDialog visible={visible} onHide={() => setVisible(!visible)} />
       {lobby && (
         <>
           <div>
@@ -24,6 +27,7 @@ const LobbyCreado = ({
                 {lobby}
               </span>
             </label>
+            <Button severity='help' icon='pi pi-pencil' raised rounded tooltip='Ver QR' onClick={() => setVisible(!visible)}/>
           </div>
         </>
       )}

@@ -20,7 +20,7 @@ export default async function EventoLayout({ params, children }) {
     <>
       <div className="flex flex-row overflow-hidden">
         <div
-          className="w-full h-screen sm:w-3"
+          className="w-full h-screen sm:w-4 overflow-y-auto"
           style={{ background: "#071426" }}
         >
           <div className="flex justify-between mb-4 border-b-2 ">
