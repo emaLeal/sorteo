@@ -13,7 +13,7 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 import 'aos/dist/aos.css' // Asegúrate de importar los estilos de AOS en tus componentes
 import Aos from 'aos'
 
-const socket = io('http://localhost:3060')
+const socket = io('https://socket.smartie.com.co')
 
 const SocketComponent = ({ data }) => {
   const [lobby, setLobby] = useState(null)
