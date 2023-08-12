@@ -1,6 +1,8 @@
+import Aos from 'aos'
 import Image from 'next/image'
 import { Button } from 'primereact/button'
-import React from 'react'
+import { ProgressBar } from 'primereact/progressbar'
+import React, { useEffect } from 'react'
 
 const SorteoTerminado = ({
   users,
@@ -9,6 +11,33 @@ const SorteoTerminado = ({
   visible,
   setVisible
 }) => {
+  const getPorcentaje = opcion => {
+    if (opcion === 1) {
+      return (
+        (users.filter(user => user.respuesta === 1).length * 100) /
+        users.filter(user => user.nombre !== 'admin').length
+      )
+    }
+    if (opcion === 2) {
+      return (
+        (users.filter(user => user.respuesta === 2).length * 100) /
+        users.filter(user => user.nombre !== 'admin').length
+      )
+    }
+    if (opcion === 3) {
+      return (
+        (users.filter(user => user.respuesta === 3).length * 100) /
+        users.filter(user => user.nombre !== 'admin').length
+      )
+    }
+    if (opcion === 4) {
+      return (
+        (users.filter(user => user.respuesta === 4).length * 100) /
+        users.filter(user => user.nombre !== 'admin').length
+      )
+    }
+  }
+
   return (
     <>
       {users.filter(user => user.acertado === true && user.nombre !== 'admin')
@@ -68,36 +97,7 @@ const SorteoTerminado = ({
       {users.filter(user => user.acertado === true && user.nombre !== 'admin')
         .length > 1 && (
         <>
-          <h1 className='text-center font-bold text-2xl'>
-            Los ganadores del sorteo son:
-          </h1>
-          <div className='mx-8 grid grid-cols-2 gap-4 my-4'>
-            {users.map((user, index) => {
-              if (user.acertado === true && user.nombre !== 'admin') {
-                return (
-                  <div
-                    key={index}
-                    className='flex justify-between p-4 items-center bg-white rounded-full'
-                  >
-                    <Image
-                      width={30}
-                      height={30}
-                      className='w-auto h-auto'
-                      src={
-                        user.foto === '/user.png'
-                          ? user.foto
-                          : `/api/foto${user.foto}`
-                      }
-                      alt='Foto de usuario'
-                    />
-                    <label className='text-black'>{user.nombre}</label>
-                  </div>
-                )
-              }
-            })}
-          </div>
-
-          <div className='flex justify-end mx-8'>
+          <div className='flex mx-8 my-4'>
             <Button
               onClick={() => setVisible(!visible)}
               label='Empezar Sorteo Aleatorio'
@@ -106,96 +106,115 @@ const SorteoTerminado = ({
               severity='success'
             />
           </div>
+          <h1 className='text-center font-bold text-2xl'>
+            Los ganadores del sorteo son:
+          </h1>
+          <div className='mx-10 h-5/6 grid grid-cols-2 gap-4 my-4'>
+            {users.map((user, index) => {
+              if (user.acertado === true && user.nombre !== 'admin') {
+                return (
+                  <div
+                  data-aos='fade-down'
+                    key={index}
+                    className='flex flex-column justify-center h-72 items-center bg-white rounded-full'
+                  >
+                    <div>
+                      <Image
+                        width={125}
+                        height={125}
+                        className='w-auto h-auto'
+                        src={
+                          user.foto === '/user.png'
+                            ? user.foto
+                            : `/api/foto${user.foto}`
+                        }
+                        alt='Foto de usuario'
+                      />
+                    </div>
+                    <div className='mt-10'>
+                      <label className='text-black font-bold text-lg'>
+                        {user.nombre}
+                      </label>
+                    </div>
+                  </div>
+                )
+              }
+            })}
+          </div>
         </>
       )}
 
-      <div className='mx-4 my-8'>
+      <div className='my-8 mx-10 bg-slate-700 p-2'>
         <h2 className='text-center my-2 font-bold text-lg'>
           Respuestas de Usuarios{' '}
         </h2>
 
-        <table className='w-full table-auto border-collapse'>
-          <thead>
-            <tr>
-              <th
-                className={`p-2 border border-black ${
-                  data.pregunta.opcion_verdadera === 1
-                    ? 'bg-emerald-600'
-                    : 'bg-red-700'
-                }`}
-              >
-                {data.pregunta.opcion1}
-              </th>
-              <th
-                className={`p-2 border border-black ${
-                  data.pregunta.opcion_verdadera === 2
-                    ? 'bg-emerald-600'
-                    : 'bg-red-700'
-                }`}
-              >
-                {data.pregunta.opcion2}
-              </th>
-              <th
-                className={`p-2 border border-black ${
-                  data.pregunta.opcion_verdadera === 3
-                    ? 'bg-emerald-600'
-                    : 'bg-red-700'
-                }`}
-              >
-                {data.pregunta.opcion3}
-              </th>
-              <th
-                className={`p-2 border border-black ${
-                  data.pregunta.opcion_verdadera === 4
-                    ? 'bg-emerald-600'
-                    : 'bg-red-700'
-                }`}
-              >
-                {data.pregunta.opcion4}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td
-                className={`p-2 text-center border border-black ${
-                  data.pregunta.opcion_verdadera === 1
-                    ? 'bg-emerald-500'
-                    : 'bg-red-500'
-                }`}
-              >
-                {users.filter(user => user.respuesta === 1).length}
-              </td>
-              <td
-                className={`p-2 text-center border border-black ${
-                  data.pregunta.opcion_verdadera === 2
-                    ? 'bg-emerald-500'
-                    : 'bg-red-500'
-                }`}
-              >
-                {users.filter(user => user.respuesta === 2).length}
-              </td>
-              <td
-                className={`p-2 text-center border border-black ${
-                  data.pregunta.opcion_verdadera === 3
-                    ? 'bg-emerald-500'
-                    : 'bg-red-500'
-                }`}
-              >
-                {users.filter(user => user.respuesta === 3).length}
-              </td>
-              <td
-                className={`p-2 text-center border border-black ${
-                  data.pregunta.opcion_verdadera === 4
-                    ? 'bg-emerald-500'
-                    : 'bg-red-500'
-                }`}
-              >
-                {users.filter(user => user.respuesta === 4).length}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div>
+          <div className='py-2'>
+            <div className='flex justify-between mb-2'>
+              <span>{data.pregunta.opcion1}:</span>
+              <span>{users.filter(user => user.respuesta === 1).length}</span>
+            </div>
+            <ProgressBar
+              value={getPorcentaje(1)}
+              showValue={false}
+              className={
+                data.pregunta.opcion_verdadera === 1
+                  ? 'bg-green-700'
+                  : 'bg-red-700'
+              }
+              color={data.pregunta.opcion_verdadera === 1 ? 'green' : 'red'}
+            />
+          </div>
+          <div className=' py-2'>
+            <div className='flex justify-between mb-2'>
+              <span>{data.pregunta.opcion2}:</span>
+              <span>{users.filter(user => user.respuesta === 2).length}</span>
+            </div>
+            <ProgressBar
+              value={getPorcentaje(2)}
+              showValue={false}
+              className={
+                data.pregunta.opcion_verdadera === 2
+                  ? 'bg-green-700'
+                  : 'bg-red-700'
+              }
+              color={data.pregunta.opcion_verdadera === 2 ? 'green' : 'red'}
+            />
+          </div>
+          <div className='py-2'>
+            <div className='flex justify-between mb-2'>
+              <span>{data.pregunta.opcion3}:</span>
+              <span>{users.filter(user => user.respuesta === 3).length}</span>
+            </div>
+            <ProgressBar
+              value={getPorcentaje(3)}
+              showValue={false}
+              className={
+                data.pregunta.opcion_verdadera === 3
+                  ? 'bg-green-700'
+                  : 'bg-red-700'
+              }
+              color={data.pregunta.opcion_verdadera === 3 ? 'green' : 'red'}
+            />
+          </div>
+          <div className='py-2'>
+            <div className='flex justify-between mb-2'>
+              <span>{data.pregunta.opcion4}:</span>
+              <span>{users.filter(user => user.respuesta === 4).length}</span>
+            </div>
+            <ProgressBar
+              value={getPorcentaje(4)}
+              showValue={false}
+              className={
+                data.pregunta.opcion_verdadera === 4
+                  ? 'bg-green-700'
+                  : 'bg-red-700'
+              }
+              color={data.pregunta.opcion_verdadera === 4 ? 'green' : 'red'}
+            />
+          </div>
+        </div>
       </div>
     </>
   )

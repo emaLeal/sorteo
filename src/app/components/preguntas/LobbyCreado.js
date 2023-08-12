@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import { Button } from 'primereact/button'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import QrDialog from './QrDialog'
+import Aos from 'aos'
 
 const LobbyCreado = ({
   cerrarLobby,
@@ -27,7 +28,14 @@ const LobbyCreado = ({
                 {lobby}
               </span>
             </label>
-            <Button severity='help' icon='pi pi-pencil' raised rounded tooltip='Ver QR' onClick={() => setVisible(!visible)}/>
+            <Button
+              severity='help'
+              icon='pi pi-qrcode'
+              raised
+              rounded
+              tooltip='Ver QR'
+              onClick={() => setVisible(!visible)}
+            />
           </div>
         </>
       )}
@@ -38,6 +46,7 @@ const LobbyCreado = ({
           if (user.participa === true && user.nombre !== 'admin') {
             return (
               <div
+                data-aos='fade-down'
                 key={index}
                 className='flex justify-between p-4 items-center bg-white rounded-full'
               >

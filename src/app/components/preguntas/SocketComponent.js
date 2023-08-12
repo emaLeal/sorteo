@@ -10,8 +10,10 @@ import LobbyCreado from './LobbyCreado'
 import EmpezarSorteo from './EmpezarSorteo'
 import SorteoTerminado from './SorteoTerminado'
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
+import 'aos/dist/aos.css' // Asegúrate de importar los estilos de AOS en tus componentes
+import Aos from 'aos'
 
-const socket = io('https://socket.smartie.com.co')
+const socket = io('http://localhost:3060')
 
 const SocketComponent = ({ data }) => {
   const [lobby, setLobby] = useState(null)
@@ -53,7 +55,7 @@ const SocketComponent = ({ data }) => {
   }, [lobby])
 
   useEffect(() => {
-    console.log(data)
+    Aos.init()
     if (localStorage.getItem('socketUser')) {
       const user = JSON.parse(localStorage.getItem('socketUser'))
       socket.emit('leaveLobby', user)
@@ -69,16 +71,7 @@ const SocketComponent = ({ data }) => {
     })
   }, [])
 
-  useEffect(() => {
-    if (pagina === 'crear') {
-      console.log('Crear Page')
-    } else if (pagina === 'empezar') {
-      console.log('Empezar Page')
-    }
-  }, [pagina])
-
   socket.on('updateLobbyUsers', users => {
-    console.log(users)
     setusers(users.players)
   })
 
