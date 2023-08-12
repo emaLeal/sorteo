@@ -11,7 +11,7 @@ import EmpezarSorteo from './EmpezarSorteo'
 import SorteoTerminado from './SorteoTerminado'
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 
-const socket = io('http://localhost:3060')
+const socket = io('https://socket.smartie.com.co')
 
 const SocketComponent = ({ data }) => {
   const [lobby, setLobby] = useState(null)
