@@ -11,7 +11,7 @@ export async function GET(req, params) {
       query: "SELECT * FROM evento WHERE id=?",
       values: [id],
     });
-  
+
     return NextResponse.json({ data: data[0] }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
@@ -95,12 +95,17 @@ export async function DELETE(req, params) {
       values: [id],
     });
 
-    sorteos.forEach((sorteo) => {
+    sorteos.forEach(async (sorteo) => {
       unlink("img" + sorteo.premio_foto, (err) => {
         if (err) throw err;
       });
+      if (sorteo.pregunta) {
+        const delPregunta = await executeQuery({
+          query: "DELETE FROM preguntas where sorteo_id=?",
+          values: [sorteo.id],
+        });
+      }
     });
-
 
     const participantes = await executeQuery({
       query: "SELECT * FROM participantes where evento_id=?",
