@@ -103,8 +103,9 @@ export async function PUT(req, params) {
     }
 
     const act = await executeQuery({
-      query: "UPDATE sorteos set nombre=?, premio=?, premio_foto=? where id=?",
-      values: [body.nombre, body.premio, imgUrlPremio, id],
+      query:
+        "UPDATE sorteos set nombre=?, premio=?, premio_foto=?, pregunta=?, where id=?",
+      values: [body.nombre, body.premio, imgUrlPremio, body.pregunta, id],
     });
 
     return NextResponse.json(

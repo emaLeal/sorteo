@@ -6,9 +6,17 @@ export async function POST(req) {
   try {
     const result = await executeQuery({
       query:
-        "INSERT INTO participante (nombre, cargo, foto, sorteo, correo) values(?, ?, ?, ?, ?)",
-      values: [body.nombre, body.cargo, body.foto, body.sorteo, body.correo],
+        "INSERT INTO participantes (nombre, cedula, cargo, foto, correo, evento_id) values(?, ?, ?, ?, ?, ?)",
+      values: [
+        body.nombre,
+        body.cedula,
+        body.cargo,
+        '/user.png',
+        body.correo,
+        body.evento_id,
+      ],
     });
+    console.log(result)
     return NextResponse.json(
       { message: "Participante Registrado" },
       { status: 201 }

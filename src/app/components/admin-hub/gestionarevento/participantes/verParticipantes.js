@@ -13,6 +13,7 @@ import { Button } from "primereact/button";
 import { MoonLoader } from "react-spinners";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
+import CrearParticipantes from "./CrearParticipantes";
 
 const VerParticipantes = ({ evento }) => {
   const toast = useRef(null);
@@ -27,6 +28,7 @@ const VerParticipantes = ({ evento }) => {
   });
   const [globalFilterValue, setGlobalFilterValue] = useState("");
   const [participar, setParticipar] = useState("");
+  const [visible, setVisible] = useState(false);
 
   const options = [
     { label: "Habilitado", value: "1" },
@@ -154,6 +156,15 @@ const VerParticipantes = ({ evento }) => {
             auto
             chooseLabel="Subir Varios Participantes"
           />
+          <Button
+            severity="success"
+            text
+            raised
+            tooltip="Crear Participante"
+            onClick={() => setVisible(!visible)}
+            icon="pi pi-plus"
+            className="mx-2"
+          />
         </div>
       </div>
     );
@@ -171,12 +182,16 @@ const VerParticipantes = ({ evento }) => {
     return (
       <>
         <Button
-          className="p-button p-button-primary p-button-rounded mr-2"
+          className="p-button mr-2"
+          rounded
+          raised
+          text
+          severity={rowData.participara === 1 ? "success" : "danger"}
           tooltip={
             rowData.participara === 1 ? "Descalificar" : "Habilitar usuario"
           }
           icon={`pi ${
-            rowData.participara === 1 ? "pi-circle-fill" : "pi-circle"
+            rowData.participara === 1 ? "pi-check-circle" : "pi-times-circle"
           }`}
           onClick={() =>
             rowData.participara === 1
@@ -188,6 +203,8 @@ const VerParticipantes = ({ evento }) => {
           className="p-button p-button-danger p-button-rounded"
           tooltip="Eliminar Participante"
           icon="pi pi-trash"
+          text
+          raised
           onClick={() => eliminarParticipante(rowData.id)}
         />
       </>
@@ -210,6 +227,11 @@ const VerParticipantes = ({ evento }) => {
   return (
     <>
       <Toast ref={toast} />
+      <CrearParticipantes
+        visible={visible}
+        evento={evento}
+        onHide={() => setVisible(!visible)}
+      />
       <div className="mx-28 my-4">
         <DataTable
           value={data === undefined ? [] : data.data}
