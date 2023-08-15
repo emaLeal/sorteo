@@ -78,11 +78,13 @@ export async function GET(req, params) {
     });
     const sorteoParticipantes = await Promise.all(concPart);
 
+
     return NextResponse.json(
       { data: sorteoParticipantes, nombre_evento: ev[0].nombre_evento },
       { status: 200 }
     );
   } catch (e) {
+    console.log(e)
     return NextResponse.json({ e }, { status: 500 });
   }
 }
