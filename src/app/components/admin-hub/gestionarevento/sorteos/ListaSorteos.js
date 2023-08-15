@@ -73,17 +73,19 @@ const ListaSorteos = ({ evento }) => {
   const Acciones = (rowData) => {
     return (
       <div>
-        <Button
-          icon="pi pi-pencil"
-          tooltip="Editar Sorteo"
-          tooltipOptions={{ position: "bottom" }}
-          className="mr-2"
-          rounded
-          raised
-          severity="warning"
-          text
-          onClick={() => edit(rowData)}
-        />
+        {rowData.jugado === 0 && (
+          <Button
+            icon="pi pi-pencil"
+            tooltip="Editar Sorteo"
+            tooltipOptions={{ position: "bottom" }}
+            className="mr-2"
+            rounded
+            raised
+            severity="warning"
+            text
+            onClick={() => edit(rowData)}
+          />
+        )}
         <Button
           rounded
           text
