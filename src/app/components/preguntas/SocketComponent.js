@@ -56,8 +56,8 @@ const SocketComponent = ({ data }) => {
 
   useEffect(() => {
     Aos.init()
-    if (localStorage.getItem('socketUser')) {
-      const user = JSON.parse(localStorage.getItem('socketUser'))
+    if (sessionStorage.getItem('socketUser')) {
+      const user = JSON.parse(sessionStorage.getItem('socketUser'))
       socket.emit('leaveLobby', user)
 
       socket.emit('joinLobby', user)
@@ -82,18 +82,18 @@ const SocketComponent = ({ data }) => {
 
   socket.on('joinedLobby', user => {
     if (user !== 'No encontrado') {
-      localStorage.setItem('socketUser', JSON.stringify(user))
+      sessionStorage.setItem('socketUser', JSON.stringify(user))
     } else {
-      if (localStorage.getItem('socketUser')) {
-        localStorage.removeItem('socketUser')
+      if (sessionStorage.getItem('socketUser')) {
+        sessionStorage.removeItem('socketUser')
       }
     }
   })
 
   const cerrarLobby = () => {
     socket.emit('deleteLobby', lobby)
-    if (localStorage.getItem('socketUser')) {
-      localStorage.removeItem('socketUser')
+    if (sessionStorage.getItem('socketUser')) {
+      sessionStorage.removeItem('socketUser')
       setLobby(null)
       setusers([])
     }
@@ -117,7 +117,7 @@ const SocketComponent = ({ data }) => {
         })
         if (res.ok) {
           socket.emit('deleteLobby', lobby)
-          localStorage.removeItem('socketUser')
+          sessionStorage.removeItem('socketUser')
           router.push(`/jugarevento/${data.data.evento_id}`)
         }
       },
