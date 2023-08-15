@@ -25,7 +25,16 @@ export async function GET(req, params) {
             nombre_ganador: gan[0].nombre,
             correo_ganador: gan[0].correo,
             imagen_ganador: gan[0].foto,
-            dataPregunta: preguntas[0],
+            dataPregunta: {
+              id: preguntas[0].id,
+              preguntalabel: preguntas[0].pregunta,
+              opcion1: preguntas[0].opcion1,
+              opcion2: preguntas[0].opcion2,
+              opcion3: preguntas[0].opcion3,
+              opcion4: preguntas[0].opcion4,
+              opcion_verdadera: preguntas[0].opcion_verdadera,
+              sorteo_id: preguntas[0].sorteo_id,
+            },s
           };
         } else {
           return {
@@ -33,7 +42,16 @@ export async function GET(req, params) {
             nombre_ganador: null,
             correo_ganador: null,
             imagen_ganador: null,
-            dataPreguntas: preguntas[0],
+            dataPreguntas: {
+              id: preguntas[0].id,
+              preguntalabel: preguntas[0].pregunta,
+              opcion1: preguntas[0].opcion1,
+              opcion2: preguntas[0].opcion2,
+              opcion3: preguntas[0].opcion3,
+              opcion4: preguntas[0].opcion4,
+              opcion_verdadera: preguntas[0].opcion_verdadera,
+              sorteo_id: preguntas[0].sorteo_id,
+            },
           };
         }
       } else {

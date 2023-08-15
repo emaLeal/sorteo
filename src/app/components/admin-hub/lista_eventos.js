@@ -38,7 +38,9 @@ const ListaEventos = () => {
         <div>
           <Button
             icon="pi pi-plus"
-            className="p-button p-button-success p-button-text"
+            text
+            severity="success"
+            className="hover:scale-110 transition-transform"
             tooltip="Crear Evento"
             onClick={() => {
               setPrevData(null);
@@ -64,15 +66,23 @@ const ListaEventos = () => {
     return (
       <div className="max-sm:flex">
         <Button
+          rounded
+          raised
+          text
+          severity="warning"
           icon="pi pi-pencil"
           tooltip="Editar Evento"
-          className="p-button sm:mr-2 p-button-warning p-button-rounded "
+          className="sm:mr-2 hover:scale-110 transition-transform"
           onClick={() => edit(rowData)}
         />
         <Button
+          rounded
+          raised
+          text
+          severity="danger"
           icon="pi pi-trash"
           tooltip="Eliminar Evento"
-          className="p-button sm:mr-2 p-button-danger p-button-rounded"
+          className=" sm:mr-2 hover:scale-110 transition-transform"
           onClick={() => del(rowData.id)}
         />
         <Link
@@ -80,22 +90,34 @@ const ListaEventos = () => {
           className="max-sm:hidden"
         >
           <Button
+            rounded
+            raised
+            text
+            severity="info"
             icon="pi pi-calendar"
-            className="p-button p-button-primary p-button-rounded mr-2"
+            className=" mr-2 hover:scale-110 transition-transform"
             tooltip="Gestionar Evento"
           />
         </Link>
         <Button
+          rounded
+          raised
+          severity="help"
+          text
           tooltip="Ver QR de invitación"
-          icon="pi pi-eye"
-          className="p-button p-button-secondary p-button-rounded mr-2"
+          icon="pi pi-qrcode"
+          className=" mr-2 hover:scale-110 transition-transform"
           onClick={() => onHideInvitacion(rowData)}
         />
         <Link href={`/jugarevento/${rowData.id}`}>
           <Button
+            text
+            rounded
+            raised
+            severity="success"
             icon="pi pi-step-forward"
             tooltip="Jugar evento"
-            className="p-button p-button-success p-button-rounded max-sm:hidden"
+            className="max-sm:hidden hover:scale-110 transition-transform"
           />
         </Link>
       </div>

@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { post } from "@/app/lib/fetchMethod";
 import SubirFoto from "@/app/components/subirfoto";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
@@ -46,19 +45,29 @@ const CrearSorteoDialog = ({ visible, onHide, data, evento }) => {
       setFormPregunta(initialFormPregunta);
       setPregunta(false);
     } else {
-      setForm({
-        nombre: data.nombre,
-        premio: data.premio,
-        premio_foto: data.premio_foto,
-        evento_id: evento,
-      });
       if (data.pregunta === 1) {
+        setForm({
+          nombre: data.nombre,
+          premio: data.premio,
+          premio_foto: data.premio_foto,
+          evento_id: evento,
+          pregunta: true,
+        });
         setPregunta(true);
         setFormPregunta({
           ...data.dataPreguntas,
-          preguntalabel: data.dataPreguntas.pregunta,
+        });
+      } else if (data.pregunta === 0) {
+        setForm({
+          nombre: data.nombre,
+          premio: data.premio,
+          premio_foto: data.premio_foto,
+          evento_id: evento,
+          pregunta: false,
         });
       }
+
+      console.log(data);
     }
   }, [data]);
 
@@ -119,6 +128,7 @@ const CrearSorteoDialog = ({ visible, onHide, data, evento }) => {
     } else {
       body = JSON.stringify(form);
     }
+    console.log(body);
     const res = await fetch(`/api/sorteo/${data.id}`, {
       method: "PUT",
       body,

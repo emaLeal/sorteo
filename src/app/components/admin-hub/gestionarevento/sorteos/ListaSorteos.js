@@ -77,18 +77,29 @@ const ListaSorteos = ({ evento }) => {
           icon="pi pi-pencil"
           tooltip="Editar Sorteo"
           tooltipOptions={{ position: "bottom" }}
-          className="p-button mr-2 p-button-warning p-button-rounded"
+          className="mr-2"
+          rounded
+          raised
+          severity="warning"
+          text
           onClick={() => edit(rowData)}
         />
         <Button
+          rounded
+          text
+          raised
+          severity="danger"
           icon="pi pi-trash"
           tooltip="Eliminar Sorteo"
           tooltipOptions={{ position: "bottom" }}
-          className="p-button mr-2 p-button-danger p-button-rounded"
+          className="mr-2"
           onClick={() => del(rowData.id)}
         />
         <Button
-          className="p-button p-button-secondary p-button-rounded"
+          text
+          rounded
+          raised
+          severity="secondary"
           icon="pi pi-eye"
           tooltipOptions={{ position: "bottom" }}
           tooltip={"Ver Datos Sorteo"}

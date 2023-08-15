@@ -35,7 +35,7 @@ export async function POST(req) {
           body.opcion2,
           body.opcion3,
           body.opcion4,
-          body.opcionCorrecta,
+          body.opcion_verdadera,
         ],
       });
     }

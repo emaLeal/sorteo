@@ -11,6 +11,12 @@ export async function DELETE(req, params) {
       query: "SELECT * FROM sorteos WHERE id=?",
       values: [id],
     });
+    if (sorteo[0].pregunta === true) {
+      const delPregunta = await executeQuery({
+        query: "delete from preguntas where sorteo_id=?",
+        values: [id],
+      });
+    }
     unlink("img" + sorteo[0].premio_foto, (err) => {
       console.log(err);
     });
@@ -77,6 +83,7 @@ export async function GET(req, params) {
 export async function PUT(req, params) {
   const { id } = params.params;
   const body = await req.json();
+  console.log(body);
 
   try {
     const result = await executeQuery({
@@ -103,12 +110,51 @@ export async function PUT(req, params) {
     }
 
     if (body.pregunta === true) {
-      
+      const selPregunta = await executeQuery({
+        query: "select * from preguntas where sorteo_id=?",
+        values: [id],
+      });
+      if (selPregunta.length > 0) {
+        const pregunta = await executeQuery({
+          query:
+            "UPDATE preguntas set pregunta=?, opcion1=?, opcion2=?, opcion3=?, opcion4=?, opcion_verdadera=? where sorteo_id=?",
+          values: [
+            body.preguntalabel,
+            body.opcion1,
+            body.opcion2,
+            body.opcion3,
+            body.opcion4,
+            body.opcion_verdadera,
+            id,
+          ],
+        });
+      } else {
+        const pregunta = await executeQuery({
+          query:
+            "insert into preguntas (pregunta, opcion1, opcion2, opcion3, opcion4, opcion_verdadera, sorteo_id) values (?, ?, ?, ?, ?, ?, ?)",
+          values: [
+            body.preguntalabel,
+            body.opcion1,
+            body.opcion2,
+            body.opcion3,
+            body.opcion4,
+            body.opcion_verdadera,
+            id
+          ],
+        });
+      }
+    } else {
+      if (result[0].pregunta === 1) {
+        const delPregunta = await executeQuery({
+          query: "DELETE from preguntas where sorteo_id=?",
+          values: [id],
+        });
+      }
     }
 
     const act = await executeQuery({
       query:
-        "UPDATE sorteos set nombre=?, premio=?, premio_foto=?, pregunta=?, where id=?",
+        "UPDATE sorteos set nombre=?, premio=?, premio_foto=?, pregunta=? where id=?",
       values: [body.nombre, body.premio, imgUrlPremio, body.pregunta, id],
     });
 
@@ -117,6 +163,7 @@ export async function PUT(req, params) {
       { status: 200 }
     );
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ error }, { status: 500 });
   }
 }
