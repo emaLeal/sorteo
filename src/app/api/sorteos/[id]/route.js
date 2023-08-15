@@ -14,20 +14,44 @@ export async function GET(req, params) {
         query: "select * from participantes where id=?",
         values: [sort.ganador_id],
       });
-      if (gan.length === 1) {
-        return {
-          ...sort,
-          nombre_ganador: gan[0].nombre,
-          correo_ganador: gan[0].correo,
-          imagen_ganador: gan[0].foto,
-        };
+      if (sort.pregunta === 1) {
+        const preguntas = await executeQuery({
+          query: "Select * from preguntas where sorteo_id=?",
+          values: [sort.id],
+        });
+        if (gan.length === 1) {
+          return {
+            ...sort,
+            nombre_ganador: gan[0].nombre,
+            correo_ganador: gan[0].correo,
+            imagen_ganador: gan[0].foto,
+            dataPregunta: preguntas[0],
+          };
+        } else {
+          return {
+            ...sort,
+            nombre_ganador: null,
+            correo_ganador: null,
+            imagen_ganador: null,
+            dataPreguntas: preguntas[0],
+          };
+        }
       } else {
-        return {
-          ...sort,
-          nombre_ganador: null,
-          correo_ganador: null,
-          imagen_ganador: null,
-        };
+        if (gan.length === 1) {
+          return {
+            ...sort,
+            nombre_ganador: gan[0].nombre,
+            correo_ganador: gan[0].correo,
+            imagen_ganador: gan[0].foto,
+          };
+        } else {
+          return {
+            ...sort,
+            nombre_ganador: null,
+            correo_ganador: null,
+            imagen_ganador: null,
+          };
+        }
       }
     });
     const ev = await executeQuery({

@@ -102,6 +102,10 @@ export async function PUT(req, params) {
       }
     }
 
+    if (body.pregunta === true) {
+      
+    }
+
     const act = await executeQuery({
       query:
         "UPDATE sorteos set nombre=?, premio=?, premio_foto=?, pregunta=?, where id=?",

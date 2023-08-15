@@ -2,7 +2,7 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const initialForm = {
   nombre: "",
@@ -21,6 +21,10 @@ const CrearParticipantes = ({ visible, onHide, evento }) => {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    setForm({ ...initialForm, evento_id: evento });
+  }, [visible]);
 
   const header = () => {
     return (
@@ -43,7 +47,7 @@ const CrearParticipantes = ({ visible, onHide, evento }) => {
         detail: "Se ha creado el participante correctamente",
         life: 3000,
       });
-      console.log(res)
+      console.log(res);
       onHide();
     }
   };

@@ -24,7 +24,7 @@ const initialFormPregunta = {
   opcion2: "",
   opcion3: "",
   opcion4: "",
-  opcionCorrecta: 0,
+  opcion_verdadera: 0,
 };
 
 const opcionesCorrectas = [
@@ -43,6 +43,8 @@ const CrearSorteoDialog = ({ visible, onHide, data, evento }) => {
   useEffect(() => {
     if (data === null || data === undefined) {
       setForm({ ...initialForm, evento_id: evento });
+      setFormPregunta(initialFormPregunta);
+      setPregunta(false);
     } else {
       setForm({
         nombre: data.nombre,
@@ -50,6 +52,13 @@ const CrearSorteoDialog = ({ visible, onHide, data, evento }) => {
         premio_foto: data.premio_foto,
         evento_id: evento,
       });
+      if (data.pregunta === 1) {
+        setPregunta(true);
+        setFormPregunta({
+          ...data.dataPreguntas,
+          preguntalabel: data.dataPreguntas.pregunta,
+        });
+      }
     }
   }, [data]);
 
@@ -102,22 +111,28 @@ const CrearSorteoDialog = ({ visible, onHide, data, evento }) => {
     }
   };
 
-  const updateSorteo = (e) => {
+  const updateSorteo = async (e) => {
     e.preventDefault();
-    fetch(`/api/sorteo/${data.id}`, {
+    let body = {};
+    if (form.pregunta === true) {
+      body = JSON.stringify({ ...form, ...formPregunta });
+    } else {
+      body = JSON.stringify(form);
+    }
+    const res = await fetch(`/api/sorteo/${data.id}`, {
       method: "PUT",
-      body: JSON.stringify(form),
-    }).then((res) => {
-      if (res.status === 200) {
-        toast.current.show({
-          severity: "success",
-          summary: "Sorteo Editado",
-          detail: "Se ha editado correctamente el sorteo",
-          life: 3000,
-        });
-        onHide();
-      }
+      body,
     });
+
+    if (res.status === 200) {
+      toast.current.show({
+        severity: "success",
+        summary: "Sorteo Editado",
+        detail: "Se ha editado correctamente el sorteo",
+        life: 3000,
+      });
+      onHide();
+    }
   };
 
   const header = () => {
@@ -260,14 +275,14 @@ const CrearSorteoDialog = ({ visible, onHide, data, evento }) => {
                     <span className="p-float-label p-input-icon-right">
                       <Dropdown
                         options={opcionesCorrectas}
-                        value={formPregunta.opcionCorrecta}
+                        value={formPregunta.opcion_verdadera}
                         onChange={handleChangePregunta}
-                        name="opcionCorrecta"
-                        id="opcioncorrecta"
+                        name="opcion_verdadera"
+                        id="opcion_verdadera"
                         placeholder="Opcion Correcta"
                         required
                       />
-                      <label htmlFor="opcioncorrecta">Opcion Correcta</label>
+                      <label htmlFor="opcion_verdadera">Opcion Correcta</label>
                     </span>
                   </div>
                 </>
