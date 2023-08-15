@@ -34,7 +34,7 @@ export async function GET(req, params) {
               opcion4: preguntas[0].opcion4,
               opcion_verdadera: preguntas[0].opcion_verdadera,
               sorteo_id: preguntas[0].sorteo_id,
-            },s
+            }
           };
         } else {
           return {
