@@ -1,4 +1,4 @@
-import executeQuery from "@/app/lib/db";
+import executeQuery from "/src/app/lib/db";
 import { NextResponse } from "next/server";
 import base64Img from "base64-img";
 import { unlink } from "fs";
@@ -62,7 +62,7 @@ export async function PUT(req, params) {
         "UPDATE evento SET nombre_evento=?, foto_evento=?, empresa=?, foto_empresa=? WHERE id=?",
       values: [body.nombre_evento, imgEvento, body.empresa, imgEmpresa, id],
     });
-    revalidatePath('/admin-hub')
+    revalidatePath("/admin-hub");
     return NextResponse.json(
       { message: "Evento Correctamente Actualizado" },
       { status: 200 }
@@ -133,10 +133,10 @@ export async function DELETE(req, params) {
       query: "DELETE FROM evento where id=?",
       values: [id],
     });
-    revalidatePath('/admin-hub')
+    revalidatePath("/admin-hub");
     return NextResponse.json({ message: "Evento Eliminado" }, { status: 200 });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return NextResponse.json({ error }, { status: 500 });
   }
 }

@@ -1,4 +1,4 @@
-import executeQuery from "@/app/lib/db";
+import executeQuery from '/src/app/lib/db'
 import formatString from "@/app/lib/formatString";
 import base64Img from "base64-img";
 import { NextResponse } from "next/server";

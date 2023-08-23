@@ -1,5 +1,4 @@
-import executeQuery from "@/app/lib/db";
-import { base64Sync } from "base64-img";
+import executeQuery from '/src/app/lib/db'
 import { NextResponse } from "next/server";
 
 export async function GET(req, params) {

@@ -1,4 +1,4 @@
-import executeQuery from "@/app/lib/db";
+import executeQuery from '/src/app/lib/db'
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";

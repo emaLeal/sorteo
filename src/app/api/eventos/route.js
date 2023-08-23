@@ -1,5 +1,5 @@
-import executeQuery from "@/app/lib/db";
-import formatString from "@/app/lib/formatString";
+import executeQuery from '/src/app/lib/db'
+import formatString from "/src/app/lib/formatString";
 import base64Img from "base64-img";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
