@@ -5,42 +5,20 @@ import { Column } from "primereact/column";
 import { confirmDialog, ConfirmDialog } from "primereact/confirmdialog";
 import { DataTable } from "primereact/datatable";
 import { Toast } from "primereact/toast";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import CrearSorteoDialog from "./CrearSorteoDialog";
 import Image from "next/image";
-import useSWR from "swr";
-import { fetcher } from "@/app/lib/fetcher";
-import { MoonLoader } from "react-spinners";
-import DetalleSorteoDialog from "./DetalleSorteoDialog";
 
-const ListaSorteos = ({ evento }) => {
+import DetalleSorteoDialog from "./DetalleSorteoDialog";
+import { useRouter } from "next/navigation";
+
+const ListaSorteos = ({ evento, data }) => {
   const [visible, setVisible] = useState(false);
   const [visibleDetalle, setVisibleDetalle] = useState(false);
   const [prevData, setPrevData] = useState(null);
   const [sorteoData, setSorteoData] = useState(null);
-  const { data, error, mutate, isLoading } = useSWR(
-    `/api/sorteos/${evento}`,
-    fetcher
-  );
   const toast = useRef(null);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      mutate();
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [mutate]);
-
-  if (isLoading) {
-    return (
-      <>
-        <div className="flex justify-center">
-          <MoonLoader color="#fff" loading={isLoading} size={500} />;
-        </div>
-      </>
-    );
-  }
+  const router = useRouter()
 
   const header = () => {
     return (
@@ -128,6 +106,7 @@ const ListaSorteos = ({ evento }) => {
               detail: "Se ha eliminado el sorteo",
               life: 3000,
             });
+            router.refresh()
           }
         });
       },
@@ -176,14 +155,14 @@ const ListaSorteos = ({ evento }) => {
       />
       <div className="mt-6 sm:mx-28 sm:my-12">
         <DataTable
-          value={data === undefined ? [] : data.data}
+          value={data}
           header={header}
           paginator
           rows={2}
           currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Sorteos"
           emptyMessage="No se encontraron sorteos"
         >
-          <Column field="nombre" header="Nombre Evento" />
+          <Column field="nombre" header="Nombre Sorteo" />
           <Column
             field="jugado"
             header="Sorteo Jugado"

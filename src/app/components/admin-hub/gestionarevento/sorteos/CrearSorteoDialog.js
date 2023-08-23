@@ -8,6 +8,7 @@ import { Toast } from "primereact/toast";
 import { useEffect, useRef, useState } from "react";
 import { Checkbox } from "primereact/checkbox";
 import { Dropdown } from "primereact/dropdown";
+import { useRouter } from "next/navigation";
 
 const initialForm = {
   nombre: "",
@@ -38,6 +39,7 @@ const CrearSorteoDialog = ({ visible, onHide, data, evento }) => {
   const [formPregunta, setFormPregunta] = useState(initialFormPregunta);
   const [pregunta, setPregunta] = useState(false);
   const toast = useRef(null);
+  const router = useRouter()
 
   useEffect(() => {
     if (data === null || data === undefined) {
@@ -117,6 +119,7 @@ const CrearSorteoDialog = ({ visible, onHide, data, evento }) => {
         life: 3000,
       });
       onHide();
+      router.refresh()
     }
   };
 
@@ -142,6 +145,7 @@ const CrearSorteoDialog = ({ visible, onHide, data, evento }) => {
         life: 3000,
       });
       onHide();
+      router.refresh()
     }
   };
 

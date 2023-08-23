@@ -1,6 +1,7 @@
 import executeQuery from "@/app/lib/db";
 import formatString from "@/app/lib/formatString";
 import base64Img from "base64-img";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -39,7 +40,7 @@ export async function POST(req) {
         ],
       });
     }
-    console.log(result);
+    revalidatePath(`/admin-hub/gestionarevento/${body.evento_id}/sorteos`);
     return NextResponse.json({ message: "sorteo creado" }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });

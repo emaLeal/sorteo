@@ -5,7 +5,7 @@ import { ButtonPrime } from "@/app/components/admin-hub/gestionarevento/sorteos/
 
 export async function getEvent(id) {
   const res = await fetch(`http://localhost:3000/api/eventos/${id}`,{
-    cache: 'no-store'
+    cache: 'no-cache'
   });
 
   const json = await res.json();

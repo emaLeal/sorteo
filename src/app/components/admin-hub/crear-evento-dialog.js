@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 import { edit, post } from "../../lib/fetchMethod";
 import { Toast } from "primereact/toast";
 import SubirFoto from "../subirfoto";
+import { useRouter } from "next/navigation";
 
 const initialForm = {
   nombre_evento: "",
@@ -16,7 +17,7 @@ const initialForm = {
 
 const CrearEventoDialog = ({ visible, onHide, data }) => {
   const [form, setForm] = useState(initialForm);
-
+  const router = useRouter()
   const toast = useRef(null);
 
   useEffect(() => {
@@ -60,6 +61,7 @@ const CrearEventoDialog = ({ visible, onHide, data }) => {
           life: 3000,
         });
         onHide();
+        router.refresh()
       }
     });
   };
@@ -76,6 +78,7 @@ const CrearEventoDialog = ({ visible, onHide, data }) => {
           life: 3000,
         });
         onHide();
+        router.refresh()
       }
     });
   };

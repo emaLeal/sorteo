@@ -9,27 +9,15 @@ import Image from "next/image";
 import CrearEventoDialog from "./crear-evento-dialog";
 import Link from "next/link";
 import InvitacionDialog from "./invitaciondialog";
-import useSWR from "swr";
-import { fetcher } from "../../lib/fetcher";
 import { useRouter } from "next/navigation";
-import { MoonLoader } from "react-spinners";
 
-const ListaEventos = () => {
+const ListaEventos = ({ data }) => {
   const [visible, setVisible] = useState(false);
   const [eventoData, setEventoData] = useState(undefined);
   const [prevData, setPrevData] = useState(null);
   const [invitacionVisible, setInvitacionVisible] = useState(false);
   const toast = useRef(null);
-  const { data, error, mutate, isLoading } = useSWR("/api/eventos", fetcher);
   const router = useRouter();
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      mutate();
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [mutate]);
 
   const header = () => {
     return (
@@ -51,16 +39,6 @@ const ListaEventos = () => {
       </div>
     );
   };
-
-  if (isLoading) {
-    return (
-      <>
-        <div className="flex justify-center">
-          <MoonLoader color="#fff" loading={isLoading} size={350} />
-        </div>
-      </>
-    );
-  }
 
   const Acciones = (rowData) => {
     return (
@@ -139,6 +117,7 @@ const ListaEventos = () => {
               detail: "Se ha eliminado el evento",
               life: 3000,
             });
+            router.refresh();
           }
         });
       },
@@ -185,7 +164,7 @@ const ListaEventos = () => {
       <CrearEventoDialog visible={visible} onHide={onHide} data={prevData} />
       <div className="my-12 sm:mx-28 sm:my-12">
         <DataTable
-          value={data === undefined ? [] : data.data}
+          value={data}
           header={header}
           rows={2}
           paginator

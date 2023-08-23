@@ -1,6 +1,7 @@
 import executeQuery from "@/app/lib/db";
 import formatString from "@/app/lib/formatString";
 import base64Img from "base64-img";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -24,11 +25,13 @@ export async function POST(req) {
         "INSERT INTO evento (nombre_evento, foto_evento, empresa, foto_empresa) values(?, ?, ?, ?)",
       values: [body.nombre_evento, imgUrlEvento, body.empresa, imgUrlEmpresa],
     });
+    revalidatePath('/admin-hub')
     return NextResponse.json(
       { message: "Evento Satisfactoriamente Creado" },
       { status: 201 }
     );
   } catch (error) {
+    console.log(error)
     return NextResponse.json({ error }, { status: 500 });
   }
 }
