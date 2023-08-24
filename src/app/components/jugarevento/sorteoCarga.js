@@ -3,6 +3,7 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // import required modules
+import { AutoPlay, Autoplay } from "swiper/modules";
 import { useEffect, useRef, useState } from "react";
 import "swiper/css";
 import { Button } from "primereact/button";
@@ -14,7 +15,14 @@ import shuffle from "@/app/lib/shuffle";
 import ConfettiParticle from "@/app/lib/ConfettiParticle";
 import useFullScreen from "@/app/hooks/useFullScreen";
 
-const SorteoCarga = ({ data, estilo, duracion, audio, noImagen, participantes }) => {
+const SorteoCarga = ({
+  data,
+  estilo,
+  duracion,
+  audio,
+  noImagen,
+  participantes,
+}) => {
   const [usuarios, setUsuarios] = useState([]);
   const [swiper, SetSwiper] = useState(null);
   const [ganador, setGanador] = useState(null);

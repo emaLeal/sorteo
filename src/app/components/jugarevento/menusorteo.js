@@ -1,30 +1,19 @@
 'use client'
 import { PanelMenu } from 'primereact/panelmenu'
-import useSWR from 'swr'
 import { useEffect, useState } from 'react'
 import { ClipLoader } from 'react-spinners'
 import { Checkbox } from 'primereact/checkbox'
 import { Button } from 'primereact/button'
 import Image from 'next/image'
 import SorteoDialog from './SorteoDialog'
-import { fetcher } from '@/app/lib/fetcher'
 import Link from 'next/link'
 
-const MenuSorteo = ({ id }) => {
-  const { data, error, mutate, isLoading } = useSWR(
-    `/api/sorteos/${id}`,
-    fetcher
-  )
+const MenuSorteo = ({ id, data }) => {
+ 
   const [visible, setVisible] = useState(false)
   const [items, setItems] = useState([])
   const [datosSorteo, setDatosSorteo] = useState({})
-  useEffect(() => {
-    const interval = setInterval(() => {
-      mutate()
-    }, 1000)
 
-    return () => clearInterval(interval)
-  }, [mutate])
 
   const onHide = () => setVisible(!visible)
 
@@ -114,10 +103,6 @@ const MenuSorteo = ({ id }) => {
       setItems(sortItems)
     }
   }, [data])
-
-  if (isLoading) {
-    return <ClipLoader color='#fff' loading={isLoading} size={200} />
-  }
 
   return (
     <>

@@ -3,8 +3,21 @@ import Link from "next/link";
 import logo from "/public/logo.png";
 import Image from "next/image";
 
+async function getData(id) {
+  const url = `http://localhost:3000/api/sorteos/${id}`;
+
+  const res = await fetch(url, { next: { revalidate: 60 } });
+
+  if (res.ok) {
+    const json = await res.json();
+
+    return json;
+  }
+}
+
 export default async function EventoLayout({ params, children }) {
   const { id } = params;
+  const data = await getData(id);
 
   return (
     <>
@@ -19,7 +32,7 @@ export default async function EventoLayout({ params, children }) {
             </Link>
             <span className="font-bold text-2xl ml-2">Lista de Sorteos</span>
           </div>
-          <MenuSorteo id={id} />
+          <MenuSorteo id={id} data={data} />
           <div className="absolute bottom-0">
             <Link
               className="underline underline-offset-2 font-500 [hover]"
