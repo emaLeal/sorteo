@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
@@ -14,6 +15,7 @@ const initialForm = {
 const CrearParticipantes = ({ visible, onHide, evento }) => {
   const [form, setForm] = useState({ ...initialForm, evento_id: evento });
   const toast = useRef(null);
+  const router = useRouter()
 
   const handleChange = (e) => {
     setForm({
@@ -47,8 +49,8 @@ const CrearParticipantes = ({ visible, onHide, evento }) => {
         detail: "Se ha creado el participante correctamente",
         life: 3000,
       });
-      console.log(res);
       onHide();
+      router.refresh()
     }
   };
 

@@ -1,6 +1,7 @@
-import executeQuery from '/src/app/lib/db'
+import executeQuery from "/src/app/lib/db";
 import formatString from "@/app/lib/formatString";
 import base64Img from "base64-img";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function PUT(req) {
@@ -17,6 +18,7 @@ export async function PUT(req) {
       query: "UPDATE participantes SET foto=?, participara=? WHERE cedula=?",
       values: [imgUrl, true, body.cedula],
     });
+    revalidatePath(`/admin-hub/gestionarevento/[id]/participantes`);
     return NextResponse.json(
       { message: "Participante Registrado" },
       {

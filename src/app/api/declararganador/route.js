@@ -1,4 +1,5 @@
-import executeQuery from '/src/app/lib/db'
+import { revalidatePath } from "next/cache";
+import executeQuery from "/src/app/lib/db";
 import { NextResponse } from "next/server";
 
 export async function PUT(req) {
@@ -11,6 +12,7 @@ export async function PUT(req) {
       values: [body.ganador, body.ganador_nombre, true, body.id],
     });
     console.log(result);
+    revalidatePath("/jugarevento/[id]");
     return NextResponse.json(
       { message: "Sorteo Actualizado" },
       { status: 200 }

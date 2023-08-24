@@ -1,4 +1,5 @@
-import executeQuery from '/src/app/lib/db'
+import { revalidatePath } from "next/cache";
+import executeQuery from "/src/app/lib/db";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -11,12 +12,13 @@ export async function POST(req) {
         body.nombre,
         body.cedula,
         body.cargo,
-        '/user.png',
+        "/user.png",
         body.correo,
         body.evento_id,
       ],
     });
-    console.log(result)
+    console.log(result);
+    revalidatePath(`/admin-hub/gestionarevento/[id]/participantes`)
     return NextResponse.json(
       { message: "Participante Registrado" },
       { status: 201 }
