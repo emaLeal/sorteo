@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export async function getData(id) {
+async function getData(id) {
   const url = `${process.env.COMPLETE_HOST}/api/eventos/${id}`;
 
   const res = await fetch(url, { cache: "no-store" });

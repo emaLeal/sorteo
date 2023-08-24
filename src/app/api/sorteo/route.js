@@ -40,7 +40,7 @@ export async function POST(req) {
         ],
       });
     }
-    revalidatePath(`/admin-hub/gestionarevento/${body.evento_id}/sorteos`);
+    revalidatePath(`/admin-hub/gestionarevento/[id]/sorteos`);
     return NextResponse.json({ message: "sorteo creado" }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });

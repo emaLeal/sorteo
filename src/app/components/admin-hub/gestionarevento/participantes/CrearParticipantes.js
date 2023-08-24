@@ -24,7 +24,7 @@ const CrearParticipantes = ({ visible, onHide, evento }) => {
 
   useEffect(() => {
     setForm({ ...initialForm, evento_id: evento });
-  }, [visible]);
+  }, [visible, evento]);
 
   const header = () => {
     return (

@@ -1,6 +1,6 @@
-import ListaSorteos from "../../../../components/admin-hub/gestionarevento/sorteos/ListaSorteos";
+import ListaSorteos from "@/app/components/admin-hub/gestionarevento/sorteos/ListaSorteos";
 
-export async function getData(id) {
+async function getData(id) {
   const url = `http://localhost:3000/api/sorteos/${id}`;
 
   const res = await fetch(url, { next: { revalidate: 60 } });
@@ -14,12 +14,7 @@ export async function getData(id) {
 
 export default async function SorteosPage({ params }) {
   const { id } = params;
+  const data = await getData(id);
 
-  const data = await getData(id)
-
-  return (
-    <>
-      <ListaSorteos evento={id} data={data.data}/>
-    </>
-  );
+  return <ListaSorteos evento={id} data={data.data} />;
 }

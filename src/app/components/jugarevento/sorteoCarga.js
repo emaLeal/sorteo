@@ -3,7 +3,6 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // import required modules
-import { Autoplay } from "swiper";
 import { useEffect, useRef, useState } from "react";
 import "swiper/css";
 import { Button } from "primereact/button";

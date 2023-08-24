@@ -1,7 +1,7 @@
 import ListaEventos from "../components/admin-hub/lista_eventos";
 import Menu from "../components/admin-hub/menu";
 
-export async function getData() {
+async function getData() {
   const url = "http://localhost:3000/api/eventos";
 
   const res = await fetch(url, { next: { revalidate: 60 } });

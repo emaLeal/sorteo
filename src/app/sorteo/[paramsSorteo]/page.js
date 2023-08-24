@@ -4,7 +4,7 @@ import { jwtVerify } from "jose";
 import Image from "next/image";
 import SorteoCarga from "@/app/components/jugarevento/sorteoCarga";
 
-export async function getData(id) {
+async function getData(id) {
   const res = await fetch(`http://localhost:3000/api/sorteo/${id}`, {
     cache: "no-store",
   });
@@ -14,7 +14,7 @@ export async function getData(id) {
   return json;
 }
 
-export async function getEvento(id) {
+async function getEvento(id) {
   const res = await fetch(`http://localhost:3000/api/eventos/${id}`, {
     cache: "no-store",
   });

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import SocketComponent from '../../components/preguntas/SocketComponent'
 
-export async function getData (id) {
+async function getData (id) {
   const url = `http://localhost:3000/api/sorteo/${id}`
 
   const res = await fetch(url, { cache: 'no-store' })
@@ -11,7 +11,7 @@ export async function getData (id) {
   return json
 }
 
-export async function getEvento (id) {
+async function getEvento (id) {
   const url = `http://localhost:3000/api/eventos/${id}`
   const res = await fetch(url, {
     cache: 'no-store'

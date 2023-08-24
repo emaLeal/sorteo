@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import base64Img from "base64-img";
 import { unlink } from "fs";
 import formatString from "@/app/lib/formatString";
+import { revalidatePath } from "next/cache";
 
 export async function DELETE(req, params) {
   const { id } = params.params;
@@ -24,6 +25,7 @@ export async function DELETE(req, params) {
       query: "DELETE FROM sorteos WHERE id=?",
       values: [id],
     });
+    revalidatePath(`/admin-hub/gestionarevento/[id]/sorteos`);
     return NextResponse.json(
       { message: "Eliminado con exito" },
       { status: 200 }
@@ -157,7 +159,7 @@ export async function PUT(req, params) {
         "UPDATE sorteos set nombre=?, premio=?, premio_foto=?, pregunta=? where id=?",
       values: [body.nombre, body.premio, imgUrlPremio, body.pregunta, id],
     });
-
+    revalidatePath(`/admin-hub/gestionarevento/[id]/sorteos`);
     return NextResponse.json(
       { message: "Sorteo Actualizado" },
       { status: 200 }

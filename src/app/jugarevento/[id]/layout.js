@@ -3,16 +3,6 @@ import Link from "next/link";
 import logo from "/public/logo.png";
 import Image from "next/image";
 
-export async function getData(id) {
-  const res = await fetch(`${process.env.COMPLETE_HOST}/api/eventos/${id}`, {
-    cache: "no-cache",
-  });
-
-  const json = await res.json();
-
-  return json;
-}
-
 export default async function EventoLayout({ params, children }) {
   const { id } = params;
 
