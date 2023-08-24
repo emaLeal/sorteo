@@ -1,4 +1,5 @@
-import executeQuery from '/src/app/lib/db'
+import { revalidatePath } from "next/cache";
+import executeQuery from "/src/app/lib/db";
 import { NextResponse } from "next/server";
 
 export async function PUT(req, params) {
@@ -10,8 +11,10 @@ export async function PUT(req, params) {
       values: [true, id],
     });
 
+    revalidatePath("/admin-hub/gestionarevento/[id]/participantes");
     return NextResponse.json({ message: "exito" }, { status: 200 });
   } catch (error) {
+    console.log(error)
     return NextResponse.json({ error }, { status: 500 });
   }
 }

@@ -3,24 +3,20 @@ import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { FileUpload } from "primereact/fileupload";
 import { read, utils } from "xlsx";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { Toast } from "primereact/toast";
-import useSWR from "swr";
-import { fetcher } from "@/app/lib/fetcher";
 import { FilterMatchMode } from "primereact/api";
 import { Button } from "primereact/button";
-import { MoonLoader } from "react-spinners";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import CrearParticipantes from "./CrearParticipantes";
+import HabilitarButton from "./HabilitarButton";
+import { useRouter } from "next/navigation";
 
-const VerParticipantes = ({ evento }) => {
+const VerParticipantes = ({ evento, data }) => {
+  const router = useRouter();
   const toast = useRef(null);
-  const { data, error, mutate, isLoading } = useSWR(
-    `/api/participante/${evento}`,
-    fetcher
-  );
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -35,24 +31,6 @@ const VerParticipantes = ({ evento }) => {
     { label: "No habilitado", value: "0" },
     { label: "Cancelar Filtro", value: null },
   ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      mutate();
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [mutate]);
-
-  if (isLoading) {
-    return (
-      <>
-        <div className="flex justify-center">
-          <MoonLoader color="#fff" loading={isLoading} size={500} />;
-        </div>
-      </>
-    );
-  }
 
   const onUpload = ({ files }) => {
     const [file] = files;
@@ -92,6 +70,7 @@ const VerParticipantes = ({ evento }) => {
             detail: "Se han subido correctamente los participantes",
             life: 3000,
           });
+          router.refresh();
         }
       });
     };
@@ -149,7 +128,7 @@ const VerParticipantes = ({ evento }) => {
           <FileUpload
             mode="basic"
             name="demo[]"
-            accept="xlsx/*"
+            accept=".xlsx"
             customUpload={true}
             maxFileSize={1000000}
             uploadHandler={onUpload}
@@ -170,35 +149,10 @@ const VerParticipantes = ({ evento }) => {
     );
   };
 
-  const descalificar = (id) => {
-    fetch(`/api/descalificar/${id}`, { method: "PUT" }).then((res) => {});
-  };
-
-  const habilitar = (id) => {
-    fetch(`/api/habilitar/${id}`, { method: "PUT" }).then((res) => {});
-  };
-
   const Acciones = (rowData) => {
     return (
       <>
-        <Button
-          className="p-button mr-2"
-          rounded
-          raised
-          text
-          severity={rowData.participara === 1 ? "success" : "danger"}
-          tooltip={
-            rowData.participara === 1 ? "Descalificar" : "Habilitar usuario"
-          }
-          icon={`pi ${
-            rowData.participara === 1 ? "pi-check-circle" : "pi-times-circle"
-          }`}
-          onClick={() =>
-            rowData.participara === 1
-              ? descalificar(rowData.id)
-              : habilitar(rowData.id)
-          }
-        />
+        <HabilitarButton rowData={rowData} />
         <Button
           className="p-button p-button-danger p-button-rounded"
           tooltip="Eliminar Participante"
@@ -220,6 +174,7 @@ const VerParticipantes = ({ evento }) => {
           detail: "Se ha eliminado el participante",
           life: 3000,
         });
+        router.refresh()
       }
     });
   };
@@ -234,7 +189,7 @@ const VerParticipantes = ({ evento }) => {
       />
       <div className="mx-28 my-4">
         <DataTable
-          value={data === undefined ? [] : data.data}
+          value={data}
           header={header}
           emptyMessage="No se encontraron participantes"
           rows={3}

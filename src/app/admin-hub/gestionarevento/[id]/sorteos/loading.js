@@ -4,7 +4,7 @@ import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { Skeleton } from "primereact/skeleton";
 
-export default async function loading() {
+export default function loading() {
   const items = Array.from({ length: 2 }, (v, i) => i);
 
   const bodyTemplate = () => {

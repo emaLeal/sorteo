@@ -1,3 +1,4 @@
+import { revalidatePath } from 'next/cache';
 import executeQuery from '/src/app/lib/db'
 import { NextResponse } from "next/server";
 
@@ -23,6 +24,7 @@ export async function POST(req) {
       console.log(error);
     }
   });
+  revalidatePath(`/admin-hub/gestionarevento/[id]/participantes`)
   return NextResponse.json(
     { message: "Se crearon los participantes" },
     { status: 201 }
