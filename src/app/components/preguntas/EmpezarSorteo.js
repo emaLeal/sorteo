@@ -5,7 +5,7 @@ import React from "react";
 const EmpezarSorteo = ({ setPagina, users, finalizarSorteo }) => {
   return (
     <>
-      <h1 className="font-bold text-xl mb-4">Usuarios que han respondido</h1>
+      <h2 className="font-bold text-xl mb-4">Usuarios que han respondido</h2>
       <div className="grid-rows-3 w-1/3 gap-2 mx-2" style={{ display: "grid" }}>
         {users.map((user, index) => {
           if (user.respuesta !== null) {

@@ -15,8 +15,9 @@ export async function PUT(req) {
     const imgUrl = formatString(imgFoto);
 
     const result = await executeQuery({
-      query: "UPDATE participantes SET foto=?, participara=? WHERE cedula=?",
-      values: [imgUrl, true, body.cedula],
+      query:
+        "UPDATE participantes SET foto=?, participara=?, acepta=? WHERE cedula=?",
+      values: [imgUrl, true, body.acepta, body.cedula],
     });
     revalidatePath(`/admin-hub/gestionarevento/[id]/participantes`);
     return NextResponse.json(

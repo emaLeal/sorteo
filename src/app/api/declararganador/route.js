@@ -11,7 +11,6 @@ export async function PUT(req) {
         "UPDATE sorteos SET ganador_id=?, nombre_ganador=?, jugado=? WHERE id=?",
       values: [body.ganador, body.ganador_nombre, true, body.id],
     });
-    console.log(result);
     revalidatePath("/jugarevento/[id]");
     return NextResponse.json(
       { message: "Sorteo Actualizado" },

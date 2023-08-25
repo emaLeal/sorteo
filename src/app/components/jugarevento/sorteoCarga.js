@@ -171,6 +171,7 @@ const SorteoCarga = ({
         }).then((res) => {
           if (res.ok) {
             console.log(data);
+            router.refresh();
             router.push(`/jugarevento/${data.data.evento_id}`);
           }
         });

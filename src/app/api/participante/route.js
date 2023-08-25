@@ -7,7 +7,7 @@ export async function POST(req) {
   try {
     const result = await executeQuery({
       query:
-        "INSERT INTO participantes (nombre, cedula, cargo, foto, correo, evento_id) values(?, ?, ?, ?, ?, ?)",
+        "INSERT INTO participantes (nombre, cedula, cargo, foto, correo, evento_id, participara, acepta) values(?, ?, ?, ?, ?, ?)",
       values: [
         body.nombre,
         body.cedula,
@@ -15,10 +15,12 @@ export async function POST(req) {
         "/user.png",
         body.correo,
         body.evento_id,
+        false,
+        false,
       ],
     });
     console.log(result);
-    revalidatePath(`/admin-hub/gestionarevento/[id]/participantes`)
+    revalidatePath(`/admin-hub/gestionarevento/[id]/participantes`);
     return NextResponse.json(
       { message: "Participante Registrado" },
       { status: 201 }
