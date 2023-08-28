@@ -11,6 +11,7 @@ async function getData() {
 
     return json;
   }
+  return res
 }
 
 export default async function AdminHubPage() {
