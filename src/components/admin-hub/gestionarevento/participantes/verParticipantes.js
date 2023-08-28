@@ -32,6 +32,15 @@ const VerParticipantes = ({ evento, data }) => {
     { label: "Cancelar Filtro", value: null },
   ];
 
+  const footer = () => {
+    return <>
+    <div className="flex justify-around">
+      <span>Participantes Registrados: {data.filter(participante => participante.participara === 1).length}</span>
+      <span>Participantes faltantes por Registrar: {data.filter(participante => participante.participara === 0).length}</span>
+    </div>
+    </>
+  }
+
   const onUpload = ({ files }) => {
     const [file] = files;
     console.log(file);
@@ -191,6 +200,7 @@ const VerParticipantes = ({ evento, data }) => {
         <DataTable
           value={data}
           header={header}
+          footer={footer}
           emptyMessage="No se encontraron participantes"
           rows={3}
           globalFilterFields={["nombre", "participara"]}
