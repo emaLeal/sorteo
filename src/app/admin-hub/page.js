@@ -2,7 +2,7 @@ import ListaEventos from "@/components/admin-hub/lista_eventos";
 import Menu from "@/components/admin-hub/menu";
 
 async function getData() {
-  const url = "http://localhost:3000/api/eventos";
+  const url = `${process.env.COMPLETE_HOST}/api/eventos`;
 
   const res = await fetch(url, { next: { revalidate: 60 } });
 
