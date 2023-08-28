@@ -1,10 +1,16 @@
+import useFullScreen from "@/hooks/useFullScreen";
 import Image from "next/image";
 import { Button } from "primereact/button";
 import React from "react";
 
-const EmpezarSorteo = ({ setPagina, users, finalizarSorteo }) => {
+const EmpezarSorteo = ({ setPagina, users, finalizarSorteo, preguntas }) => {
+  const { isFullscreen, toggleFullscreen } = useFullScreen();
+
   return (
     <>
+      <h1 className="my-4 text-center font-bold text-3xl">
+        ¿{preguntas.pregunta}?
+      </h1>
       <h2 className="font-bold text-xl mb-4">Usuarios que han respondido</h2>
       <div className="grid-rows-3 w-1/3 gap-2 mx-2" style={{ display: "grid" }}>
         {users.map((user, index) => {
@@ -43,6 +49,17 @@ const EmpezarSorteo = ({ setPagina, users, finalizarSorteo }) => {
       </div>
 
       <div className="fixed bottom-0 right-0 mx-2 my-2">
+        <Button
+          className="p-button p-button-primary  p-button-rounded "
+          icon={`pi ${
+            isFullscreen ? "pi-window-minimize" : "pi-window-maximize"
+          }`}
+          onClick={toggleFullscreen}
+          tooltip={
+            isFullscreen ? "Quitar Pantalla Completa" : "Pantalla Completa"
+          }
+          tooltipOptions={{ position: "left" }}
+        />
         <Button
           icon="pi pi-fast-backward"
           tooltip="Volver"

@@ -6,7 +6,7 @@ import Image from "next/image";
 async function getData(id) {
   const url = `http://localhost:3000/api/sorteos/${id}`;
 
-  const res = await fetch(url, { next: { revalidate: 60 } });
+  const res = await fetch(url, { cache: "no-cache" });
 
   if (res.ok) {
     const json = await res.json();

@@ -12,6 +12,11 @@ export async function DELETE(req, params) {
       query: "SELECT * FROM sorteos WHERE id=?",
       values: [id],
     });
+   
+    const result = await executeQuery({
+      query: "DELETE FROM sorteos WHERE id=?",
+      values: [id],
+    });
     if (sorteo[0].pregunta === true) {
       const delPregunta = await executeQuery({
         query: "delete from preguntas where sorteo_id=?",
@@ -20,10 +25,6 @@ export async function DELETE(req, params) {
     }
     unlink("img" + sorteo[0].premio_foto, (err) => {
       console.log(err);
-    });
-    const result = await executeQuery({
-      query: "DELETE FROM sorteos WHERE id=?",
-      values: [id],
     });
     revalidatePath(`/admin-hub/gestionarevento/[id]/sorteos`);
     return NextResponse.json(

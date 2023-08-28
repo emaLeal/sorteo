@@ -1,11 +1,10 @@
-import React, { useTransition } from "react";
+import React from "react";
 import { Button } from "primereact/button";
 import { habilitar, descalificar } from "./ParticipantesActions";
 import { useRouter } from "next/navigation";
 
 const HabilitarButton = ({ rowData }) => {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
   return (
     <Button
       className="p-button mr-2"
@@ -20,11 +19,11 @@ const HabilitarButton = ({ rowData }) => {
       onClick={
         rowData.participara === 1
           ? () => {
-              descalificar(rowData.id);
+              descalificar(rowData);
               router.refresh();
             }
           : () => {
-              habilitar(rowData.id);
+              habilitar(rowData);
               router.refresh();
             }
       }

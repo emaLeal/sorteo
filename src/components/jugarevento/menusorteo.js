@@ -39,7 +39,7 @@ const MenuSorteo = ({ id, data }) => {
                 label='Jugar Sorteo'
                 className='p-button p-button-primary p-button-rounded w-full mb-2'
               />
-              {sorteo.pregunta === true && (
+              {sorteo.pregunta === 1 && (
                 <Link href={`/sorteopregunta/${sorteo.id}`}>
                   <Button
                     label='Jugar con Pregunta'

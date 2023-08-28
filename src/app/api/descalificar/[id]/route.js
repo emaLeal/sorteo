@@ -10,6 +10,7 @@ export async function PUT(req, params) {
       query: "UPDATE participantes set participara=? where id=?",
       values: [false, id],
     });
+    console.log(result)
     revalidatePath("/admin-hub/gestionarevento/[id]/participantes");
     return NextResponse.json({ message: "exito" }, { status: 200 });
   } catch (error) {
