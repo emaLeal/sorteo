@@ -4,8 +4,8 @@ import Link from "next/link";
 import { ButtonPrime } from "@/components/admin-hub/gestionarevento/sorteos/buttonprime";
 
 export async function getEvent(id) {
-  const res = await fetch(`http://localhost:3000/api/eventos/${id}`,{
-    cache: 'no-cache'
+  const res = await fetch(`${process.env.COMPLETE_HOST}/api/eventos/${id}`, {
+    cache: "no-cache",
   });
 
   const json = await res.json();

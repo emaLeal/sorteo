@@ -5,7 +5,7 @@ import Image from "next/image";
 import SorteoCarga from "@/components/jugarevento/sorteoCarga";
 
 async function getData(id) {
-  const res = await fetch(`http://localhost:3000/api/sorteo/${id}`, {
+  const res = await fetch(`${process.env.COMPLETE_HOST}/api/sorteo/${id}`, {
     cache: "no-store",
   });
 
@@ -15,7 +15,7 @@ async function getData(id) {
 }
 
 async function getEvento(id) {
-  const res = await fetch(`http://localhost:3000/api/eventos/${id}`, {
+  const res = await fetch(`${process.env.COMPLETE_HOST}/api/eventos/${id}`, {
     cache: "no-store",
   });
 

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import SocketComponent from '@/components/preguntas/SocketComponent'
 
 async function getData (id) {
-  const url = `http://localhost:3000/api/sorteo/${id}`
+  const url = `${process.env.COMPLETE_HOST}/api/sorteo/${id}`
 
   const res = await fetch(url, { cache: 'no-store' })
 
@@ -12,7 +12,7 @@ async function getData (id) {
 }
 
 async function getEvento (id) {
-  const url = `http://localhost:3000/api/eventos/${id}`
+  const url = `${process.env.COMPLETE_HOST}/api/eventos/${id}`
   const res = await fetch(url, {
     cache: 'no-store'
   })

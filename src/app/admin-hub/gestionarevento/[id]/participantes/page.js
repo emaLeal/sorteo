@@ -1,7 +1,7 @@
 import VerParticipantes from "@/components/admin-hub/gestionarevento/participantes/verParticipantes";
 
 async function getData(id) {
-  const url = `http://localhost:3000/api/participante/${id}`;
+  const url = `${process.env.COMPLETE_HOST}/api/participante/${id}`;
 
   const res = await fetch(url, { next: { revalidate: 60 } });
 

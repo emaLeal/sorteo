@@ -4,7 +4,7 @@ import logo from "/public/logo.png";
 import Image from "next/image";
 
 async function getData(id) {
-  const url = `http://localhost:3000/api/sorteos/${id}`;
+  const url = `${process.env.COMPLETE_HOST}/api/sorteos/${id}`;
 
   const res = await fetch(url, { cache: "no-cache" });
 
