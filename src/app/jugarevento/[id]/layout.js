@@ -1,4 +1,4 @@
-import MenuSorteo from "@/app/components/jugarevento/menusorteo";
+import MenuSorteo from "@/components/jugarevento/menusorteo";
 import Link from "next/link";
 import logo from "/public/logo.png";
 import Image from "next/image";

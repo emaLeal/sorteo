@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import executeQuery from '@/app/lib/db'
+import executeQuery from '@/lib/db'
 
 export async function GET(req, params) {
   const { id } = params.params;

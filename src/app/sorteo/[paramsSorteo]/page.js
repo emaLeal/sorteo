@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { jwtVerify } from "jose";
 import Image from "next/image";
-import SorteoCarga from "@/app/components/jugarevento/sorteoCarga";
+import SorteoCarga from "@/components/jugarevento/sorteoCarga";
 
 async function getData(id) {
   const res = await fetch(`http://localhost:3000/api/sorteo/${id}`, {

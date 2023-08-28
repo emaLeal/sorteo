@@ -1,5 +1,5 @@
 import { revalidatePath } from "next/cache";
-import executeQuery from "/src/app/lib/db";
+import executeQuery from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function PUT(req, params) {

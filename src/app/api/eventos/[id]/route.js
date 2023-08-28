@@ -1,8 +1,8 @@
-import executeQuery from "/src/app/lib/db";
+import executeQuery from "@/lib/db";
 import { NextResponse } from "next/server";
 import base64Img from "base64-img";
 import { unlink } from "fs";
-import formatString from "@/app/lib/formatString";
+import formatString from "@/lib/formatString";
 import { revalidatePath } from "next/cache";
 
 export async function GET(req, params) {

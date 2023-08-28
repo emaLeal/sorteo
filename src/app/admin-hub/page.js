@@ -1,5 +1,5 @@
-import ListaEventos from "../components/admin-hub/lista_eventos";
-import Menu from "../components/admin-hub/menu";
+import ListaEventos from "@/components/admin-hub/lista_eventos";
+import Menu from "@/components/admin-hub/menu";
 
 async function getData() {
   const url = "http://localhost:3000/api/eventos";

@@ -1,4 +1,4 @@
-import VerParticipantes from "@/app/components/admin-hub/gestionarevento/participantes/verParticipantes";
+import VerParticipantes from "@/components/admin-hub/gestionarevento/participantes/verParticipantes";
 
 async function getData(id) {
   const url = `http://localhost:3000/api/participante/${id}`;

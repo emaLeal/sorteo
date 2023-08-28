@@ -1,7 +1,7 @@
 import React from "react";
 import Menu from "./menu";
 import Link from "next/link";
-import { ButtonPrime } from "@/app/components/admin-hub/gestionarevento/sorteos/buttonprime";
+import { ButtonPrime } from "@/components/admin-hub/gestionarevento/sorteos/buttonprime";
 
 export async function getEvent(id) {
   const res = await fetch(`http://localhost:3000/api/eventos/${id}`,{

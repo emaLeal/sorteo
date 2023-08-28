@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import AdminForm from "../components/admin-log/adminform";
+import AdminForm from "@/components/admin-log/adminform";
 
 export default function AdminPage() {
   const router = useRouter();

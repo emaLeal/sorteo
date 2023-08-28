@@ -1,4 +1,4 @@
-import ListaSorteos from "@/app/components/admin-hub/gestionarevento/sorteos/ListaSorteos";
+import ListaSorteos from "@/components/admin-hub/gestionarevento/sorteos/ListaSorteos";
 
 async function getData(id) {
   const url = `http://localhost:3000/api/sorteos/${id}`;

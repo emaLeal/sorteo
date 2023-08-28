@@ -3,7 +3,6 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "primereact/button";
-import { edit, post } from "../../lib/fetchMethod";
 import { Toast } from "primereact/toast";
 import SubirFoto from "../subirfoto";
 import { useRouter } from "next/navigation";
@@ -17,7 +16,7 @@ const initialForm = {
 
 const CrearEventoDialog = ({ visible, onHide, data }) => {
   const [form, setForm] = useState(initialForm);
-  const router = useRouter()
+  const router = useRouter();
   const toast = useRef(null);
 
   useEffect(() => {
@@ -49,10 +48,13 @@ const CrearEventoDialog = ({ visible, onHide, data }) => {
     );
   };
 
-  const postEvent = (e) => {
+  const postEvent = async (e) => {
     e.preventDefault();
-    const res = post("/api/eventos", form);
-    res.then((m) => {
+    const res = await fetch(`/api/eventos`, {
+      method: "POST",
+      body: JSON.stringify(form),
+    });
+    if (res.ok) {
       if (m.status === 201) {
         toast.current.show({
           severity: "success",
@@ -61,15 +63,18 @@ const CrearEventoDialog = ({ visible, onHide, data }) => {
           life: 3000,
         });
         onHide();
-        router.refresh()
+        router.refresh();
       }
-    });
+    }
   };
 
-  const updateEvent = (e) => {
+  const updateEvent = async (e) => {
     e.preventDefault();
-    const res = edit(`/api/eventos/${form.id}`, form);
-    res.then((m) => {
+    const res = await fetch(`/api/eventos/${form.id}`, {
+      method: "PUT",
+      body: JSON.stringify(form),
+    });
+    if (res.ok) {
       if (m.status === 200) {
         toast.current.show({
           severity: "success",
@@ -78,9 +83,9 @@ const CrearEventoDialog = ({ visible, onHide, data }) => {
           life: 3000,
         });
         onHide();
-        router.refresh()
+        router.refresh();
       }
-    });
+    }
   };
 
   return (

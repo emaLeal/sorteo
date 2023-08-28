@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import SocketComponent from '../../components/preguntas/SocketComponent'
+import SocketComponent from '@/components/preguntas/SocketComponent'
 
 async function getData (id) {
   const url = `http://localhost:3000/api/sorteo/${id}`
