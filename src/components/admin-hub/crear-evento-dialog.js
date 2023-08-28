@@ -55,7 +55,7 @@ const CrearEventoDialog = ({ visible, onHide, data }) => {
       body: JSON.stringify(form),
     });
     if (res.ok) {
-      if (m.status === 201) {
+      if (res.status === 201) {
         toast.current.show({
           severity: "success",
           summary: "Evento Creado",
@@ -75,7 +75,7 @@ const CrearEventoDialog = ({ visible, onHide, data }) => {
       body: JSON.stringify(form),
     });
     if (res.ok) {
-      if (m.status === 200) {
+      if (res.status === 200) {
         toast.current.show({
           severity: "success",
           summary: "Evento Editado",
