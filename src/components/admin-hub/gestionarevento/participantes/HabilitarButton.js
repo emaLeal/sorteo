@@ -20,16 +20,12 @@ const HabilitarButton = ({ rowData }) => {
       onClick={
         rowData.participara === 1
           ? () => {
-              startTransition(() => {
-                descalificar(rowData.id);
-                router.refresh();
-              });
+              descalificar(rowData.id);
+              router.refresh();
             }
           : () => {
-              startTransition(() => {
-                habilitar(rowData.id);
-                router.refresh();
-              });
+              habilitar(rowData.id);
+              router.refresh();
             }
       }
     />

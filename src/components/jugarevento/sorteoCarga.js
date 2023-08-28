@@ -11,9 +11,9 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SwiperData from "./swiperData";
-import shuffle from "@/app/lib/shuffle";
-import ConfettiParticle from "@/app/lib/ConfettiParticle";
-import useFullScreen from "@/app/hooks/useFullScreen";
+import shuffle from "@/lib/shuffle";
+import ConfettiParticle from "@/lib/ConfettiParticle";
+import useFullScreen from "@/hooks/useFullScreen";
 
 const SorteoCarga = ({
   data,
