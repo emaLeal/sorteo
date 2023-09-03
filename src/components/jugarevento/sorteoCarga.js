@@ -140,18 +140,18 @@ const SorteoCarga = ({
     setGanador(null);
     swiper.autoplay.start();
     swiper.params.autoplay.disableOnInteraction = false;
-    changeSpeed(1);
+    changeSpeed(0);
 
     setTimeout(() => {
       swiper.autoplay.stop();
       setGanador(usuarios[swiper.realIndex]);
-    }, duracion * 1000);
+    }, (duracion + 2) * 1000);
 
     setTimeout(() => {
       initializeConfetti();
       setPlaying(false);
       rouletteAudio.play();
-    }, (duracion + 1) * 1000);
+    }, (duracion + 3) * 1000);
   };
 
   const declararGanador = () => {

@@ -7,7 +7,7 @@ export async function POST(req) {
   try {
     const result = await executeQuery({
       query:
-        "INSERT INTO participantes (nombre, cedula, cargo, foto, correo, evento_id, participara, acepta) values(?, ?, ?, ?, ?, ?)",
+        "INSERT INTO participantes (nombre, cedula, cargo, foto, correo, evento_id, participara, acepta) values(?, ?, ?, ?, ?, ?, ?, ?)",
       values: [
         body.nombre,
         body.cedula,

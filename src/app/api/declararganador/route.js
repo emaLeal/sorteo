@@ -12,6 +12,7 @@ export async function PUT(req) {
       values: [body.ganador, body.ganador_nombre, true, body.id],
     });
     revalidatePath("/jugarevento/[id]");
+    revalidatePath(`/admin-hub/gestionarevento/[id]/sorteos`);
     return NextResponse.json(
       { message: "Sorteo Actualizado" },
       { status: 200 }
