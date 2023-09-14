@@ -12,6 +12,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
   const estilos = [
     { label: "Horizontal", value: "horizontal" },
     { label: "Vertical", value: "vertical" },
+    { label: 'Sorteo Estatico', value: 'estatico' }
   ];
   const audios = [
     { label: "AUDIO 1", value: "/audio-1.mp3" },
@@ -88,8 +89,8 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
         </div>
       </div>
       <div className="my-2">
-          <span className="font-bold text-xl">Sorteo sin Imagenes: </span>
-          <Checkbox value={noImagen} onChange={() => setNoImagen(!noImagen)} checked={noImagen} />
+        <span className="font-bold text-xl">Sorteo sin Imagenes: </span>
+        <Checkbox value={noImagen} onChange={() => setNoImagen(!noImagen)} checked={noImagen} />
       </div>
       <div className="my-2">
         <Link
