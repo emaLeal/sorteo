@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { jwtVerify } from "jose";
 import Image from "next/image";
 import SorteoCarga from "@/components/jugarevento/sorteoCarga";
+import SorteoEstatico from '@/components/jugarevento/sorteoEstatico'
 
 async function getData(id) {
   const res = await fetch(`${process.env.COMPLETE_HOST}/api/sorteo/${id}`, {
@@ -54,14 +55,15 @@ export default async function SorteoPage({ params }) {
           alt="logo de empresa"
         />
       </div>
-      <SorteoCarga
+      {parametros.estilo !== 'estatico' ? <SorteoCarga
         data={data}
         estilo={parametros.estilo}
         duracion={parametros.duracion}
         audio={parametros.audio}
         noImagen={parametros.noImagen}
         participantes={data.participantes}
-      />
+      /> : <SorteoEstatico participantes={data.participantes} duracion={parametros.duracion} />}
+
     </>
   );
 }

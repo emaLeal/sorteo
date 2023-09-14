@@ -84,12 +84,7 @@ export async function DELETE(req, params) {
     let imgEmpresa = event[0].foto_empresa;
     imgEvento = "img" + imgEvento;
     imgEmpresa = "img" + imgEmpresa;
-    unlink(imgEmpresa, (err) => {
-      if (err) throw err;
-    });
-    unlink(imgEvento, (err) => {
-      if (err) throw err;
-    });
+   
 
     const sorteos = await executeQuery({
       query: "SELECT * FROM sorteos where evento_id=?",
@@ -97,15 +92,15 @@ export async function DELETE(req, params) {
     });
 
     sorteos.forEach(async (sorteo) => {
-      unlink("img" + sorteo.premio_foto, (err) => {
-        if (err) throw err;
-      });
       if (sorteo.pregunta) {
         const delPregunta = await executeQuery({
           query: "DELETE FROM preguntas where sorteo_id=?",
           values: [sorteo.id],
         });
       }
+      unlink("img" + sorteo.premio_foto, (err) => {
+        if (err) throw err;
+      });
     });
 
     const participantes = await executeQuery({
@@ -113,11 +108,7 @@ export async function DELETE(req, params) {
       values: [id],
     });
 
-    participantes.forEach((participante) => {
-      if (participante.foto !== "/user.png") {
-        unlink("img" + participante.foto);
-      }
-    });
+ 
 
     const delSorteo = await executeQuery({
       query: "DELETE from sorteos where evento_id=?",
@@ -132,6 +123,19 @@ export async function DELETE(req, params) {
     const result = await executeQuery({
       query: "DELETE FROM evento where id=?",
       values: [id],
+    });
+
+    participantes.forEach((participante) => {
+      if (participante.foto !== "/user.png") {
+        unlink("img" + participante.foto);
+      }
+    });
+
+    unlink(imgEmpresa, (err) => {
+      if (err) throw err;
+    });
+    unlink(imgEvento, (err) => {
+      if (err) throw err;
     });
     revalidatePath("/admin-hub");
     return NextResponse.json({ message: "Evento Eliminado" }, { status: 200 });
