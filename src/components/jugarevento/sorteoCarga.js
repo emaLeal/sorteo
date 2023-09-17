@@ -29,6 +29,7 @@ const SorteoCarga = ({
   const [animationFrame, setAnimationFrame] = useState(null);
   const [playing, setPlaying] = useState(false);
   const canvaRef = useRef(null);
+  const [swiperDataRef, setSwiperData] = useState(null);
   const { isFullscreen, toggleFullscreen } = useFullScreen();
   const [slideWinner, setSlideWinner] = useState(null);
   const router = useRouter();
@@ -198,7 +199,11 @@ const SorteoCarga = ({
           {usuarios.map((data, index) => {
             return (
               <SwiperSlide key={index}>
-                <SwiperData data={data} noImagen={noImagen} />
+                <SwiperData
+                  data={data}
+                  noImagen={noImagen}
+                  setRef={setSwiperData}
+                />
               </SwiperSlide>
             );
           })}
