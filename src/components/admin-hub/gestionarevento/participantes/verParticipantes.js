@@ -13,6 +13,7 @@ import { Dropdown } from "primereact/dropdown";
 import CrearParticipantes from "./CrearParticipantes";
 import HabilitarButton from "./HabilitarButton";
 import { useRouter } from "next/navigation";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const VerParticipantes = ({ evento, data }) => {
   const router = useRouter();
@@ -33,13 +34,62 @@ const VerParticipantes = ({ evento, data }) => {
   ];
 
   const footer = () => {
-    return <>
-    <div className="flex justify-around">
-      <span>Participantes Registrados: {data.filter(participante => participante.participara === 1).length}</span>
-      <span>Participantes faltantes por Registrar: {data.filter(participante => participante.participara === 0).length}</span>
-    </div>
-    </>
-  }
+    return (
+      <>
+        <div className="flex justify-around">
+          <span>
+            Participantes Registrados:{" "}
+            {
+              data.filter((participante) => participante.participara === 1)
+                .length
+            }
+          </span>
+          <span>
+            Participantes faltantes por Registrar:{" "}
+            {
+              data.filter((participante) => participante.participara === 0)
+                .length
+            }
+          </span>
+        </div>
+      </>
+    );
+  };
+
+  const delParticipantes = async () => {
+    try {
+      const res = await fetch(`/api/participantes/${evento}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        router.refresh();
+        toast.current.show({
+          severity: "error",
+          summary: "Participantes eliminados",
+          detail: "Se han eliminado todos los participantes",
+          life: 3000,
+        });
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  const eliminarParticipantes = () => {
+    confirmDialog({
+      message:
+        "Estas seguro de querer eliminar todos los participantes de este evento?",
+      header: "Eliminar Todos",
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Eliminar Todos",
+      rejectLabel: "Cancelar",
+      acceptIcon: "pi pi-trash",
+      rejectIcon: "pi pi-check",
+      acceptClassName: "p-button p-button-danger p-button-text p-button-raised",
+      rejectClassName: "p-button p-button-text p-button-raised",
+      accept: async () => delParticipantes(),
+    });
+  };
 
   const onUpload = ({ files }) => {
     const [file] = files;
@@ -134,6 +184,19 @@ const VerParticipantes = ({ evento, data }) => {
           />
         </div>
         <div className="flex ">
+          <Button
+            className="mx-2"
+            label="Eliminar Participantes"
+            severity="danger"
+            text
+            onClick={eliminarParticipantes}
+            tooltip="Eliminar todos los participantes"
+            tooltipOptions={{ position: "right" }}
+            size="small"
+            icon="pi pi-trash"
+            raised
+            rounded
+          />
           <FileUpload
             mode="basic"
             name="demo[]"
@@ -183,13 +246,14 @@ const VerParticipantes = ({ evento, data }) => {
           detail: "Se ha eliminado el participante",
           life: 3000,
         });
-        router.refresh()
+        router.refresh();
       }
     });
   };
 
   return (
     <>
+      <ConfirmDialog />
       <Toast ref={toast} />
       <CrearParticipantes
         visible={visible}
