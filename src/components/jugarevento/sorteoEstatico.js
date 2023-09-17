@@ -130,7 +130,8 @@ const SorteoEstatico = ({ data, duracion, audio, noImagen, participantes }) => {
     if (isRunning) {
       setPrimeraVez(false);
       const rouletteAudio = new Audio(audio);
-      const sorteoA = new Audio("/sorteoAudio.mp3");
+      const sorteoA = new Audio("/RULETA-TABLERO-FINAL-MP4.mp3");
+      sorteoA.loop = true;
       sorteoA.play();
 
       stopConfetti();
