@@ -169,6 +169,7 @@ const SorteoEstatico = ({ data, duracion, audio, noImagen, participantes }) => {
   }, [actualUsuario]);
 
   const start = () => {
+    setPrimeraVez(true);
     setGanador(null);
     setIsRunning(true);
   };
