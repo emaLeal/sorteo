@@ -128,7 +128,6 @@ const SorteoEstatico = ({ data, duracion, audio, noImagen, participantes }) => {
     let interval;
 
     if (isRunning) {
-      setPrimeraVez(false);
       const rouletteAudio = new Audio(audio);
       const sorteoA = new Audio("/RULETA-TABLERO-FINAL-MP4.mp3");
       sorteoA.loop = true;
@@ -143,10 +142,27 @@ const SorteoEstatico = ({ data, duracion, audio, noImagen, participantes }) => {
       }, 1);
 
       setTimeout(() => {
+        clearInterval(interval);
+        interval = setInterval(() => {
+          const randomIndex = Math.floor(Math.random() * participantes.length);
+          setActualUsuario(usuarios[randomIndex]);
+        }, 150);
+      }, (duracion - 4) * 1000);
+
+      setTimeout(() => {
+        clearInterval(interval);
+        interval = setInterval(() => {
+          const randomIndex = Math.floor(Math.random() * participantes.length);
+          setActualUsuario(usuarios[randomIndex]);
+        }, 350);
+      }, (duracion - 2) * 1000);
+
+      setTimeout(() => {
         swiperDataRef.current.classList.add("ganador");
       }, (duracion - 1) * 1000);
 
       setTimeout(() => {
+        setPrimeraVez(false);
         sorteoA.pause();
         sorteoA.currentTime = 0;
         setIsRunning(false);
@@ -166,7 +182,7 @@ const SorteoEstatico = ({ data, duracion, audio, noImagen, participantes }) => {
         setGanador(actualUsuario);
       }
     }
-  }, [actualUsuario]);
+  }, [actualUsuario, primeraVez]);
 
   const start = () => {
     setPrimeraVez(true);
