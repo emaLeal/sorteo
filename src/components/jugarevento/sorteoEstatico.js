@@ -140,14 +140,10 @@ const SorteoEstatico = ({
       sorteoA.play();
       stopConfetti();
       swiperDataRef.current.classList.remove("ganador");
-      let currentIndex = 0;
 
       interval = setInterval(() => {
-        setActualUsuario(usuarios[currentIndex]);
-        currentIndex++;
-        if (currentIndex === usuarios.length) {
-          currentIndex = 0;
-        }
+        const randomIndex = Math.floor(Math.random() * participantes.length);
+        setActualUsuario(usuarios[randomIndex]);
       }, velocidad);
 
       setTimeout(() => {
