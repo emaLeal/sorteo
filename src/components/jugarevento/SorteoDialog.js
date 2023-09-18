@@ -21,6 +21,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
     { label: "AUDIO 4", value: "/audio-4.mp3" },
   ];
   const velocidades = [
+    { label: "SUPER RAPIDA", value: 1 },
     { label: "RAPIDA", value: 100 },
     { label: "VELOCIDAD MEDIA", value: 200 },
   ];
