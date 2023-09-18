@@ -12,7 +12,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
   const estilos = [
     { label: "Horizontal", value: "horizontal" },
     { label: "Vertical", value: "vertical" },
-    { label: 'Sorteo Estatico', value: 'estatico' }
+    { label: "Sorteo Estatico", value: "estatico" },
   ];
   const audios = [
     { label: "AUDIO 1", value: "/audio-1.mp3" },
@@ -20,10 +20,15 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
     { label: "AUDIO 3", value: "/audio-3.mp3" },
     { label: "AUDIO 4", value: "/audio-4.mp3" },
   ];
+  const velocidades = [
+    { label: "RAPIDA", value: 1 },
+    { label: "VELOCIDAD MEDIA", value: 150 },
+  ];
   const [estilo, setEstilo] = useState(null);
   const [duracion, setDuracion] = useState(18);
-  const [noImagen, setNoImagen] = useState(false)
+  const [noImagen, setNoImagen] = useState(false);
   const [audio, setAudio] = useState("/audio-1.mp3");
+  const [velocidad, setVelocidad] = useState(null);
 
   const playAudio = (value) => {
     const audioPlay = new Audio(value);
@@ -68,7 +73,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
         <Slider value={duracion} onChange={(e) => setDuracion(e.value)} />
         <span>{duracion} Segundos</span>
       </div>
-      <div className=" my-2">
+      <div className="my-2">
         <span className="font-bold text-xl">Audio del Ganador: </span>
         <div className="flex justify-around">
           {audios.map((option) => (
@@ -88,9 +93,34 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
           ))}
         </div>
       </div>
+      {estilo === "estatico" && (
+        <div className="my-2">
+          <span className="font-bold text-xl">Velocidad del sorteo: </span>
+          <div className="flex justify-around">
+            {velocidades.map((option) => (
+              <div key={option.value}>
+                <RadioButton
+                  inputId={option.value}
+                  name="radioButton"
+                  value={option.value}
+                  onChange={(e) => {
+                    setVelocidad(e.value);
+                  }}
+                  checked={velocidad === option.value}
+                />
+                <label htmlFor={option.value}>{option.label}</label>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="my-2">
         <span className="font-bold text-xl">Sorteo sin Imagenes: </span>
-        <Checkbox value={noImagen} onChange={() => setNoImagen(!noImagen)} checked={noImagen} />
+        <Checkbox
+          value={noImagen}
+          onChange={() => setNoImagen(!noImagen)}
+          checked={noImagen}
+        />
       </div>
       <div className="my-2">
         <Link
@@ -102,6 +132,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
               duracion,
               audio,
               noImagen,
+              velocidad,
               sorteo_id: datosSorteo.id,
             })
           )}`}

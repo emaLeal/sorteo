@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import SorteoDialog from "./SorteoDialog";
 import SorteoCarga from "../jugarevento/sorteoCarga";
+import SorteoEstatico from "@/components/jugarevento/sorteoEstatico";
 import CrearLobby from "./CrearLobby";
 import LobbyCreado from "./LobbyCreado";
 import EmpezarSorteo from "./EmpezarSorteo";
@@ -22,10 +23,11 @@ const SocketComponent = ({ data }) => {
   const [pagina, setPagina] = useState("crear");
   // variables de Dialogo
 
-  const [estilo, setEstilo] = useState(null);
+  const [estilo, setEstilo] = useState("null");
   const [duracion, setDuracion] = useState(18);
   const [noImagen, setNoImagen] = useState(false);
   const [audio, setAudio] = useState("/audio-1.mp3");
+  const [velocidad, setVelocidad] = useState(null);
   const [visible, setVisible] = useState(false);
 
   const crearLobby = () => {
@@ -142,6 +144,8 @@ const SocketComponent = ({ data }) => {
         duracion={duracion}
         setDuracion={setDuracion}
         noImagen={noImagen}
+        velocidad={velocidad}
+        setVelocidad={setVelocidad}
         setNoImagen={setNoImagen}
         id={data.data.id}
         datosSorteo={data.data}
@@ -184,18 +188,32 @@ const SocketComponent = ({ data }) => {
           setVisible={setVisible}
         />
       )}
-      {pagina === "aleatorio" && (
-        <SorteoCarga
-          data={data}
-          audio={audio}
-          noImagen={noImagen}
-          participantes={users.filter(
-            (user) => user.acertado === true && user.nombre !== "admin"
-          )}
-          estilo={estilo}
-          duracion={duracion}
-        />
-      )}
+
+      {pagina === "aleatorio" &&
+        (estilo === "estatico" ? (
+          <SorteoEstatico
+            data={data}
+            audio={audio}
+            noImagen={noImagen}
+            participantes={users.filter(
+              (user) => user.acertado === true && user.nombre !== "admin"
+            )}
+            estilo={estilo}
+            velocidad={velocidad}
+            duracion={duracion}
+          />
+        ) : (
+          <SorteoCarga
+            data={data}
+            audio={audio}
+            noImagen={noImagen}
+            participantes={users.filter(
+              (user) => user.acertado === true && user.nombre !== "admin"
+            )}
+            estilo={estilo}
+            duracion={duracion}
+          />
+        ))}
     </>
   );
 };

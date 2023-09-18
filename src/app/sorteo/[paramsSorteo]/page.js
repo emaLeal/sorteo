@@ -71,6 +71,7 @@ export default async function SorteoPage({ params }) {
           duracion={parametros.duracion}
           noImagen={parametros.noImagen}
           audio={parametros.audio}
+          velocidad={parametros.velocidad}
         />
       )}
     </>

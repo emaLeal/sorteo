@@ -9,7 +9,14 @@ import SwiperData from "./swiperData";
 import ConfettiParticle from "@/lib/ConfettiParticle";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
-const SorteoEstatico = ({ data, duracion, audio, noImagen, participantes }) => {
+const SorteoEstatico = ({
+  data,
+  duracion,
+  audio,
+  noImagen,
+  participantes,
+  velocidad,
+}) => {
   const [usuarios, setUsuarios] = useState([]);
   const [ganador, setGanador] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
@@ -54,7 +61,7 @@ const SorteoEstatico = ({ data, duracion, audio, noImagen, participantes }) => {
       if (par !== null) return par;
     });
     setUsuarios(sort);
-    setActualUsuario(sort[0]);
+    console.log(velocidad)
   }, []);
 
   function Draw(canvas, context, W, H, particles) {
@@ -132,30 +139,17 @@ const SorteoEstatico = ({ data, duracion, audio, noImagen, participantes }) => {
       const sorteoA = new Audio("/RULETA-TABLERO-FINAL-MP4.mp3");
       sorteoA.loop = true;
       sorteoA.play();
-
       stopConfetti();
       swiperDataRef.current.classList.remove("ganador");
+      let currentIndex = 0;
 
       interval = setInterval(() => {
-        const randomIndex = Math.floor(Math.random() * participantes.length);
-        setActualUsuario(usuarios[randomIndex]);
-      }, 1);
-
-      setTimeout(() => {
-        clearInterval(interval);
-        interval = setInterval(() => {
-          const randomIndex = Math.floor(Math.random() * participantes.length);
-          setActualUsuario(usuarios[randomIndex]);
-        }, 150);
-      }, (duracion - 4) * 1000);
-
-      setTimeout(() => {
-        clearInterval(interval);
-        interval = setInterval(() => {
-          const randomIndex = Math.floor(Math.random() * participantes.length);
-          setActualUsuario(usuarios[randomIndex]);
-        }, 350);
-      }, (duracion - 2) * 1000);
+        setActualUsuario(usuarios[currentIndex]);
+        currentIndex++;
+        if (currentIndex === usuarios.length) {
+          currentIndex = 0;
+        }
+      }, velocidad);
 
       setTimeout(() => {
         swiperDataRef.current.classList.add("ganador");
@@ -177,11 +171,20 @@ const SorteoEstatico = ({ data, duracion, audio, noImagen, participantes }) => {
   }, [isRunning, usuarios]);
 
   useEffect(() => {
+    let interval;
+
     if (!primeraVez) {
+      clearInterval(interval);
       if (!isRunning) {
         setGanador(actualUsuario);
       }
+    } else {
+      interval = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * participantes.length);
+        setActualUsuario(usuarios[randomIndex]);
+      }, 300);
     }
+    return () => clearInterval(interval);
   }, [actualUsuario, primeraVez]);
 
   const start = () => {
