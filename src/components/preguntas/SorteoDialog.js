@@ -36,8 +36,9 @@ const SorteoDialog = ({
     { label: "AUDIO 4", value: "/audio-4.mp3" },
   ];
   const velocidades = [
-    { label: "RAPIDA", value: 1 },
-    { label: "VELOCIDAD MEDIA", value: 150 },
+    { label: "SUPER RAPIDA", value: 1 },
+    { label: "RAPIDA", value: 100 },
+    { label: "VELOCIDAD MEDIA", value: 200 },
   ];
   const playAudio = (value) => {
     const audioPlay = new Audio(value);
