@@ -61,7 +61,6 @@ const SorteoEstatico = ({
       if (par !== null) return par;
     });
     setUsuarios(sort);
-    console.log(velocidad)
   }, []);
 
   function Draw(canvas, context, W, H, particles) {
