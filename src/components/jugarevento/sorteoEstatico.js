@@ -135,7 +135,7 @@ const SorteoEstatico = ({
 
     if (isRunning) {
       const rouletteAudio = new Audio(audio);
-      const sorteoA = new Audio("/RULETA-TABLERO-FINAL-MP4.mp3");
+      const sorteoA = new Audio("/audio_sorteo.mp3");
       sorteoA.loop = true;
       sorteoA.play();
       stopConfetti();
