@@ -33,24 +33,59 @@ const VerParticipantes = ({ evento, data }) => {
     { label: "Cancelar Filtro", value: null },
   ];
 
+  const habilitarTodos = async () => {
+    const res = await fetch(`/api/toggleparticipante/${1}/${evento}`);
+
+    if (res.ok) {
+      router.refresh();
+    }
+  };
+
+  const inhabilitarTodos = async () => {
+    const res = await fetch(`/api/toggleparticipante/${0}/${evento}`);
+
+    if (res.ok) {
+      router.refresh();
+      console.log('exito')
+    }
+  };
+
   const footer = () => {
     return (
       <>
         <div className="flex justify-around">
-          <span>
-            Participantes Registrados:{" "}
-            {
-              data.filter((participante) => participante.participara === 1)
-                .length
-            }
-          </span>
-          <span>
-            Participantes faltantes por Registrar:{" "}
-            {
-              data.filter((participante) => participante.participara === 0)
-                .length
-            }
-          </span>
+          <div className="flex flex-col">
+            <span>
+              Participantes Registrados:{" "}
+              {
+                data.filter((participante) => participante.participara === 1)
+                  .length
+              }
+            </span>
+            <Button
+              severity="success"
+              text
+              onClick={habilitarTodos}
+              label="Habilitar Todos"
+              rounded
+            />
+          </div>
+          <div className="flex flex-col">
+            <span>
+              Participantes faltantes por Registrar:{" "}
+              {
+                data.filter((participante) => participante.participara === 0)
+                  .length
+              }
+            </span>
+            <Button
+              severity="danger"
+              text
+              rounded
+              label="Inhabilitar Todos"
+              onClick={inhabilitarTodos}
+            />
+          </div>
         </div>
       </>
     );
@@ -71,7 +106,7 @@ const VerParticipantes = ({ evento, data }) => {
         });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -197,6 +232,7 @@ const VerParticipantes = ({ evento, data }) => {
             raised
             rounded
           />
+
           <FileUpload
             mode="basic"
             name="demo[]"
@@ -260,7 +296,7 @@ const VerParticipantes = ({ evento, data }) => {
         evento={evento}
         onHide={() => setVisible(!visible)}
       />
-      <div className="mx-28 my-4">
+      <div className="mx-20 my-4">
         <DataTable
           value={data}
           header={header}

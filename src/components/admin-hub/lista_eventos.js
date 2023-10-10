@@ -1,6 +1,7 @@
 "use client";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { write, utils } from "xlsx";
 import { Button } from "primereact/button";
 import { useState, useRef } from "react";
 import { Toast } from "primereact/toast";
@@ -18,6 +19,55 @@ const ListaEventos = ({ data }) => {
   const [invitacionVisible, setInvitacionVisible] = useState(false);
   const toast = useRef(null);
   const router = useRouter();
+
+  const downloadXlsx = async (rowData) => {
+    const idEvento = rowData.id;
+    const nombreEvento = rowData.nombre_evento;
+    const res = await fetch(`/api/participante/${idEvento}`);
+    if (res.ok) {
+      try {
+        const participantes = await res.json();
+        const data = participantes.data.map((part) => {
+          if (part.participara === 1) {
+            part.participara = "ATENDIÒ EL EVENTO";
+          } else {
+            part.participara = "NO ATENDIÒ EL EVENTO";
+          }
+          if (part.acepta === 1) {
+            part.acepta = "ACEPTÒ TERMINOS Y CONDICIONES";
+          } else {
+            part.acepta = "NO ACEPTÒ TERMINOS Y CONDICIONES";
+          }
+          return part;
+        });
+        const work = utils.book_new();
+
+        for (let key in data) {
+          const workSheet = utils.json_to_sheet(data);
+          utils.book_append_sheet(work, workSheet, key);
+        }
+
+        const wri = write(work, { type: "array", bookType: "xlsx" });
+        saveAsExcel(wri, `Participantes de evento ${nombreEvento}`);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  function saveAsExcel(buffer, nombre) {
+    const EXCEL_TYPE =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const EXCEL_EXTENSION = ".xlsx";
+    const download = window.document.createElement("a");
+    download.href = window.URL.createObjectURL(
+      new Blob([buffer], { type: EXCEL_TYPE })
+    );
+    download.download = nombre + EXCEL_EXTENSION;
+    document.body.appendChild(download);
+    download.click();
+    document.body.removeChild(download);
+  }
 
   const header = () => {
     return (
@@ -98,6 +148,15 @@ const ListaEventos = ({ data }) => {
             className="max-sm:hidden hover:scale-110 transition-transform"
           />
         </Link>
+        <Button
+          text
+          severity="help"
+          tooltip="Exportar Participantes"
+          icon="pi pi-file-export"
+          rounded
+          className="mx-2"
+          onClick={() => downloadXlsx(rowData)}
+        />
       </div>
     );
   };
