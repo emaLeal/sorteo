@@ -1,8 +1,7 @@
 import { useRouter } from "next/navigation";
-import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
+import ParticipanteForm from "./ParticipanteForm";
 import React, { useEffect, useRef, useState } from "react";
 
 const initialForm = {
@@ -15,7 +14,7 @@ const initialForm = {
 const CrearParticipantes = ({ visible, onHide, evento }) => {
   const [form, setForm] = useState({ ...initialForm, evento_id: evento });
   const toast = useRef(null);
-  const router = useRouter()
+  const router = useRouter();
 
   const handleChange = (e) => {
     setForm({
@@ -50,7 +49,7 @@ const CrearParticipantes = ({ visible, onHide, evento }) => {
         life: 3000,
       });
       onHide();
-      router.refresh()
+      router.refresh();
     }
   };
 
@@ -68,65 +67,7 @@ const CrearParticipantes = ({ visible, onHide, evento }) => {
           <div>
             <h2 className="font-bold mb-4">Crear Participante</h2>
             <form className="p-fluid" onSubmit={onSubmit} method="post">
-              <div className="field mb-4">
-                <span className="p-float-label p-input-icon-right">
-                  <InputText
-                    id="nombre"
-                    value={form.nombre}
-                    onChange={handleChange}
-                    name="nombre"
-                    placeholder="Nombre del Participante"
-                    required
-                  />
-                  <label htmlFor="nombre">Nombre del Participante</label>
-                </span>
-              </div>
-              <div className="field mb-4">
-                <span className="p-float-label p-input-icon-right">
-                  <InputText
-                    id="cedula"
-                    value={form.cedula}
-                    onChange={handleChange}
-                    name="cedula"
-                    placeholder="Cedula del Participante"
-                    required
-                  />
-                  <label htmlFor="cedula">Cedula del Participante</label>
-                </span>
-              </div>
-              <div className="field mb-4">
-                <span className="p-float-label p-input-icon-right">
-                  <InputText
-                    id="cargo"
-                    value={form.cargo}
-                    onChange={handleChange}
-                    name="cargo"
-                    placeholder="Cargo del Participante"
-                    required
-                  />
-                  <label htmlFor="cargo">Cargo del Participante</label>
-                </span>
-              </div>
-              <div className="field mb-4">
-                <span className="p-float-label p-input-icon-right">
-                  <InputText
-                    id="correo"
-                    value={form.correo}
-                    onChange={handleChange}
-                    name="correo"
-                    placeholder="Correo del Participante"
-                    required
-                  />
-                  <label htmlFor="correo">Correo del Participante</label>
-                </span>
-              </div>
-              <Button
-                type="submit"
-                raised
-                rounded
-                severity="success"
-                label="Crear Participante"
-              />
+              <ParticipanteForm form={form} handleChange={handleChange} />
             </form>
           </div>
         </div>
