@@ -11,7 +11,7 @@ export default function loading() {
     return <Skeleton></Skeleton>;
   };
   return (
-    <div className="my-12 sm:mx-28 sm:my-12">
+    <div className="my-12 sm:mx-0 sm:my-0">
       <DataTable value={items} header="Lista de Sorteos" body={bodyTemplate}>
         <Column
           field="nombre"

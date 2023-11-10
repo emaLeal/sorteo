@@ -8,7 +8,7 @@ import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
 import CrearSorteoDialog from "./CrearSorteoDialog";
 import Image from "next/image";
-
+import Header from "./HeaderSorteos";
 import DetalleSorteoDialog from "./DetalleSorteoDialog";
 import { useRouter } from "next/navigation";
 
@@ -18,25 +18,7 @@ const ListaSorteos = ({ evento, data }) => {
   const [prevData, setPrevData] = useState(null);
   const [sorteoData, setSorteoData] = useState(null);
   const toast = useRef(null);
-  const router = useRouter()
-
-  const header = () => {
-    return (
-      <div className="flex justify-between">
-        <span className="font-bold self-center text-xl">Lista de Sorteos</span>
-        <Button
-          icon="pi pi-plus"
-          className="p-button p-button-success p-button-text"
-          tooltip="Crear Sorteo"
-          tooltipOptions={{ position: "bottom" }}
-          onClick={() => {
-            setPrevData();
-            setVisible(!visible);
-          }}
-        />
-      </div>
-    );
-  };
+  const router = useRouter();
 
   const onHideDetalle = () => {
     setVisibleDetalle(!visibleDetalle);
@@ -106,7 +88,7 @@ const ListaSorteos = ({ evento, data }) => {
               detail: "Se ha eliminado el sorteo",
               life: 3000,
             });
-            router.refresh()
+            router.refresh();
           }
         });
       },
@@ -153,10 +135,16 @@ const ListaSorteos = ({ evento, data }) => {
         onHide={onHide}
         data={prevData}
       />
-      <div className="mt-6 sm:mx-28 sm:my-12">
+      <div className="mt-6 sm:mx-0 sm:mt-0">
         <DataTable
           value={data}
-          header={header}
+          header={
+            <Header
+              visible={visible}
+              setPrevData={setPrevData}
+              setVisible={setVisible}
+            />
+          }
           paginator
           rows={2}
           currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Sorteos"

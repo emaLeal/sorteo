@@ -1,11 +1,9 @@
 "use client";
 import { Dialog } from "primereact/dialog";
-import { InputText } from "primereact/inputtext";
 import { useState, useRef, useEffect } from "react";
-import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
-import SubirFoto from "../subirfoto";
 import { useRouter } from "next/navigation";
+import CrearEventoForm from "./CrearEventoForm";
 
 const initialForm = {
   nombre_evento: "",
@@ -109,57 +107,12 @@ const CrearEventoDialog = ({ visible, onHide, data }) => {
                 data === null || data === undefined ? postEvent : updateEvent
               }
             >
-              <div className="field mb-4">
-                <span className="p-float-label p-input-icon-right">
-                  <InputText
-                    id={"nombre_evento"}
-                    value={form.nombre_evento}
-                    name="nombre_evento"
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="nombre_evento">Nombre del Evento</label>
-                </span>
-              </div>
-              <div className="field mb-4">
-                <span className="p-float-label p-input-icon-right">
-                  <InputText
-                    value={form.empresa}
-                    name="empresa"
-                    id="empresa"
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="empresa">Empresa</label>
-                </span>
-              </div>
-              <div className="field mb-4">
-                <SubirFoto
-                  setForm={setForm}
-                  form={form}
-                  field={"foto_evento"}
-                  title={"Foto para Evento"}
-                />
-              </div>
-              <div className="field mb-4">
-                <SubirFoto
-                  setForm={setForm}
-                  form={form}
-                  field={"foto_empresa"}
-                  title={"Foto para Empresa"}
-                />
-              </div>
-              {data === null || data === undefined ? (
-                <Button
-                  label="Crear Evento"
-                  className="p-button p-button-success p-button-rounded"
-                  type="submit"
-                />
-              ) : (
-                <Button
-                  label="Editar Evento"
-                  className="p-button p-button-warning p-button-rounded"
-                  type="submit"
-                />
-              )}
+              <CrearEventoForm
+                data={data}
+                form={form}
+                handleChange={handleChange}
+                setForm={setForm}
+              />
             </form>
           </div>
         </div>

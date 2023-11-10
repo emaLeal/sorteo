@@ -11,6 +11,7 @@ import CrearEventoDialog from "./crear-evento-dialog";
 import Link from "next/link";
 import InvitacionDialog from "./invitaciondialog";
 import { useRouter } from "next/navigation";
+import Header from "./HeaderEventos";
 
 const ListaEventos = ({ data }) => {
   const [visible, setVisible] = useState(false);
@@ -68,28 +69,7 @@ const ListaEventos = ({ data }) => {
     download.click();
     document.body.removeChild(download);
   }
-
-  const header = () => {
-    return (
-      <div className="flex justify-between">
-        <span className="font-bold self-center text-xl">Lista de Eventos</span>
-        <div>
-          <Button
-            icon="pi pi-plus"
-            text
-            severity="success"
-            className="hover:scale-110 transition-transform"
-            tooltip="Crear Evento"
-            onClick={() => {
-              setPrevData(null);
-              setVisible(!visible);
-            }}
-          />
-        </div>
-      </div>
-    );
-  };
-
+  
   const Acciones = (rowData) => {
     return (
       <div className="max-sm:flex">
@@ -224,7 +204,13 @@ const ListaEventos = ({ data }) => {
       <div className="my-12 sm:mx-28 sm:my-12">
         <DataTable
           value={data}
-          header={header}
+          header={
+            <Header
+              setPrevData={setPrevData}
+              setVisible={setVisible}
+              visible={visible}
+            />
+          }
           rows={2}
           paginator
           emptyMessage="No se encontraron eventos"

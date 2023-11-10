@@ -9,8 +9,8 @@ import { FilterMatchMode } from "primereact/api";
 import CrearParticipantes from "./CrearParticipantes";
 import HabilitarButton from "./HabilitarButton";
 import { useRouter } from "next/navigation";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "./HeaderParticipantes";
+import Footer from "./FooterParticipantes";
 
 const VerParticipantes = ({ evento, data }) => {
   const router = useRouter();
