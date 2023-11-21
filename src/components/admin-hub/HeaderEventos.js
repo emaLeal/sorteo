@@ -11,6 +11,8 @@ const Header = ({ setPrevData, setVisible, visible }) => {
           severity="success"
           className="hover:scale-110 transition-transform"
           tooltip="Crear Evento"
+          rounded
+          size="small"
           onClick={() => {
             setPrevData(null);
             setVisible(!visible);

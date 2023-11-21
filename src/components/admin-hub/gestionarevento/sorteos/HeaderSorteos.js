@@ -8,6 +8,8 @@ const Header = ({ setPrevData, setVisible, visible }) => {
         icon="pi pi-plus"
         className="p-button p-button-success p-button-text"
         tooltip="Crear Sorteo"
+        rounded
+        size="small"
         tooltipOptions={{ position: "bottom" }}
         onClick={() => {
           setPrevData();

@@ -15,10 +15,8 @@ import Footer from "./FooterParticipantes";
 const VerParticipantes = ({ evento, data }) => {
   const router = useRouter();
   const toast = useRef(null);
-
   const [globalFilterValue, setGlobalFilterValue] = useState("");
   const [participar, setParticipar] = useState("");
-  const [visible, setVisible] = useState(false);
   const [cargo, setCargo] = useState("");
 
   const [filters, setFilters] = useState({
@@ -76,11 +74,7 @@ const VerParticipantes = ({ evento, data }) => {
   return (
     <>
       <Toast ref={toast} />
-      <CrearParticipantes
-        visible={visible}
-        evento={evento}
-        onHide={() => setVisible(!visible)}
-      />
+
       <div>
         <DataTable
           value={data}
@@ -96,8 +90,6 @@ const VerParticipantes = ({ evento, data }) => {
               cargo={cargo}
               evento={evento}
               data={data}
-              visible={visible}
-              setVisible={setVisible}
               router={router}
               toast={toast}
             />

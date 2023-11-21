@@ -8,24 +8,25 @@ export default function AdminPage() {
   const [error, setError] = useState(null);
   const onSubmit = async (e) => {
     e.preventDefault();
-    fetch("/api/auth", {
-      method: "POST",
-      body: JSON.stringify({
-        usuario: e.target.user.value,
-        contrasena: e.target.password.value,
-      }),
-    })
-      .then((res) => {
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        body: JSON.stringify({
+          usuario: e.target.user.value,
+          contrasena: e.target.password.value,
+        }),
+      });
+      if (res.ok) {
         if (res.status === 200) {
           router.push("/admin-hub");
         }
         if (res.status === 400) {
-          throw res
+          throw res;
         }
-      })
-      .catch((e) => {
-        setError('Credenciales incorrectos')
-      });
+      }
+    } catch (error) {
+      setError("Credenciales Incorrectos");
+    }
   };
 
   return (

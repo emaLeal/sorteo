@@ -4,6 +4,10 @@ import { FileUpload } from "primereact/fileupload";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Button } from "primereact/button";
 import { read, utils } from "xlsx";
+import { Tooltip } from "primereact/tooltip";
+import CrearParticipantes from "./CrearParticipantes";
+import MoverParticipantes from "./MoverParticipantes";
+import { useState, useEffect } from "react";
 
 const Header = ({
   globalFilterValue,
@@ -15,12 +19,14 @@ const Header = ({
   cargo,
   setCargo,
   data,
-  visible,
-  setVisible,
   router,
   evento,
-  toast
+  toast,
 }) => {
+  const [visible, setVisible] = useState(false);
+  const [mostrarVisible, setMostrarVisible] = useState(false);
+  const [sorteos, setSorteos] = useState([]);
+
   const options = [
     { label: "Habilitado", value: "1" },
     { label: "No habilitado", value: "0" },
@@ -36,6 +42,14 @@ const Header = ({
     })),
     { label: "Cancelar Filtro", value: null },
   ]; // Creando seleccion de cargos
+
+  useEffect(() => {
+    fetch(`/api/sorteos/${evento}`)
+      .then((res) => res.json())
+      .then((json) => {
+        setSorteos(json.data);
+      });
+  }, []);
 
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
@@ -120,7 +134,7 @@ const Header = ({
         method: "DELETE",
       });
       if (res.ok) {
-        console.log(res.status)
+        console.log(res.status);
         router.refresh();
         toast.current.show({
           severity: "error",
@@ -136,8 +150,23 @@ const Header = ({
 
   return (
     <>
+      <Tooltip
+        target=".custom-choose-btn"
+        content="Subir varios participantes"
+        position="bottom"
+      />
       <ConfirmDialog />
-
+      <CrearParticipantes
+        visible={visible}
+        evento={evento}
+        onHide={() => setVisible(!visible)}
+      />
+      <MoverParticipantes
+        visible={mostrarVisible}
+        setVisible={setMostrarVisible}
+        cargos={optionsCargo}
+        sorteos={sorteos}
+      />
       <div className="flex justify-between">
         <div>
           <InputText
@@ -163,6 +192,18 @@ const Header = ({
         </div>
         <div className="flex ">
           <Button
+            label="Mover a sorteos especificos"
+            severity="warning"
+            rounded
+            raised
+            tooltip="Mover a sorteos especificos"
+            tooltipOptions={{ position: "bottom" }}
+            text
+            size="small"
+            className="my-2 mx-2"
+            onClick={() => setMostrarVisible(!visible)}
+          />
+          <Button
             className="my-2"
             label="Eliminar Participantes"
             severity="danger"
@@ -184,17 +225,26 @@ const Header = ({
             maxFileSize={1000000}
             uploadHandler={onUpload}
             auto
-            chooseLabel="Subir Varios Participantes"
+            chooseOptions={{
+              icon: "pi pi-file-excel",
+              iconOnly: true,
+              className:
+                "custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-success",
+              size: "small",
+            }}
+            className="my-2 ml-2"
           />
           <Button
             severity="success"
             text
             raised
+            rounded
+            size="small"
             tooltip="Crear Participante"
             tooltipOptions={{ position: "left" }}
             onClick={() => setVisible(!visible)}
             icon="pi pi-plus"
-            className="mx-2"
+            className="ml-2 my-2"
           />
         </div>
       </div>
