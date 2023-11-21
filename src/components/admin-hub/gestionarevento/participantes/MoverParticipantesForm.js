@@ -12,7 +12,7 @@ const MoverParticipantesForm = ({
 }) => {
   const [valid, setValid] = useState(false);
   const handleChangeSorteos = (e) => {
-    const _sorteos = [...sorteos];
+    const _sorteos = [...form.sorteos];
 
     if (e.checked) _sorteos.push(e.value);
     else _sorteos.splice(_sorteos.indexOf(e.value), 1);
@@ -43,9 +43,9 @@ const MoverParticipantesForm = ({
       <div className="field mb-4">
         <span className="text-lg font-bold">Lista de Sorteos: </span>
         <br />
-        {sorteos.map((sorteo) => {
+        {sorteos.map((sorteo, key) => {
           return (
-            <>
+            <div key={key}>
               <span className="font-bold text-xl">{sorteo.nombre}: </span>
               <Checkbox
                 value={sorteo.id}
@@ -54,12 +54,13 @@ const MoverParticipantesForm = ({
                 checked={form.sorteos.includes(sorteo.id)}
                 disabled={form.cargo === "" || form.cargo === null}
               />
-            </>
+            </div>
           );
         })}
       </div>
       <div className="my-4">
         <Button
+          type="submit"
           severity="warning"
           text
           raised

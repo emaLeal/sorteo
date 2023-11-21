@@ -1,0 +1,23 @@
+import { NextResponse } from "next/server";
+import executeQuery from "@/lib/db";
+
+export async function POST(req, params) {
+  const { evento } = params.params;
+  const body = await req.json();
+
+  body.sorteos.forEach(async (element) => {
+    const participantes = await executeQuery({
+      query: "select id from participantes where cargo=?",
+      values: [body.cargo],
+    });
+    participantes.forEach(async (participante) => {
+      const addParticipantes = await executeQuery({
+        query:
+          "insert into exclusividad_sorteo(participante_id, sorteo_id) values (?,?)",
+        values: [participante.id, element],
+      });
+    });
+  });
+
+  return NextResponse.json({ message: "ok" });
+}

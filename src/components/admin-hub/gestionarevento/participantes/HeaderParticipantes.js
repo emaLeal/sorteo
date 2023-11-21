@@ -166,6 +166,7 @@ const Header = ({
         setVisible={setMostrarVisible}
         cargos={optionsCargo}
         sorteos={sorteos}
+        evento={evento}
       />
       <div className="flex justify-between">
         <div>

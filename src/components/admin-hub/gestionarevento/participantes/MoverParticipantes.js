@@ -7,7 +7,13 @@ const initialForm = {
   sorteos: [],
 };
 
-const MoverParticipantes = ({ visible, setVisible, cargos, sorteos }) => {
+const MoverParticipantes = ({
+  visible,
+  setVisible,
+  cargos,
+  sorteos,
+  evento,
+}) => {
   const [form, setForm] = useState(initialForm);
   const listaCargos = cargos;
   const header = () => {
@@ -24,8 +30,14 @@ const MoverParticipantes = ({ visible, setVisible, cargos, sorteos }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(``)
-  }
+    const res = await fetch(`/api/sorteos_ex/${evento}`, {
+      method: "POST",
+      body: JSON.stringify(form),
+    });
+    if (res.ok) {
+      console.log("ok");
+    }
+  };
 
   return (
     <Dialog
@@ -39,7 +51,7 @@ const MoverParticipantes = ({ visible, setVisible, cargos, sorteos }) => {
         <div>
           <div>
             <h2 className="font-bold mb-4">Mover Participantes</h2>
-            <form className="p-fluid" method="post">
+            <form className="p-fluid" onSubmit={handleSubmit} method="post">
               <MoverParticipantesForm
                 form={form}
                 setForm={setForm}
