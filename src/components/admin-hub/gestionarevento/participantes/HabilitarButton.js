@@ -13,6 +13,7 @@ const HabilitarButton = ({ rowData }) => {
       text
       severity={rowData.participara === 1 ? "success" : "danger"}
       tooltip={rowData.participara === 1 ? "Descalificar" : "Habilitar usuario"}
+      tooltipOptions={{ position: "bottom" }}
       icon={`pi ${
         rowData.participara === 1 ? "pi-check-circle" : "pi-times-circle"
       }`}

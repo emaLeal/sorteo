@@ -11,6 +11,7 @@ import Image from "next/image";
 import Header from "./HeaderSorteos";
 import DetalleSorteoDialog from "./DetalleSorteoDialog";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const ListaSorteos = ({ evento, data }) => {
   const [visible, setVisible] = useState(false);
@@ -67,6 +68,20 @@ const ListaSorteos = ({ evento, data }) => {
           tooltip={"Ver Datos Sorteo"}
           onClick={() => showDetalle(rowData)}
         />
+        <Link
+          href={`/admin-hub/gestionarevento/${rowData.evento_id}/sorteos/exclusividad_sorteo/${rowData.id}`}
+        >
+          <Button
+            text
+            rounded
+            raised
+            severity="help"
+            tooltip="Gestionar Participantes exlusivos del sorteo"
+            tooltipOptions={{ position: "bottom" }}
+            icon="pi pi-users"
+            className="ml-2"
+          />
+        </Link>
       </div>
     );
   };
