@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import executeQuery from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req, params) {
   const { evento } = params.params;
@@ -18,6 +19,6 @@ export async function POST(req, params) {
       });
     });
   });
-
+  revalidatePath("/admin-hub/gestionarevento/[id]/participantes");
   return NextResponse.json({ message: "ok" });
 }

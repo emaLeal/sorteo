@@ -4,7 +4,8 @@ import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import React from "react";
 import Header from "./HeaderParticipantesExclusivos";
-import HabilitarButton from "../../participantes/HabilitarButton";
+import Footer from './FooterParticipantesExclusivos'
+import HabilitarButton from "./HabilitarButton";
 
 const ParticipantesExclusivos = ({ data, evento_id, sorteo_id }) => {
   const imgBody = (rowData) => {
@@ -35,6 +36,7 @@ const ParticipantesExclusivos = ({ data, evento_id, sorteo_id }) => {
         value={data}
         emptyMessage="No se encontraron Participantes"
         header={<Header evento_id={evento_id} sorteo_id={sorteo_id} />}
+        footer={<Footer data={data} evento={evento_id}/>}
         paginator
         rows={3}
         currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Sorteos"

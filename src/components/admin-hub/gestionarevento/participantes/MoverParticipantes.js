@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import MoverParticipantesForm from "./MoverParticipantesForm";
 import { Dialog } from "primereact/dialog";
+import { useRouter } from "next/navigation";
+import { Toast } from "primereact/toast";
 
 const initialForm = {
   cargo: "",
@@ -15,7 +17,9 @@ const MoverParticipantes = ({
   evento,
 }) => {
   const [form, setForm] = useState(initialForm);
+  const router = useRouter();
   const listaCargos = cargos;
+  const toast = useRef(null);
   const header = () => {
     return (
       <div className="text-blue-500">
@@ -35,35 +39,45 @@ const MoverParticipantes = ({
       body: JSON.stringify(form),
     });
     if (res.ok) {
-      console.log("ok");
+      setVisible(!visible);
+      router.refresh();
+      toast.current.show({
+        severity: "success",
+        summary: "Participantes Trasladados",
+        detail: "Se han trasladado los participantes correctamente",
+        life: 3000,
+      });
     }
   };
 
   return (
-    <Dialog
-      visible={visible}
-      onHide={() => setVisible(!visible)}
-      header={header}
-      className="w-1/3"
-      modal
-    >
-      <div className="form-demo">
-        <div>
+    <>
+      <Toast ref={toast} />
+      <Dialog
+        visible={visible}
+        onHide={() => setVisible(!visible)}
+        header={header}
+        className="w-1/3"
+        modal
+      >
+        <div className="form-demo">
           <div>
-            <h2 className="font-bold mb-4">Mover Participantes</h2>
-            <form className="p-fluid" onSubmit={handleSubmit} method="post">
-              <MoverParticipantesForm
-                form={form}
-                setForm={setForm}
-                handleChange={handleChange}
-                cargos={listaCargos}
-                sorteos={sorteos}
-              />
-            </form>
+            <div>
+              <h2 className="font-bold mb-4">Mover Participantes</h2>
+              <form className="p-fluid" onSubmit={handleSubmit} method="post">
+                <MoverParticipantesForm
+                  form={form}
+                  setForm={setForm}
+                  handleChange={handleChange}
+                  cargos={listaCargos}
+                  sorteos={sorteos}
+                />
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    </Dialog>
+      </Dialog>
+    </>
   );
 };
 

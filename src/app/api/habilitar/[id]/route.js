@@ -10,9 +10,10 @@ export async function PUT(req, params) {
       query: "UPDATE participantes set participara=? where id=?",
       values: [true, id],
     });
-    console.log(result)
 
     revalidatePath("/admin-hub/gestionarevento/[id]/participantes");
+    revalidatePath("/admin-hub/gestionarevento/[id]/sorteos/exclusividad_sorteo/[sorteo]");
+
     return NextResponse.json({ message: "exito" }, { status: 200 });
   } catch (error) {
     console.log(error)
