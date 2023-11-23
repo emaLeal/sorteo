@@ -34,7 +34,7 @@ const MoverParticipantes = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(`/api/sorteos_ex/${evento}`, {
+    const res = await fetch(`/api/sorteos_ex`, {
       method: "POST",
       body: JSON.stringify(form),
     });

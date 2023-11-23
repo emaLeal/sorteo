@@ -1,5 +1,5 @@
 export async function habilitar(data) {
-  const url = `/api/habilitar/${data.id}`;
+  const url = `/api/participante/habilitar/${data.id}`;
 
   const res = await fetch(url, { method: "PUT", next: { revalidate: 0 } });
   if (res.ok) {
@@ -8,7 +8,7 @@ export async function habilitar(data) {
 }
 
 export async function descalificar(data) {
-  const url = `/api/descalificar/${data.id}`;
+  const url = `/api/participante/descalificar/${data.id}`;
 
   const res = await fetch(url, { method: "PUT", next: { revalidate: 0 } });
   if (res.ok) {

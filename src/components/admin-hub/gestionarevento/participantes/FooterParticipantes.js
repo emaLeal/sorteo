@@ -1,9 +1,9 @@
 import { Button } from "primereact/button";
 
-const Footer = ({data, router, evento}) => {
-
+const Footer = ({ data, router, evento }) => {
   const habilitarTodos = async () => {
-    const res = await fetch(`/api/toggleparticipante/${1}/${evento}`);
+    const url = `/api/participantes/toggleparticipante/${1}/${evento}`;
+    const res = await fetch(url);
 
     if (res.ok) {
       router.refresh();
@@ -11,7 +11,8 @@ const Footer = ({data, router, evento}) => {
   };
 
   const inhabilitarTodos = async () => {
-    const res = await fetch(`/api/toggleparticipante/${0}/${evento}`);
+    const url = `/api/participantes/toggleparticipante/${0}/${evento}`;
+    const res = await fetch(url);
 
     if (res.ok) {
       router.refresh();
@@ -59,4 +60,4 @@ const Footer = ({data, router, evento}) => {
   );
 };
 
-export default Footer
+export default Footer;

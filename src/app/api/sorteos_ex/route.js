@@ -3,7 +3,6 @@ import executeQuery from "@/lib/db";
 import { revalidatePath } from "next/cache";
 
 export async function POST(req, params) {
-  const { evento } = params.params;
   const body = await req.json();
 
   body.sorteos.forEach(async (element) => {
@@ -20,5 +19,7 @@ export async function POST(req, params) {
     });
   });
   revalidatePath("/admin-hub/gestionarevento/[id]/participantes");
+  revalidatePath("/admin-hub/gestionarevento/[id]/sorteos/exclusividad_sorteo/[sorteo]");
+
   return NextResponse.json({ message: "ok" });
 }

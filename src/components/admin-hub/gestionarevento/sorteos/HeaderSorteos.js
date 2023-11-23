@@ -9,6 +9,7 @@ const Header = ({ setPrevData, setVisible, visible }) => {
         className="p-button p-button-success p-button-text"
         tooltip="Crear Sorteo"
         rounded
+        raised
         size="small"
         tooltipOptions={{ position: "bottom" }}
         onClick={() => {

@@ -1,14 +1,6 @@
 import { revalidatePath } from 'next/cache';
 import executeQuery from '@/lib/db'
 import { NextResponse } from "next/server";
-/* SELECT *
-FROM participantes p
-WHERE p.id_evento = 'x'
-AND NOT EXISTS (
-    SELECT 1
-    FROM otra_tabla o
-    WHERE o.id_participante = p.id_participante
-);*/
 
 export async function GET(req, params) {
   const { id } = params.params;

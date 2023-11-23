@@ -2,10 +2,10 @@ import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import React from "react";
 
-const Footer = ({ data, evento }) => {
+const Footer = ({ data, evento, sorteo_id }) => {
   const router = useRouter();
   const habilitarTodos = async () => {
-    const res = await fetch(`/api/toggleparticipante/${1}/${evento}`);
+    const res = await fetch(`/api/toggleexclusivos/${1}/${sorteo_id}`);
 
     if (res.ok) {
       router.refresh();
@@ -13,7 +13,7 @@ const Footer = ({ data, evento }) => {
   };
 
   const inhabilitarTodos = async () => {
-    const res = await fetch(`/api/toggleparticipante/${0}/${evento}`);
+    const res = await fetch(`/api/toggleexclusivos/${0}/${sorteo_id}`);
 
     if (res.ok) {
       router.refresh();
@@ -25,7 +25,7 @@ const Footer = ({ data, evento }) => {
       <div className="flex flex-col">
         <span>
           Participantes Registrados:{" "}
-          {data.filter((participante) => participante.participara === 1).length}
+          {data.filter((participante) => participante.habilitado === 1).length}
         </span>
         <Button
           severity="success"
@@ -38,7 +38,7 @@ const Footer = ({ data, evento }) => {
       <div className="flex flex-col">
         <span>
           Participantes faltantes por Registrar:{" "}
-          {data.filter((participante) => participante.participara === 0).length}
+          {data.filter((participante) => participante.habilitado === 0).length}
         </span>
         <Button
           severity="danger"
