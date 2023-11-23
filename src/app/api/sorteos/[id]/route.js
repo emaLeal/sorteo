@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import executeQuery from '@/lib/db'
 
+/*
+select * from participantes p where p.evento_id=? and not exists(select 1 from sorteos s where s.ganador_id=p.id)
+*/ 
+
 export async function GET(req, params) {
   const { id } = params.params;
 
@@ -11,7 +15,7 @@ export async function GET(req, params) {
     });
     const concPart = result.map(async (sort) => {
       const gan = await executeQuery({
-        query: "select * from participantes where id=?",
+        query: "select * from participantes p where p.evento_id=? and not exists(select 1 from sorteos s where s.ganador_id=p.id)",
         values: [sort.ganador_id],
       });
       if (sort.pregunta === 1) {

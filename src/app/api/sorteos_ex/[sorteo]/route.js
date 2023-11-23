@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import executeQuery from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
 export async function GET(req, params) {
   const { sorteo } = params.params;
@@ -19,4 +20,18 @@ export async function GET(req, params) {
   });
 
   return NextResponse.json({ data: participante });
+}
+
+export async function DELETE(req, params) {
+  const { sorteo } = params.params;
+
+  const deleteParticipante = await executeQuery({
+    query: "delete from exclusividad_sorteo where participante_id=?",
+    values: [sorteo],
+  });
+  console.log(deleteParticipante)
+  revalidatePath(
+    "/admin-hub/gestionarevento/[id]/sorteos/exclusividad_sorteo/[sorteo]"
+  );
+  return NextResponse.json({ message: ":D" });
 }

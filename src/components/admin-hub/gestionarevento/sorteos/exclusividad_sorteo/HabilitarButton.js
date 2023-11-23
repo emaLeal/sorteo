@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
+import { habilitar, descalificar } from "./Acciones";
 import { Button } from "primereact/button";
 
 const HabilitarButton = ({ rowData }) => {
