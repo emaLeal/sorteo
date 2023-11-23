@@ -19,7 +19,25 @@ export async function POST(req, params) {
     });
   });
   revalidatePath("/admin-hub/gestionarevento/[id]/participantes");
-  revalidatePath("/admin-hub/gestionarevento/[id]/sorteos/exclusividad_sorteo/[sorteo]");
+  revalidatePath(
+    "/admin-hub/gestionarevento/[id]/sorteos/exclusividad_sorteo/[sorteo]"
+  );
 
   return NextResponse.json({ message: "ok" });
+}
+
+export async function DELETE(req, params) {
+  const body = await req.json();
+  console.log(body);
+
+  const quitarParticipantes = await executeQuery({
+    query: "delete from exclusividad_sorteo where sorteo_id=?",
+    values: [body.sorteo],
+  });
+
+  revalidatePath("/admin-hub/gestionarevento/[id]/participantes");
+  revalidatePath(
+    "/admin-hub/gestionarevento/[id]/sorteos/exclusividad_sorteo/[sorteo]"
+  );
+  return NextResponse.json({ message: ":D" });
 }
