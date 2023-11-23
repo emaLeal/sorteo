@@ -5,7 +5,7 @@ import React from "react";
 const Footer = ({ data, evento, sorteo_id }) => {
   const router = useRouter();
   const habilitarTodos = async () => {
-    const res = await fetch(`/api/toggleexclusivos/${1}/${sorteo_id}`);
+    const res = await fetch(`/api/sorteos_ex/toggleexclusivos/${1}/${sorteo_id}`);
 
     if (res.ok) {
       router.refresh();
@@ -13,7 +13,7 @@ const Footer = ({ data, evento, sorteo_id }) => {
   };
 
   const inhabilitarTodos = async () => {
-    const res = await fetch(`/api/toggleexclusivos/${0}/${sorteo_id}`);
+    const res = await fetch(`/api/sorteos_ex/toggleexclusivos/${0}/${sorteo_id}`);
 
     if (res.ok) {
       router.refresh();

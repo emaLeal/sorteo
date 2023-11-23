@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 import executeQuery from '@/lib/db'
 
-/*
-select * from participantes p where p.evento_id=? and not exists(select 1 from sorteos s where s.ganador_id=p.id)
-*/ 
-
 export async function GET(req, params) {
   const { id } = params.params;
 
@@ -15,9 +11,10 @@ export async function GET(req, params) {
     });
     const concPart = result.map(async (sort) => {
       const gan = await executeQuery({
-        query: "select * from participantes p where p.evento_id=? and not exists(select 1 from sorteos s where s.ganador_id=p.id)",
-        values: [sort.ganador_id],
+        query: "select * from participantes p where p.evento_id=? and exists(select 1 from sorteos s where s.ganador_id=p.id)",
+        values: [id],
       });
+      console.log(gan)
       if (sort.pregunta === 1) {
         const preguntas = await executeQuery({
           query: "Select * from preguntas where sorteo_id=?",
@@ -81,7 +78,6 @@ export async function GET(req, params) {
       values: [id],
     });
     const sorteoParticipantes = await Promise.all(concPart);
-
 
     return NextResponse.json(
       { data: sorteoParticipantes, nombre_evento: ev[0].nombre_evento },

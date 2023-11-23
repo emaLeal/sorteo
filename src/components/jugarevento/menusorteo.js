@@ -6,20 +6,40 @@ import { Button } from "primereact/button";
 import Image from "next/image";
 import SorteoDialog from "./SorteoDialog";
 import Link from "next/link";
+import DetalleSorteoDialog from "../admin-hub/gestionarevento/sorteos/DetalleSorteoDialog";
 
 const MenuSorteo = ({ id, data }) => {
   const [visible, setVisible] = useState(false);
   const [items, setItems] = useState([]);
   const [datosSorteo, setDatosSorteo] = useState({});
+  const [detalleVisible, setDetalleVisible] = useState(false);
+  const [datosSorteo2, setDatosSorteo2] = useState({});
 
+  const onHideDetalle = () => setDetalleVisible(!detalleVisible);
   const onHide = () => setVisible(!visible);
 
   useEffect(() => {
     const templateNoJugado = (sorteo) => {
       return (
         <>
-          <div className="my-2 h-52 overflow-y-auto">
-            <label>Premio del Sorteo: {sorteo.premio}</label>
+          <div className="my-2 p-2 h-52 overflow-y-auto">
+            <label>
+              Premio del Sorteo: {sorteo.premio}{" "}
+              <Button
+                size="small"
+                icon="pi pi-info"
+                text
+                raised
+                onClick={() => {
+                  setDetalleVisible(true);
+                  setDatosSorteo2(sorteo);
+                }}
+                rounded
+                severity="help"
+                tooltip="Información sorteo"
+                tooltipOptions={{ position: "right" }}
+              />
+            </label>
             <div className="flex justify-center my-2">
               <Image
                 src={`/api/foto${sorteo.premio_foto}`}
@@ -35,11 +55,18 @@ const MenuSorteo = ({ id, data }) => {
                   setDatosSorteo(sorteo);
                 }}
                 label="Jugar Sorteo"
-                className="p-button p-button-primary p-button-rounded w-full mb-2"
+                text
+                raised
+                rounded
+                severity="info"
+                className="p-button w-full mb-2"
               />
               {sorteo.pregunta === 1 && (
                 <Link href={`/sorteopregunta/${sorteo.id}`}>
                   <Button
+                    text
+                    raised
+                    rounded
                     label="Jugar con Pregunta"
                     className="p-button p-button-primary p-button-rounded w-full"
                   />
@@ -55,7 +82,23 @@ const MenuSorteo = ({ id, data }) => {
       return (
         <>
           <div className="my-2">
-            <label>Premio del Sorteo: {sorteo.premio}</label>
+            <label>
+              Premio del Sorteo: {sorteo.premio}{" "}
+              <Button
+                size="small"
+                icon="pi pi-info"
+                text
+                raised
+                onClick={() => {
+                  setDetalleVisible(true);
+                  setDatosSorteo2(sorteo);
+                }}
+                rounded
+                severity="help"
+                tooltip="Información sorteo"
+                tooltipOptions={{ position: "right" }}
+              />
+            </label>
             <div className="flex justify-center my-2">
               <Image
                 src={`/api/foto${sorteo.premio_foto}`}
@@ -103,6 +146,11 @@ const MenuSorteo = ({ id, data }) => {
 
   return (
     <>
+      <DetalleSorteoDialog
+        visible={detalleVisible}
+        onHide={onHideDetalle}
+        rowData={datosSorteo2}
+      />
       <SorteoDialog
         visible={visible}
         onHide={onHide}

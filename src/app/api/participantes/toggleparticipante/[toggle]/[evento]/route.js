@@ -7,7 +7,7 @@ export async function GET(req, params) {
 
   if (toggle === '0') {
     const act = await executeQuery({
-      query: "UPDATE participantes set participara=? where evento_id=?",
+      query: "UPDATE participantes p set p.participara=? where p.evento_id=? and not exists (select 1 from exclusividad_sorteo es where es.participante_id=p.id)",
       values: [false, evento],
     });
     console.log(act);
@@ -20,7 +20,7 @@ export async function GET(req, params) {
     );
   } else if (toggle === '1') {
     const act = await executeQuery({
-      query: "UPDATE participantes set participara=? where evento_id=?",
+      query: "UPDATE participantes p set p.participara=? where p.evento_id=? and not exists (select 1 from exclusividad_sorteo es where es.participante_id=p.id)",
       values: [true, evento],
     });
     console.log(act);

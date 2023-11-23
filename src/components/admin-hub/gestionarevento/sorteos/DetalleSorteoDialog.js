@@ -38,7 +38,7 @@ const DetalleSorteoDialog = ({ visible, onHide, rowData }) => {
         onHide={onHide}
         header="Detalle del Sorteo"
         modal
-        className="w-5/6 sm:w-1/3"
+        className="w-5/6 sm:w-1/2"
       >
         <div className="flex justify-between my-2">
           <label className="font-bold sm:text-xl">Nombre del Sorteo:</label>
@@ -52,8 +52,8 @@ const DetalleSorteoDialog = ({ visible, onHide, rowData }) => {
           <Image
             src={`/api/foto${data.premio_foto}`}
             alt="Foto de Premio"
-            width={200}
-            height={200}
+            width={300}
+            height={300}
             className="w-auto h-auto"
           />
         </div>

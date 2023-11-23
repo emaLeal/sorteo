@@ -123,7 +123,34 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
           checked={noImagen}
         />
       </div>
-      <div className="my-2">
+      <div className="my-2 flex justify-between">
+        <Link
+          className="font-bold text-2xl"
+          href={`/sorteo/${encodeURIComponent(
+            JSON.stringify({
+              id,
+              estilo,
+              duracion,
+              audio,
+              noImagen,
+              velocidad,
+              exclusivos: false,
+              sorteo_id: datosSorteo.id,
+            })
+          )}`}
+        >
+          <Button
+            onClick={() => onHide()}
+            text
+            raised
+            tooltip="Jugar Sorteo"
+            icon='pi pi-users'
+            tooltipOptions={{ position: "top" }}
+            rounded
+            severity="info"
+            disabled={estilo === null}
+          />
+        </Link>
         <Link
           className="font-bold text-2xl"
           href={`/sorteo/${encodeURIComponent(
@@ -135,12 +162,19 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
               noImagen,
               velocidad,
               sorteo_id: datosSorteo.id,
+              exclusivos: true,
             })
           )}`}
         >
           <Button
             onClick={() => onHide()}
-            label="Jugar Sorteo"
+            tooltip="Jugar Sorteo con Participantes Exclusivos"
+            tooltipOptions={{ position: "top" }}
+            icon="pi pi-user"
+            severity="help"
+            text
+            raised
+            rounded
             disabled={estilo === null}
           />
         </Link>

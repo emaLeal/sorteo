@@ -12,7 +12,7 @@ export async function DELETE(req, params) {
       query: "SELECT * FROM sorteos WHERE id=?",
       values: [id],
     });
-   
+
     const result = await executeQuery({
       query: "DELETE FROM sorteos WHERE id=?",
       values: [id],
@@ -39,43 +39,36 @@ export async function DELETE(req, params) {
 
 export async function GET(req, params) {
   const { id } = params.params;
-
+  /*
+select * from participantes p where p.evento_id=? and participara=? and not exists(select 1 from sorteos s where s.ganador_id=p.id)
+*/
   try {
     const result = await executeQuery({
       query: "SELECT * FROM sorteos WHERE id=?",
       values: [id],
     });
+
     const participantes = await executeQuery({
-      query: "SELECT * from participantes where evento_id=? and participara=?",
+      query:
+        "select * from participantes p where p.evento_id=? and p.participara=? and not exists(select 1 from sorteos s where s.ganador_id=p.id)",
       values: [result[0].evento_id, true],
     });
-
-    const sort = participantes.map(async (part) => {
-      const ganador = await executeQuery({
-        query: "select * from sorteos where ganador_id=?",
-        values: [part.id],
-      });
-      if (ganador.length === 0) {
-        return part;
-      }
-    });
-
-    const re = await Promise.all(sort);
 
     if (result[0].pregunta === 1) {
       const pregunta = await executeQuery({
         query: "SELECT * FROM preguntas where sorteo_id=?",
         values: [id],
       });
+      console.log(result)
 
       return NextResponse.json(
-        { data: result[0], participantes: re, pregunta: pregunta[0] },
+        { data: result[0], participantes, pregunta: pregunta[0] },
         { status: 200 }
       );
     }
 
     return NextResponse.json(
-      { data: result[0], participantes: re },
+      { data: result[0], participantes},
       { status: 200 }
     );
   } catch (error) {
@@ -142,7 +135,7 @@ export async function PUT(req, params) {
             body.opcion3,
             body.opcion4,
             body.opcion_verdadera,
-            id
+            id,
           ],
         });
       }

@@ -14,6 +14,15 @@ async function getData(id) {
 
   return json;
 }
+async function getExclusivos(id) {
+  const url = `http://localhost:3000/api/sorteos_ex/info/${id}`;
+  const res = await fetch(url);
+
+  if (res.ok) {
+    const json = await res.json();
+    return json;
+  }
+}
 
 async function getEvento(id) {
   const res = await fetch(`${process.env.COMPLETE_HOST}/api/eventos/${id}`, {
@@ -28,7 +37,13 @@ async function getEvento(id) {
 export default async function SorteoPage({ params }) {
   const { paramsSorteo } = params;
   const parametros = JSON.parse(decodeURIComponent(paramsSorteo));
-  const data = await getData(parametros.sorteo_id);
+  let data;
+  if (parametros.exclusivos === true) {
+    data = await getExclusivos(parametros.sorteo_id);
+  } else {
+    data = await getData(parametros.sorteo_id);
+  }
+  console.log(data);
   const evento = await getEvento(data.data.evento_id);
   const cookieStore = cookies().get("miToken");
   try {
