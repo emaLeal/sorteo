@@ -22,7 +22,7 @@ const SwiperData = ({ data, noImagen, setRef }) => {
         width={400}
         alt={"Nombre de Usuario"}
       />
-      <span className="font-bold text-2xl text-black mt-2 text-start">
+      <span className="font-bold text-5xl text-black mt-2 text-start">
         {data.nombre}
       </span>
       <span className="font-bold text-xl text-black mt-2 text-start">

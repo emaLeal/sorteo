@@ -12,11 +12,16 @@ export async function DELETE(req, params) {
       query: "SELECT * FROM sorteos WHERE id=?",
       values: [id],
     });
+    const delParticipantes = await executeQuery({
+      query: "DELETE from exclusividad_sorteo where sorteo_id=?",
+      values: [id],
+    });
 
     const result = await executeQuery({
       query: "DELETE FROM sorteos WHERE id=?",
       values: [id],
     });
+
     if (sorteo[0].pregunta === true) {
       const delPregunta = await executeQuery({
         query: "delete from preguntas where sorteo_id=?",
@@ -59,7 +64,7 @@ select * from participantes p where p.evento_id=? and participara=? and not exis
         query: "SELECT * FROM preguntas where sorteo_id=?",
         values: [id],
       });
-      console.log(result)
+      console.log(result);
 
       return NextResponse.json(
         { data: result[0], participantes, pregunta: pregunta[0] },
@@ -68,7 +73,7 @@ select * from participantes p where p.evento_id=? and participara=? and not exis
     }
 
     return NextResponse.json(
-      { data: result[0], participantes},
+      { data: result[0], participantes },
       { status: 200 }
     );
   } catch (error) {
