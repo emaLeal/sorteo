@@ -27,9 +27,7 @@ const DetalleSorteoDialog = ({ visible, onHide, rowData }) => {
     }
   }, [rowData]);
 
-  const footer = () => {
-      
-  }
+  const footer = () => {};
 
   return (
     <>
@@ -64,6 +62,12 @@ const DetalleSorteoDialog = ({ visible, onHide, rowData }) => {
                 Ganador del Sorteo:{" "}
               </label>
               <label className="sm:text-xl">{data.nombre_ganador}</label>
+            </div>
+            <div className="flex justify-between my-2">
+              <label className="font-bold sm:text-xl">
+                Area o Cargo del Ganador:
+              </label>
+              <label className="sm:text-xl">{data.cargo_ganador}</label>
             </div>
             <div className="flex justify-center my-2">
               <Image

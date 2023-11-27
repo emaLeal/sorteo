@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import executeQuery from '@/lib/db'
+import executeQuery from "@/lib/db";
 
 export async function GET(req, params) {
   const { id } = params.params;
@@ -11,10 +11,11 @@ export async function GET(req, params) {
     });
     const concPart = result.map(async (sort) => {
       const gan = await executeQuery({
-        query: "select * from participantes p where p.evento_id=? and exists(select 1 from sorteos s where s.ganador_id=p.id)",
-        values: [id],
+        query:
+          "select * from participantes p where p.evento_id=? and exists(select 1 from sorteos s where s.ganador_id=p.id and s.id=?)",
+        values: [id, sort.id],
       });
-      console.log(gan)
+      console.log(gan);
       if (sort.pregunta === 1) {
         const preguntas = await executeQuery({
           query: "Select * from preguntas where sorteo_id=?",
@@ -26,6 +27,7 @@ export async function GET(req, params) {
             nombre_ganador: gan[0].nombre,
             correo_ganador: gan[0].correo,
             imagen_ganador: gan[0].foto,
+            cargo_ganador: gan[0].cargo,
             dataPregunta: {
               id: preguntas[0].id,
               preguntalabel: preguntas[0].pregunta,
@@ -35,7 +37,7 @@ export async function GET(req, params) {
               opcion4: preguntas[0].opcion4,
               opcion_verdadera: preguntas[0].opcion_verdadera,
               sorteo_id: preguntas[0].sorteo_id,
-            }
+            },
           };
         } else {
           return {
@@ -43,6 +45,7 @@ export async function GET(req, params) {
             nombre_ganador: null,
             correo_ganador: null,
             imagen_ganador: null,
+            cargo_ganador: null,
             dataPreguntas: {
               id: preguntas[0].id,
               preguntalabel: preguntas[0].pregunta,
@@ -62,6 +65,7 @@ export async function GET(req, params) {
             nombre_ganador: gan[0].nombre,
             correo_ganador: gan[0].correo,
             imagen_ganador: gan[0].foto,
+            cargo_ganador: gan[0].cargo,
           };
         } else {
           return {
@@ -69,6 +73,7 @@ export async function GET(req, params) {
             nombre_ganador: null,
             correo_ganador: null,
             imagen_ganador: null,
+            cargo_ganador: null,
           };
         }
       }
@@ -84,7 +89,7 @@ export async function GET(req, params) {
       { status: 200 }
     );
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return NextResponse.json({ e }, { status: 500 });
   }
 }

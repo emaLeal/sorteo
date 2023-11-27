@@ -13,17 +13,20 @@ const SwiperData = ({ data, noImagen, setRef }) => {
   return !noImagen ? (
     <div
       ref={swiperDataRef}
-      className="flex justify-center flex-column items-center pt-4"
+      className="flex h-full justify-center flex-column items-center content-center pt-4"
     >
       <Image
         src={data.foto === "/user.png" ? data.foto : `/api/foto${data.foto}`}
         className="rounded-full"
-        height={300}
-        width={300}
+        height={400}
+        width={400}
         alt={"Nombre de Usuario"}
       />
       <span className="font-bold text-2xl text-black mt-2 text-start">
         {data.nombre}
+      </span>
+      <span className="font-bold text-xl text-black mt-2 text-start">
+        {data.cargo}
       </span>
     </div>
   ) : (
@@ -34,6 +37,9 @@ const SwiperData = ({ data, noImagen, setRef }) => {
       <div className="p-5">
         <span className="block font-bold text-7xl text-black align-middle text-center">
           {data.nombre}
+        </span>
+        <span className="block font-bold text-xl text-black mt-4 text-start align-middle text-center">
+          {data.cargo}
         </span>
       </div>
     </div>
