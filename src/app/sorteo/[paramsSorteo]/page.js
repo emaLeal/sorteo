@@ -15,7 +15,7 @@ async function getData(id) {
   return json;
 }
 async function getExclusivos(id) {
-  const url = `http://localhost:3000/api/sorteos_ex/info/${id}`;
+  const url = `${process.env.COMPLETE_HOST}/api/sorteos_ex/info/${id}`;
   const res = await fetch(url);
 
   if (res.ok) {
