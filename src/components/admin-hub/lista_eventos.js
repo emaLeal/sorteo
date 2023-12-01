@@ -12,6 +12,7 @@ import Link from "next/link";
 import InvitacionDialog from "./invitaciondialog";
 import { useRouter } from "next/navigation";
 import Header from "./HeaderEventos";
+import { updateShowImage } from "./action";
 
 const ListaEventos = ({ data }) => {
   const [visible, setVisible] = useState(false);
@@ -69,7 +70,7 @@ const ListaEventos = ({ data }) => {
     download.click();
     document.body.removeChild(download);
   }
-  
+
   const Acciones = (rowData) => {
     return (
       <div className="max-sm:flex">
@@ -137,6 +138,33 @@ const ListaEventos = ({ data }) => {
           className="mx-2"
           onClick={() => downloadXlsx(rowData)}
         />
+        {rowData.mostrar_foto_empresa === 1 ? (
+          <Button
+            text
+            tooltip="Ocultar Foto de Empresa"
+            tooltipOptions={{ position: "bottom" }}
+            icon="pi pi-eye-slash"
+            rounded
+            severity="success"
+            raised
+            onClick={() =>
+              updateShowImage(rowData.mostrar_foto_empresa, rowData.id)
+            }
+          />
+        ) : (
+          <Button
+            text
+            tooltip="Mostrar Foto de Empresa"
+            tooltipOptions={{ position: "bottom" }}
+            icon="pi pi-eye"
+            rounded
+            severity="danger"
+            raised
+            onClick={() =>
+              updateShowImage(rowData.mostrar_foto_empresa, rowData.id)
+            }
+          />
+        )}
       </div>
     );
   };
@@ -201,7 +229,7 @@ const ListaEventos = ({ data }) => {
       />
       <Toast ref={toast} />
       <CrearEventoDialog visible={visible} onHide={onHide} data={prevData} />
-      <div className="my-12 sm:mx-28 sm:my-12">
+      <div className="my-12 sm:mx-4 sm:my-12">
         <DataTable
           value={data}
           header={
