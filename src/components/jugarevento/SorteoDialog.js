@@ -26,7 +26,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
     { label: "VELOCIDAD MEDIA", value: 200 },
   ];
   const [estilo, setEstilo] = useState(null);
-  const [duracion, setDuracion] = useState(18);
+  const [duracion, setDuracion] = useState(7);
   const [noImagen, setNoImagen] = useState(false);
   const [audio, setAudio] = useState("/audio-1.mp3");
   const [velocidad, setVelocidad] = useState(null);
@@ -133,7 +133,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
               duracion,
               audio,
               noImagen,
-              velocidad,
+              velocidad: velocidad === null ? 100 : velocidad,
               exclusivos: false,
               sorteo_id: datosSorteo.id,
             })
@@ -144,7 +144,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
             text
             raised
             tooltip="Jugar Sorteo"
-            icon='pi pi-users'
+            icon="pi pi-users"
             tooltipOptions={{ position: "top" }}
             rounded
             severity="info"
@@ -160,7 +160,7 @@ const SorteoDialog = ({ visible, onHide, id, datosSorteo }) => {
               duracion,
               audio,
               noImagen,
-              velocidad,
+              velocidad: velocidad === null ? 100 : velocidad,
               sorteo_id: datosSorteo.id,
               exclusivos: true,
             })

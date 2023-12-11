@@ -22,37 +22,30 @@ const ListaEventos = ({ data }) => {
   const router = useRouter();
 
   const downloadXlsx = async (rowData) => {
-    const idEvento = rowData.id;
-    const nombreEvento = rowData.nombre_evento;
-    const res = await fetch(`/api/participante/${idEvento}`);
-    if (res.ok) {
-      try {
-        const participantes = await res.json();
-        const data = participantes.data.map((part) => {
-          if (part.participara === 1) {
-            part.participara = "ATENDIÒ EL EVENTO";
-          } else {
-            part.participara = "NO ATENDIÒ EL EVENTO";
-          }
-          if (part.acepta === 1) {
-            part.acepta = "ACEPTÒ TERMINOS Y CONDICIONES";
-          } else {
-            part.acepta = "NO ACEPTÒ TERMINOS Y CONDICIONES";
-          }
-          return part;
-        });
-        const work = utils.book_new();
-
-        for (let key in data) {
-          const workSheet = utils.json_to_sheet(data);
-          utils.book_append_sheet(work, workSheet, key);
-        }
-
-        const wri = write(work, { type: "array", bookType: "xlsx" });
-        saveAsExcel(wri, `Participantes de evento ${nombreEvento}`);
-      } catch (error) {
-        console.log(error);
+    try {
+      const idEvento = rowData.id;
+      const nombreEvento = rowData.nombre_evento;
+  
+      const res = await fetch(`/api/participante/${idEvento}`);
+      if (!res.ok) {
+        throw new Error("Error fetching participantes");
       }
+  
+      const participantes = (await res.json()).data;
+      const transformedData = participantes.map((part) => ({
+        ...part,
+        participara: part.participara === 1 ? "ATENDIÒ EL EVENTO" : "NO ATENDIÒ EL EVENTO",
+        acepta: part.acepta === 1 ? "ACEPTÒ TERMINOS Y CONDICIONES" : "NO ACEPTÒ TERMINOS Y CONDICIONES",
+      }));
+  
+      const workSheet = utils.json_to_sheet(transformedData);
+      const work = utils.book_new();
+      utils.book_append_sheet(work, workSheet, "Participantes");
+  
+      const buffer = write(work, { type: "array", bookType: "xlsx" });
+      saveAsExcel(buffer, `Participantes de evento ${nombreEvento}`);
+    } catch (error) {
+      console.error(error);
     }
   };
 
