@@ -12,36 +12,64 @@ import Link from "next/link";
 import InvitacionDialog from "./invitaciondialog";
 import { useRouter } from "next/navigation";
 import Header from "./HeaderEventos";
+import ConfiguracionEvento from "./ConfiguracionEvento";
 
 const ListaEventos = ({ data }) => {
   const [visible, setVisible] = useState(false);
   const [eventoData, setEventoData] = useState(undefined);
   const [prevData, setPrevData] = useState(null);
+  const [configEventoVisible, setConfigEventoVisible] = useState(false);
   const [invitacionVisible, setInvitacionVisible] = useState(false);
+  const [idEvento, setIdEvento] = useState(0);
   const toast = useRef(null);
   const router = useRouter();
+
+  const dialog = (id) => {
+    confirmDialog({
+      header: "Configurar Evento?",
+      message:
+        "¿Quiere configurar el evento para que cada sorteo muestre una caracteristica predeterminada?",
+      acceptLabel: "Configurar Evento",
+      acceptIcon: "pi pi-wrench",
+      acceptClassName:
+        "p-button p-button-help p-button-raised p-button-rounded p-button-text",
+      accept: () => {
+        setIdEvento(id);
+        setConfigEventoVisible(!configEventoVisible);
+      },
+      rejectLabel: "Configurar Cada sorteo Individualmente",
+      rejectClassName:
+        "p-button p-button-warning p-button-raised p-button-rounded p-button-text",
+      rejectIcon: "pi pi-cog",
+      reject: () => router.push(`/jugarevento/${id}`),
+    });
+  };
 
   const downloadXlsx = async (rowData) => {
     try {
       const idEvento = rowData.id;
       const nombreEvento = rowData.nombre_evento;
-  
+
       const res = await fetch(`/api/participante/${idEvento}`);
       if (!res.ok) {
         throw new Error("Error fetching participantes");
       }
-  
+
       const participantes = (await res.json()).data;
       const transformedData = participantes.map((part) => ({
         ...part,
-        participara: part.participara === 1 ? "ATENDIÒ EL EVENTO" : "NO ATENDIÒ EL EVENTO",
-        acepta: part.acepta === 1 ? "ACEPTÒ TERMINOS Y CONDICIONES" : "NO ACEPTÒ TERMINOS Y CONDICIONES",
+        participara:
+          part.participara === 1 ? "ATENDIÒ EL EVENTO" : "NO ATENDIÒ EL EVENTO",
+        acepta:
+          part.acepta === 1
+            ? "ACEPTÒ TERMINOS Y CONDICIONES"
+            : "NO ACEPTÒ TERMINOS Y CONDICIONES",
       }));
-  
+
       const workSheet = utils.json_to_sheet(transformedData);
       const work = utils.book_new();
       utils.book_append_sheet(work, workSheet, "Participantes");
-  
+
       const buffer = write(work, { type: "array", bookType: "xlsx" });
       saveAsExcel(buffer, `Participantes de evento ${nombreEvento}`);
     } catch (error) {
@@ -62,7 +90,7 @@ const ListaEventos = ({ data }) => {
     download.click();
     document.body.removeChild(download);
   }
-  
+
   const Acciones = (rowData) => {
     return (
       <div className="max-sm:flex">
@@ -110,17 +138,16 @@ const ListaEventos = ({ data }) => {
           className=" mr-2 hover:scale-110 transition-transform"
           onClick={() => onHideInvitacion(rowData)}
         />
-        <Link href={`/jugarevento/${rowData.id}`}>
-          <Button
-            text
-            rounded
-            raised
-            severity="success"
-            icon="pi pi-step-forward"
-            tooltip="Jugar evento"
-            className="max-sm:hidden hover:scale-110 transition-transform"
-          />
-        </Link>
+        <Button
+          text
+          rounded
+          raised
+          onClick={() => dialog(rowData.id)}
+          severity="success"
+          icon="pi pi-step-forward"
+          tooltip="Jugar evento"
+          className="max-sm:hidden hover:scale-110 transition-transform"
+        />
         <Button
           text
           severity="help"
@@ -186,6 +213,11 @@ const ListaEventos = ({ data }) => {
 
   return (
     <>
+      <ConfiguracionEvento
+        visible={configEventoVisible}
+        onHide={() => setConfigEventoVisible(!configEventoVisible)}
+        id={idEvento}
+      />
       <ConfirmDialog />
       <InvitacionDialog
         visible={invitacionVisible}
