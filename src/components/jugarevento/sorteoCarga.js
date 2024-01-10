@@ -34,7 +34,15 @@ const SorteoCarga = ({
   const [slideWinner, setSlideWinner] = useState(null);
   const router = useRouter();
   const maxConfettis = 150;
-
+  const configuraciones = encodeURIComponent(
+    JSON.parse({
+      data,
+      estilo,
+      duracion,
+      audio,
+      noImagen,
+    })
+  );
   const changeSpeed = (speed) => {
     swiper.params.autoplay.delay = speed;
   };
@@ -173,7 +181,9 @@ const SorteoCarga = ({
           if (res.ok) {
             console.log(data);
             router.refresh();
-            router.push(`/jugarevento/${data.data.evento_id}`);
+            router.push(
+              `/jugarevento/${data.data.evento_id}/${configuraciones}`
+            );
           }
         });
       },
@@ -237,7 +247,9 @@ const SorteoCarga = ({
                 tooltipOptions={{ position: "left" }}
               />
             )}
-            <Link href={`/jugarevento/${data.data.evento_id}`}>
+            <Link
+              href={`/jugarevento/${data.data.evento_id}/${configuraciones}`}
+            >
               <Button
                 className="p-button p-button-primary p-button-rounded mb-2 mr-2"
                 icon="pi pi-step-backward"

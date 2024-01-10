@@ -28,6 +28,14 @@ const SorteoEstatico = ({
   const { isFullscreen, toggleFullscreen } = useFullScreen();
   const canvaRef = useRef(null);
   const maxConfettis = 150;
+  const configuraciones = encodeURIComponent(
+    JSON.stringify({
+      estilo: 'estatico',
+      duracion,
+      audio,
+      noImagen,
+    })
+  );
 
   const declararGanador = () => {
     confirmDialog({
@@ -47,7 +55,9 @@ const SorteoEstatico = ({
           if (res.ok) {
             console.log(data);
             router.refresh();
-            router.push(`/jugarevento/${data.data.evento_id}`);
+            router.push(
+              `/jugarevento/${data.data.evento_id}/${configuraciones}`
+            );
           }
         });
       },
@@ -229,7 +239,7 @@ const SorteoEstatico = ({
               tooltipOptions={{ position: "left" }}
             />
           )}
-          <Link href={`/jugarevento/${data.data.evento_id}`}>
+          <Link href={`/jugarevento/${data.data.evento_id}/${configuraciones}`}>
             <Button
               className="p-button p-button-primary p-button-rounded mb-2 mr-2"
               icon="pi pi-step-backward"
