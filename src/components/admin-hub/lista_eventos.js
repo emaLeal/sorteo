@@ -12,10 +12,12 @@ import Link from "next/link";
 import InvitacionDialog from "./invitaciondialog";
 import { useRouter } from "next/navigation";
 import Header from "./HeaderEventos";
+import QrCode from "./QrCode";
 import ConfiguracionEvento from "./ConfiguracionEvento";
 
 const ListaEventos = ({ data }) => {
   const [visible, setVisible] = useState(false);
+  const [visibleQr, setVisibleQr] = useState(false);
   const [eventoData, setEventoData] = useState(undefined);
   const [prevData, setPrevData] = useState(null);
   const [configEventoVisible, setConfigEventoVisible] = useState(false);
@@ -150,6 +152,16 @@ const ListaEventos = ({ data }) => {
         />
         <Button
           text
+          rounded
+          raised
+          severity="secondary"
+          icon="pi pi-qrcode"
+          tooltip="Qr para Registro"
+          className="max-sm:hidden hover:scale-110 transition-transform"
+          onClick={() => onHideQr(rowData)}
+        />
+        <Button
+          text
           severity="help"
           tooltip="Exportar Participantes"
           icon="pi pi-file-export"
@@ -207,6 +219,13 @@ const ListaEventos = ({ data }) => {
     setInvitacionVisible(!invitacionVisible);
   };
 
+  const onHideQr = (data) => {
+    if (data !== undefined) {
+      setEventoData(data);
+    }
+    setVisibleQr(!visibleQr);
+  };
+
   const onHide = () => {
     setVisible(!visible);
   };
@@ -219,6 +238,7 @@ const ListaEventos = ({ data }) => {
         id={idEvento}
       />
       <ConfirmDialog />
+      <QrCode onHide={onHideQr} visible={visibleQr} evento_data={eventoData} />
       <InvitacionDialog
         visible={invitacionVisible}
         onHide={onHideInvitacion}
