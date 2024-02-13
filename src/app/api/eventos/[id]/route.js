@@ -13,8 +13,15 @@ export async function GET(req, params) {
       values: [id],
     });
 
+    if (data.length === 0) throw 404;
+
     return NextResponse.json({ data: data[0] }, { status: 200 });
   } catch (error) {
+    if (error === 404)
+      return NextResponse.json(
+        { message: "No se ha encontrado este evento" },
+        { status: 404 }
+      );
     return NextResponse.json({ error }, { status: 500 });
   }
 }
@@ -27,6 +34,8 @@ export async function PUT(req, params) {
       query: "select * from evento where id=?",
       values: [id],
     });
+
+    if (select.length === 0) throw 404;
 
     let imgEmpresa = body.foto_empresa;
     let imgEvento = body.foto_evento;
@@ -68,6 +77,11 @@ export async function PUT(req, params) {
       { status: 200 }
     );
   } catch (error) {
+    if (error === 404)
+      return NextResponse.json(
+        { message: "No se encontro un evento" },
+        { status: 404 }
+      );
     return NextResponse.json({ error }, { status: 500 });
   }
 }
@@ -80,11 +94,12 @@ export async function DELETE(req, params) {
       values: [id],
     });
 
+    if (event.length === 0) throw 404;
+
     let imgEvento = event[0].foto_evento;
     let imgEmpresa = event[0].foto_empresa;
     imgEvento = "img" + imgEvento;
     imgEmpresa = "img" + imgEmpresa;
-   
 
     const sorteos = await executeQuery({
       query: "SELECT * FROM sorteos where evento_id=?",
@@ -107,8 +122,6 @@ export async function DELETE(req, params) {
       query: "SELECT * FROM participantes where evento_id=?",
       values: [id],
     });
-
- 
 
     const delSorteo = await executeQuery({
       query: "DELETE from sorteos where evento_id=?",
@@ -141,6 +154,11 @@ export async function DELETE(req, params) {
     return NextResponse.json({ message: "Evento Eliminado" }, { status: 200 });
   } catch (error) {
     console.log(error);
+    if (error === 404)
+      return NextResponse.json(
+        { message: "Evento no se ha encontrado" },
+        { status: 404 }
+      );
     return NextResponse.json({ error }, { status: 500 });
   }
 }

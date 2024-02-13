@@ -44,9 +44,7 @@ export async function DELETE(req, params) {
 
 export async function GET(req, params) {
   const { id } = params.params;
-  /*
-select * from participantes p where p.evento_id=? and participara=? and not exists(select 1 from sorteos s where s.ganador_id=p.id)
-*/
+ 
   try {
     const result = await executeQuery({
       query: "SELECT * FROM sorteos WHERE id=?",

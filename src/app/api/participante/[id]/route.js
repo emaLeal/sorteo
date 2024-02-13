@@ -1,12 +1,15 @@
-import { revalidatePath } from 'next/cache';
-import executeQuery from '@/lib/db'
+import { revalidatePath } from "next/cache";
+import executeQuery from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function GET(req, params) {
   const { id } = params.params;
   try {
     const data = await executeQuery({
-      query: "SELECT * FROM participantes p where p.evento_id=? and not exists(select 1 from exclusividad_sorteo ex where ex.participante_id=p.id)",
+      query:
+        `SELECT * FROM participantes p where 
+        p.evento_id=? and not exists
+        (select 1 from exclusividad_sorteo ex where ex.participante_id=p.id)`,
       values: [id],
     });
 
