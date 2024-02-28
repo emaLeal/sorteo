@@ -35,24 +35,22 @@ export async function DELETE(req, params) {
       values: [id],
     });
 
-    data.forEach(async (element) => {
-      const del = await executeQuery({
+    for (const element of data) {
+      await executeQuery({
         query: "DELETE FROM participantes where id=?",
         values: [element.id],
       });
       if (element.foto !== "/user.png") {
-        unlink("img" + element.foto, (err) => {
-          if (err) throw err;
-        });
+        await unlink("img" + element.foto); // Esperar la eliminación de la imagen
       }
-    });
+    }
+
     revalidatePath("/admin-hub/gestionarevento/[id]/participantes");
     return NextResponse.json(
       { message: "Participantes eliminados" },
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
