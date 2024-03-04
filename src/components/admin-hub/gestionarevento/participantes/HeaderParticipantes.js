@@ -51,6 +51,35 @@ const Header = ({
       });
   }, []);
 
+  const enviarMensajes = () => {
+    confirmDialog({
+      message: "¿Quieres Enviar correos a todos los participantes del evento?",
+      header: "Enviar Mensajes",
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Enviar Mensajes",
+      rejectLabel: "Cancelar",
+      acceptIcon: "pi pi-send",
+      rejectIcon: "pi pi-check",
+      acceptClassName:
+        "p-button p-button-success p-button-text p-button-raised",
+      rejectClassName: "p-button p-button-text p-button-raised",
+      accept: () => env(),
+    });
+  };
+
+  const env = async () => {
+    const body = JSON.stringify({
+      evento,
+    });
+    const data = await fetch("/api/enviarmensaje", {
+      method: "POST",
+      body,
+    });
+    if (data.ok) {
+      console.log(":D");
+    }
+  };
+
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
     let _filters = { ...filters };
@@ -184,6 +213,7 @@ const Header = ({
             placeholder="Filtrar por cargo"
           />
           <Dropdown
+            className="w-4"
             options={options}
             name="participara"
             value={participar}
@@ -217,7 +247,18 @@ const Header = ({
             raised
             rounded
           />
-
+          <Button
+            severity="secondary"
+            icon="pi pi-send"
+            className="mx-2 my-2"
+            text
+            tooltip="Enviar Correo sobre Participantes"
+            tooltipOptions={{ position: "right" }}
+            size="small"
+            onClick={() => enviarMensajes()}
+            raised
+            rounded
+          />
           <FileUpload
             mode="basic"
             name="demo[]"
