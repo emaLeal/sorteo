@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-export async function sendEmail(file){
+export async function sendEmail(file, many) {
   // Configurar el transporte de nodemailer
   const transporter = nodemailer.createTransport({
     // Configuración del servidor SMTP, por ejemplo, para Gmail
@@ -12,11 +12,20 @@ export async function sendEmail(file){
   });
 
   // Definir el contenido del correo electrónico
-  const mailOptions = file
 
   // Enviar el correo electrónico
   try {
-    await transporter.sendMail(mailOptions);
+    if (many === true) {
+      // Utiliza Promise.all() para enviar correos electrónicos en paralelo
+      await Promise.all(
+        file.map(async (options) => {
+          await transporter.sendMail(options);
+        })
+      );
+      console.log("Correos electrónicos enviados con éxito");
+      return;
+    }
+    await transporter.sendEmail(mailOptions);
     console.log("Correo electrónico enviado con éxito");
   } catch (error) {
     console.error("Error al enviar el correo electrónico:", error);
