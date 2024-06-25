@@ -9,12 +9,8 @@ const Menu = ({ id }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   
 
-  React.useEffect(() => {
-    const { index } = items.find((e) => e.route === activeRoute);
-    setActiveIndex(index)
-  }, [activeRoute]);
-
   const items = [
+   
     {
       index: 0,
       label: "Sorteos",
@@ -37,7 +33,20 @@ const Menu = ({ id }) => {
       route: `/admin-hub/gestionarevento/${id}/asistencia`,
       command: () => router.push(`/admin-hub/gestionarevento/${id}/asistencia`),
     },
+    {
+      index: 3,
+      label: '',
+      icon: 'pi',
+      route: `/admin-hub/gestionarevento/${id}`,
+      command: () => router.push(`/admin-hub/gestionarevento/${id}/sorteos`),
+
+    }
   ];
+
+  React.useEffect(() => {
+    const { index } = items.find((e) => e.route === activeRoute);
+    setActiveIndex(index)
+  }, [activeRoute]);
 
   return (
     <div className="flex justify-center">

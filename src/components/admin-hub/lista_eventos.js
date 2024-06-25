@@ -170,17 +170,7 @@ const ListaEventos = ({ data }) => {
           className="max-sm:hidden hover:scale-110 transition-transform mx-2"
           onClick={() => downloadXlsx(rowData)}
         />
-        <Link href={`/admin-hub/gestionarevento/${rowData.id}/asistencia`}>
-          <Button
-            text
-            severity="info"
-            tooltip="Modulo Asistencia"
-            icon="pi pi-users"
-            raised
-            className="max-sm:hidden hover:scale-110 transition-transform "
-            rounded
-          />
-        </Link>
+        
       </div>
     );
   };

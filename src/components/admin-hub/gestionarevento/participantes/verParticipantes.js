@@ -6,11 +6,12 @@ import Image from "next/image";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { FilterMatchMode } from "primereact/api";
-import CrearParticipantes from "./CrearParticipantes";
 import HabilitarButton from "./HabilitarButton";
 import { useRouter } from "next/navigation";
+import Template from "@/lib/template";
 import Header from "./HeaderParticipantes";
 import Footer from "./FooterParticipantes";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 const VerParticipantes = ({ evento, data }) => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const VerParticipantes = ({ evento, data }) => {
   const [globalFilterValue, setGlobalFilterValue] = useState("");
   const [participar, setParticipar] = useState("");
   const [cargo, setCargo] = useState("");
+  const [isClient, setIsClient] = useState(false);
 
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -25,6 +27,10 @@ const VerParticipantes = ({ evento, data }) => {
     cargo: { value: null, matchMode: FilterMatchMode.EQUALS },
     participara: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
+
+  React.useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const imgBody = (rowData) => {
     return (
@@ -46,13 +52,31 @@ const VerParticipantes = ({ evento, data }) => {
       <>
         <HabilitarButton rowData={rowData} />
         <Button
-          className="p-button p-button-danger p-button-rounded"
+          rounded
+          severity="danger"
           tooltip="Eliminar Participante"
           icon="pi pi-trash"
           text
           raised
           onClick={() => eliminarParticipante(rowData.id)}
+          className="mr-2"
         />
+        {isClient && (
+          <PDFDownloadLink
+            document={<Template participante={rowData} />}
+            fileName="contenido.pdf"
+          >
+            <Button
+              tooltip="Descargar Qr"
+              tooltipOptions={{ position: "left" }}
+              icon="pi pi-qrcode"
+              text
+              raised
+              rounded
+              severity="help"
+            />
+          </PDFDownloadLink>
+        )}
       </>
     );
   };
