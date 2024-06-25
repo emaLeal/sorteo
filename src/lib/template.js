@@ -1,12 +1,19 @@
-'use client'
-import { Page, Text, View, Document, StyleSheet, Image } from "@react-pdf/renderer";
+"use client";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Image,
+} from "@react-pdf/renderer";
 import { useRef } from "react";
-import QRCode from 'qrcode';
+import QRCode from "qrcode";
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
-    padding: 20,
+    padding: 5,
   },
   section: {
     margin: 10,
@@ -30,9 +37,9 @@ const Template = ({ participante }) => {
   const invitacionLink = `https://admin.smartie.com.co/api/habilitar`;
   const qrCodeRef = useRef(null);
   const qrCodeDataURL = () => {
-    const canvas = document.createElement('canvas');
-    QRCode.toCanvas(canvas, invitacionLink, { errorCorrectionLevel: 'H' });
-    return canvas.toDataURL('image/png');
+    const canvas = document.createElement("canvas");
+    QRCode.toCanvas(canvas, invitacionLink, { errorCorrectionLevel: "H" });
+    return canvas.toDataURL("image/png");
   };
   return (
     <Document>
@@ -46,7 +53,7 @@ const Template = ({ participante }) => {
           </View>
           <View>
             <div ref={qrCodeRef}>
-            <Image src={qrCodeDataURL()} />
+              <Image src={qrCodeDataURL()} />
             </div>
           </View>
         </View>
