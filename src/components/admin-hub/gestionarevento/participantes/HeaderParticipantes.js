@@ -32,7 +32,6 @@ const Header = ({
     { label: "No habilitado", value: "0" },
     { label: "Cancelar Filtro", value: null },
   ]; //  Opciones de Estados
-
   const cargos = [...new Set(data.map((dato) => dato.cargo))]; // Creando los cargos posibles
 
   const optionsCargo = [
