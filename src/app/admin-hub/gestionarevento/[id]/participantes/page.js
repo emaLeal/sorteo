@@ -2,12 +2,14 @@ import VerParticipantes from "@/components/admin-hub/gestionarevento/participant
 
 async function getData(id) {
   const url = `${process.env.COMPLETE_HOST}/api/participante/${id}`;
+  const url2 = `${process.env.COMPLETE_HOST}/api/eventos/${id}`;
 
   const res = await fetch(url, { next: { revalidate: 60 } });
-
-  if (res.ok) {
-    const json = await res.json();
-
+  const res2 = await fetch(url2, { next: { revalidate: 60 } });
+  if (res.ok && res2.ok) {
+    let json = await res.json();
+    const comp = await res2.json();
+    json = { ...json, comp };
     return json;
   }
 }
@@ -15,11 +17,10 @@ async function getData(id) {
 export default async function SorteoIdPage({ params }) {
   const { id } = params;
   const data = await getData(id);
-
   return (
     <>
       <div>
-        <VerParticipantes evento={id} data={data.data} />
+        <VerParticipantes evento={id} data={data.data} nombre_evento={data.comp.data.nombre_evento}/>
       </div>
     </>
   );

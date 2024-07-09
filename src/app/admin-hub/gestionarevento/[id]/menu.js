@@ -44,8 +44,10 @@ const Menu = ({ id }) => {
   ];
 
   React.useEffect(() => {
-    const { index } = items.find((e) => e.route === activeRoute);
-    setActiveIndex(index)
+    const route = items.find((e) => e.route === activeRoute)
+    if (route !== undefined) {
+      setActiveIndex(route.index)
+    }
   }, [activeRoute]);
 
   return (

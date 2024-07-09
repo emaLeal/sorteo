@@ -13,7 +13,7 @@ import Header from "./HeaderParticipantes";
 import Footer from "./FooterParticipantes";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 
-const VerParticipantes = ({ evento, data }) => {
+const VerParticipantes = ({ evento, data, nombre_evento }) => {
   const router = useRouter();
   const toast = useRef(null);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
@@ -62,20 +62,22 @@ const VerParticipantes = ({ evento, data }) => {
           className="mr-2"
         />
         {isClient && (
-          <PDFDownloadLink
-            document={<Template participante={rowData} />}
-            fileName="contenido.pdf"
-          >
-            <Button
-              tooltip="Descargar Qr"
-              tooltipOptions={{ position: "left" }}
-              icon="pi pi-qrcode"
-              text
-              raised
-              rounded
-              severity="help"
-            />
-          </PDFDownloadLink>
+          <>
+            <PDFDownloadLink
+              document={<Template participante={rowData} nombre_evento={nombre_evento}/>}
+              fileName="contenido.pdf"
+            >
+              <Button
+                tooltip="Descargar Qr"
+                tooltipOptions={{ position: "left" }}
+                icon="pi pi-qrcode"
+                text
+                raised
+                rounded
+                severity="help"
+              />
+            </PDFDownloadLink>
+          </>
         )}
       </>
     );
@@ -134,6 +136,7 @@ const VerParticipantes = ({ evento, data }) => {
           <Column header="Acciones" body={Acciones} />
         </DataTable>
       </div>
+      
     </>
   );
 };
