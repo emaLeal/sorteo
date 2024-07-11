@@ -331,7 +331,7 @@ const Header = ({
             raised
             rounded
             size="small"
-            tooltip="Crear .zip de qrs de participantes"
+            tooltip="Crear ZIP"
             tooltipOptions={{ position: "left" }}
             icon="pi pi-file-export"
             className="my-2 ml-2"
