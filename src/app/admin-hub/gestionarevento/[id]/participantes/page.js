@@ -20,7 +20,12 @@ export default async function SorteoIdPage({ params }) {
   return (
     <>
       <div>
-        <VerParticipantes evento={id} data={data.data} nombre_evento={data.comp.data.nombre_evento}/>
+        <VerParticipantes
+          evento={id}
+          data={data.data}
+          nombre_evento={data.comp.data.nombre_evento}
+          nombre_empresa={data.comp.data.empresa}
+        />
       </div>
     </>
   );

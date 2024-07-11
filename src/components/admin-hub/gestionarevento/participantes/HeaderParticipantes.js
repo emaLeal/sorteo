@@ -8,6 +8,10 @@ import { Tooltip } from "primereact/tooltip";
 import CrearParticipantes from "./CrearParticipantes";
 import MoverParticipantes from "./MoverParticipantes";
 import { useState, useEffect } from "react";
+import { pdf } from "@react-pdf/renderer";
+import Template from "@/lib/template";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 const Header = ({
   globalFilterValue,
@@ -22,6 +26,8 @@ const Header = ({
   router,
   evento,
   toast,
+  nombre_evento,
+  nombre_empresa,
 }) => {
   const [visible, setVisible] = useState(false);
   const [mostrarVisible, setMostrarVisible] = useState(false);
@@ -48,7 +54,39 @@ const Header = ({
       .then((json) => {
         setSorteos(json.data);
       });
-  }, []);
+  }, [evento]);
+
+  const generarPdfs = async () => {
+    const pdfs = [];
+    for (let i = 0; i < data.length; i++) {
+      const blob = await pdf(
+        <Template
+          participante={data[i]}
+          nombre_evento={nombre_evento}
+          nombre_empresa={nombre_empresa}
+        />
+      ).toBlob();
+      pdfs.push(blob);
+    }
+
+    return pdfs;
+  };
+  const generarZip = async (pdfs) => {
+    const zip = new JSZip();
+    for (let i = 0; i < pdfs.length; i++) {
+      zip.file(`${data[i].cedula}.pdf`, pdfs[i]);
+    }
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    return zipBlob;
+  };
+
+  const generarZipCompleto = async () => {
+    const pdfs = await generarPdfs();
+    const zipBlob = await generarZip(pdfs);
+
+    saveAs(zipBlob, "documento.zip");
+  };
 
   const enviarMensajes = () => {
     confirmDialog({
@@ -286,6 +324,18 @@ const Header = ({
             onClick={() => setVisible(!visible)}
             icon="pi pi-plus"
             className="ml-2 my-2"
+          />
+          <Button
+            severity="info"
+            text
+            raised
+            rounded
+            size="small"
+            tooltip="Crear .zip de qrs de participantes"
+            tooltipOptions={{ position: "left" }}
+            icon="pi pi-file-export"
+            className="my-2 ml-2"
+            onClick={() => generarZipCompleto()}
           />
         </div>
       </div>
