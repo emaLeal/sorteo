@@ -10,7 +10,6 @@ import {
 } from "@react-pdf/renderer";
 import { useRef } from "react";
 import QRCode from "qrcode";
-import logo from '/public/logo.png'
 
 const styles = StyleSheet.create({
   page: {
@@ -24,7 +23,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   title: {
-    fontSize: 15,
+    fontSize: 20,
     fontFamily: "Open Sans",
     textAlign: "center",
     fontWeight: "600",
@@ -45,6 +44,9 @@ const styles = StyleSheet.create({
   },
   qrDiv: {
     padding: 10,
+    border: 3,
+    marginTop: 15,
+    borderColor: "black",
   },
 });
 
@@ -74,33 +76,74 @@ const Template = ({ participante, nombre_evento }) => {
       <Page size={"A6"} style={styles.page}>
         <View style={styles.section}>
           <View>
-          <Image src="/logo.png" alt="logo" style={{width: 40, height: 25}}/>
+            <Image
+              src="/logo.png"
+              alt="logo"
+              style={{ width: 40, height: 25 }}
+            />
           </View>
-          <Text style={styles.title}>{nombre_evento}         
-          </Text>
+          <Text style={styles.title}>{nombre_evento}</Text>
           <View>
             <View style={styles.listItem}>
-              <Text style={{ fontFamily: "Open Sans", fontWeight: 600 }}>
-                Nombre:{" "}
-              </Text>
+              <View style={{ flexDirection: "row" }}>
+                <Image
+                  src={"/usuario.png"}
+                  alt="logo usuario"
+                  style={{ width: 12, height: 10, marginTop: 2 }}
+                />
+                <Text style={{ fontFamily: "Open Sans", fontWeight: 600 }}>
+                  Nombre:{" "}
+                </Text>
+              </View>
               <Text>{participante.nombre}</Text>
             </View>
             <View style={styles.listItem}>
-              <Text style={{ fontFamily: "Open Sans", fontWeight: 600 }}>
-                Cedula:{" "}
-              </Text>
+              <View style={{ flexDirection: "row" }}>
+                <Image
+                  src={"/clip-de-tarjeta-de-identificacion-alt.png"}
+                  alt="logo usuario"
+                  style={{ width: 12, height: 12, marginTop: 2 }}
+                />
+                <Text style={{ fontFamily: "Open Sans", fontWeight: 600 }}>
+                  Cedula:{" "}
+                </Text>
+              </View>
+
               <Text>{participante.cedula}</Text>
             </View>
             <View style={styles.listItem}>
-              <Text style={{ fontFamily: "Open Sans", fontWeight: 600 }}>
-                Cargo:{" "}
-              </Text>
+              <View style={{ flexDirection: "row" }}>
+                <Image
+                  src="/cargo.png"
+                  alt="Cargo de Usuario"
+                  style={{ width: 12, height: 12, marginTop: 2 }}
+                />
+                <Text style={{ fontFamily: "Open Sans", fontWeight: 600 }}>
+                  Cargo:{" "}
+                </Text>
+              </View>
+
               <Text>{participante.cargo}</Text>
             </View>
           </View>
           <View style={styles.qrDiv}>
             <div ref={qrCodeRef}>
-              <Image src={qrCodeDataURL()} alt="qr-code" />
+              <Image
+                src={qrCodeDataURL()}
+                alt="qr-code"
+                style={{ width: 220, height: 180 }}
+              />
+              <Text
+                style={{
+                  fontWeight: "600",
+                  color: "white",
+                  textAlign: "center",
+                  fontSize: 10,
+                  marginTop: 4,
+                }}
+              >
+                Escanea aqui
+              </Text>
             </div>
           </View>
         </View>

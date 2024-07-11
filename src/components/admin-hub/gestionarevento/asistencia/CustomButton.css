@@ -1,0 +1,19 @@
+/* CustomButton.css */
+.p-button-custom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 50px;
+    border-radius: 50%;
+  }
+  
+  .p-button-custom .p-button-icon {
+    margin: 0; /* Elimina el margen por defecto */
+    font-size: 50px;
+  }
+  
+  .p-button-custom .p-button-label {
+    margin-top: 4px;
+    font-size: 32px; /* Ajusta el espacio entre el icono y el texto */
+  }

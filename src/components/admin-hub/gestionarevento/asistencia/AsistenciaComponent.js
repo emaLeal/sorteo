@@ -1,14 +1,16 @@
-'use client'
-import React from 'react'
-import {InputText} from 'primereact/inputtext'
+"use client";
+import React from "react";
+import SubirQr from "./SubirQr";
+
 
 const AsistenciaComponent = () => {
   return (
     <>
-        <InputText />
-        
+      <div className="flex justify-center items-center w-screen h-96">
+        <SubirQr />
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default AsistenciaComponent
+export default AsistenciaComponent;
