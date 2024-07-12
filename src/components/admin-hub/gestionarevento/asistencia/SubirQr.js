@@ -9,7 +9,7 @@ const SubirQr = () => {
 
   const handleScan = (data) => {
     if (data) {
-      console.log(data)
+      console.log(data);
       setScanning(false);
     }
   };
@@ -42,6 +42,7 @@ const SubirQr = () => {
           onError={handleError}
           onScan={handleScan}
           style={{ width: "100%" }}
+          constraints={{ facingMode: "environment" }}
         />
       </Dialog>
     </>

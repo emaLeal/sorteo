@@ -75,13 +75,15 @@ const Template = ({ participante, nombre_evento, nombre_empresa }) => {
     <Document>
       <Page size={"A6"} style={styles.page}>
         <View style={styles.section}>
-          <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
             <Image
               src="/logo.png"
               alt="logo"
               style={{ width: 40, height: 25 }}
             />
-            <Text style={{fontSize: 8, color: 'gray'}}>{nombre_empresa}</Text>
+            <Text style={{ fontSize: 8, color: "gray" }}>{nombre_empresa}</Text>
           </View>
           <Text style={styles.title}>{nombre_evento}</Text>
           <View>
@@ -137,7 +139,8 @@ const Template = ({ participante, nombre_evento, nombre_empresa }) => {
               <Text
                 style={{
                   fontWeight: "600",
-                  color: "white",
+                  family: "Open Sans",
+                  color: "black",
                   textAlign: "center",
                   fontSize: 10,
                   marginTop: 4,
