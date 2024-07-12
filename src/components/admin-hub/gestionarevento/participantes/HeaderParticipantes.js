@@ -57,19 +57,22 @@ const Header = ({
   }, [evento]);
 
   const generarPdfs = async () => {
-    const pdfs = [];
-    for (let i = 0; i < data.length; i++) {
+    const pdfPromises = data.map(async (item) => {
       const blob = await pdf(
         <Template
-          participante={data[i]}
+          participante={item}
           nombre_evento={nombre_evento}
           nombre_empresa={nombre_empresa}
         />
       ).toBlob();
-      pdfs.push(blob);
       console.log(":D")
-    }
-console.log("funciona")
+      return blob;
+    });
+
+    // Esperamos a que todas las conversiones se completen
+    const pdfs = await Promise.all(pdfPromises);
+
+    console.log("Todos los PDFs generados.");
     return pdfs;
   };
   const generarZip = async (pdfs) => {
@@ -77,16 +80,16 @@ console.log("funciona")
     for (let i = 0; i < pdfs.length; i++) {
       zip.file(`${data[i].cedula}.pdf`, pdfs[i]);
     }
-    console.log("funciona")
+    console.log("funciona");
     const zipBlob = await zip.generateAsync({ type: "blob" });
     return zipBlob;
   };
 
   const generarZipCompleto = async () => {
-    console.log(":D")
+    console.log(":D");
     const pdfs = await generarPdfs();
     const zipBlob = await generarZip(pdfs);
-    console.log("Funciona")
+    console.log("Funciona");
     saveAs(zipBlob, "documento.zip");
   };
 
