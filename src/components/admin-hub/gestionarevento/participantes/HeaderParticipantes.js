@@ -67,6 +67,7 @@ const Header = ({
         />
       ).toBlob();
       pdfs.push(blob);
+      console.log(":D")
     }
 console.log("funciona")
     return pdfs;
