@@ -83,6 +83,7 @@ console.log("funciona")
   };
 
   const generarZipCompleto = async () => {
+    console.log(":D")
     const pdfs = await generarPdfs();
     const zipBlob = await generarZip(pdfs);
     console.log("Funciona")
