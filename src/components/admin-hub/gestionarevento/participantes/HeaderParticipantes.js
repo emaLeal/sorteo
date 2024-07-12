@@ -68,7 +68,7 @@ const Header = ({
       ).toBlob();
       pdfs.push(blob);
     }
-
+console.log("funciona")
     return pdfs;
   };
   const generarZip = async (pdfs) => {
@@ -76,7 +76,7 @@ const Header = ({
     for (let i = 0; i < pdfs.length; i++) {
       zip.file(`${data[i].cedula}.pdf`, pdfs[i]);
     }
-
+    console.log("funciona")
     const zipBlob = await zip.generateAsync({ type: "blob" });
     return zipBlob;
   };
@@ -84,7 +84,7 @@ const Header = ({
   const generarZipCompleto = async () => {
     const pdfs = await generarPdfs();
     const zipBlob = await generarZip(pdfs);
-
+    console.log("Funciona")
     saveAs(zipBlob, "documento.zip");
   };
 

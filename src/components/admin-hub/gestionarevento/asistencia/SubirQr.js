@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { QrReader } from "react-qr-reader";
 import { Button } from "primereact/button";
-import { Dialog } from "primereact/dialog";
 import "./CustomButton.css";
 
 const SubirQr = () => {
@@ -31,20 +29,7 @@ const SubirQr = () => {
         />
       </div>
 
-      <Dialog
-        header="Escanear QR"
-        visible={scanning}
-        style={{ width: "50vw" }}
-        onHide={() => setScanning(false)}
-      >
-        <QrReader
-          delay={300}
-          onError={handleError}
-          onScan={handleScan}
-          style={{ width: "100%" }}
-          constraints={{ facingMode: "environment" }}
-        />
-      </Dialog>
+    
     </>
   );
 };
