@@ -64,7 +64,7 @@ Font.register({
 });
 
 const Template = ({ participante, nombre_evento, nombre_empresa }) => {
-  const invitacionLink = `https://admin.smartie.com.co/api/habilitar`;
+  const invitacionLink = `${encodeURIComponent(JSON.stringify(participante))}`;
   const qrCodeRef = useRef(null);
   const qrCodeDataURL = () => {
     const canvas = document.createElement("canvas");
