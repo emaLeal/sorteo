@@ -10,8 +10,8 @@ import MoverParticipantes from "./MoverParticipantes";
 import { useState, useEffect } from "react";
 import { pdf } from "@react-pdf/renderer";
 import Template from "@/lib/template";
-import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import JSZip from "jszip";
 
 const Header = ({
   globalFilterValue,
@@ -65,32 +65,33 @@ const Header = ({
           nombre_empresa={nombre_empresa}
         />
       ).toBlob();
-      console.log(":D")
       return blob;
     });
 
     // Esperamos a que todas las conversiones se completen
     const pdfs = await Promise.all(pdfPromises);
 
-    console.log("Todos los PDFs generados.");
     return pdfs;
   };
+
   const generarZip = async (pdfs) => {
     const zip = new JSZip();
-    for (let i = 0; i < pdfs.length; i++) {
-      zip.file(`${data[i].cedula}.pdf`, pdfs[i]);
-    }
-    console.log("funciona");
-    const zipBlob = await zip.generateAsync({ type: "blob" });
-    return zipBlob;
+    pdfs.forEach((pdf, index) => {
+      zip.file(`${data[index].cedula}.pdf`, pdf);
+    });
+    const file = await zip.generateAsync({ type: "blob" });
+    saveAs(file, `${nombre_evento}.zip`);
   };
 
   const generarZipCompleto = async () => {
-    console.log(":D");
-    const pdfs = await generarPdfs();
-    const zipBlob = await generarZip(pdfs);
-    console.log("Funciona");
-    saveAs(zipBlob, "documento.zip");
+    try {
+      const pdfs = await generarPdfs();
+      const zipBlob = await generarZip(pdfs); // Asegúrate de pasar 'data' como argumento si es necesario
+      saveAs(zipBlob, "documento.zip");
+      console.log("Archivo ZIP generado y descargado.");
+    } catch (error) {
+      console.error("Error al generar el archivo ZIP:", error);
+    }
   };
 
   const enviarMensajes = () => {

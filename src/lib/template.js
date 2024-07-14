@@ -10,6 +10,7 @@ import {
 } from "@react-pdf/renderer";
 import { useRef } from "react";
 import QRCode from "qrcode";
+import * as pdfJs from "pdfjs-dist";
 
 const styles = StyleSheet.create({
   page: {
