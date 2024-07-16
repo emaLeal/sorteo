@@ -5,12 +5,39 @@ import { Password } from "primereact/password";
 import { Divider } from "primereact/divider";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function AdminForm({ onSubmit, error }) {
+export default function AdminForm() {
+  const router = useRouter();
+  const [error, setError] = useState(null);
+
   React.useEffect(() => {
     Aos.init();
   }, []);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        body: JSON.stringify({
+          usuario: e.target.user.value,
+          contrasena: e.target.password.value,
+        }),
+      });
+      if (res.ok) {
+        if (res.status === 200) {
+          router.push("/admin-hub");
+        }
+        if (res.status === 400) {
+          throw res;
+        }
+      }
+    } catch (error) {
+      setError("Credenciales Incorrectos");
+    }
+  };
 
   const passwordHeader = <h6>Ingresa una contraseña</h6>;
   const passwordFooter = (
@@ -59,7 +86,9 @@ export default function AdminForm({ onSubmit, error }) {
               tooltip="Iniciar Sesión"
               className="mt-2 p-button-primary p-button-text p-button-rounded"
             />
-            <div className="mt-2">{error && <span className="text-red-400 font-bold">{error}</span>}</div>
+            <div className="mt-2">
+              {error && <span className="text-red-400 font-bold">{error}</span>}
+            </div>
           </form>
         </div>
       </div>
