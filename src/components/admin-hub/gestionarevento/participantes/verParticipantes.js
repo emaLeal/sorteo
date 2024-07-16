@@ -71,7 +71,7 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
                   nombre_empresa={nombre_empresa}
                 />
               }
-              fileName="contenido.pdf"
+              fileName={rowData.cedula}
             >
               <Button
                 tooltip="Descargar Qr"
