@@ -208,20 +208,24 @@ const SubirQr = () => {
         <FileUpload
           name="demo[]"
           customUpload
-          uploadLabel="Subir Documento PDF"
           uploadHandler={handleUpload}
           accept=".pdf,.jpg,.jpeg,.png"
           uploadOptions={{
             icon: "pi pi-file-import",
             label: "Subir Documento",
             className:
-              "custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-success",
+              " p-button-rounded p-button-raised p-button-text p-button-success",
           }}
           chooseOptions={{
             icon: "pi pi-file",
             label: "Elegir Documento",
             className:
-              "custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-info",
+              " p-button-rounded p-button-raised p-button-text p-button-info",
+          }}
+          cancelOptions={{
+            icon: 'pi pi-times',
+            label: 'Cancelar',
+            className: 'custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-danger'
           }}
         />
         <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
