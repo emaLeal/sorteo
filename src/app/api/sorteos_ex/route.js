@@ -4,12 +4,8 @@ import { revalidatePath } from "next/cache";
 
 export async function POST(req, params) {
   const body = await req.json();
-
   body.sorteos.forEach(async (element) => {
-    const participantes = await executeQuery({
-      query: "select id from participantes where cargo=?",
-      values: [body.cargo],
-    });
+    const participantes = body.selectedParticipantes;
     participantes.forEach(async (participante) => {
       const addParticipantes = await executeQuery({
         query:

@@ -12,7 +12,6 @@ async function getData(sorteo) {
 export default async function ExclusividadPage({ params }) {
   const { id, sorteo } = params;
   const data = await getData(sorteo);
-  console.log(data)
   return (
     <ParticipantesExclusivos
       data={data.data}

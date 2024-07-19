@@ -28,6 +28,7 @@ const Header = ({
   toast,
   nombre_evento,
   nombre_empresa,
+  selectedParticipantes,
 }) => {
   const [visible, setVisible] = useState(false);
   const [mostrarVisible, setMostrarVisible] = useState(false);
@@ -238,6 +239,7 @@ const Header = ({
         setVisible={setMostrarVisible}
         cargos={optionsCargo}
         sorteos={sorteos}
+        selectedParticipantes={selectedParticipantes}
         evento={evento}
       />
       <div className="flex justify-between">
@@ -273,6 +275,7 @@ const Header = ({
             tooltip="Mover a sorteos especificos"
             tooltipOptions={{ position: "bottom" }}
             text
+            disabled={selectedParticipantes.length === 0}
             size="small"
             className="my-2 mx-2"
             onClick={() => setMostrarVisible(!visible)}

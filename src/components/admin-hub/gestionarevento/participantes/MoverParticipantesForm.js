@@ -20,7 +20,7 @@ const MoverParticipantesForm = ({
   };
 
   React.useEffect(() => {
-    if (form.cargo === "" || form.cargo === null || form.sorteos.length === 0) {
+    if (form.selectedParticipantes.length === 0) {
       setValid(false);
       return;
     }
@@ -29,17 +29,6 @@ const MoverParticipantesForm = ({
 
   return (
     <>
-      <div className="field mb-4">
-        <span className="p-float-label p-input-icon-right">
-          <Dropdown
-            options={cargos}
-            value={form.cargo}
-            name="cargo"
-            onChange={handleChange}
-          />
-          <label htmlFor="cargo">Cargo o Area de Participante</label>
-        </span>
-      </div>
       <div className="field mb-4">
         <span className="text-lg font-bold">Lista de Sorteos: </span>
         <br />
@@ -52,7 +41,7 @@ const MoverParticipantesForm = ({
                 name={sorteo.nombre}
                 onChange={handleChangeSorteos}
                 checked={form.sorteos.includes(sorteo.id)}
-                disabled={form.cargo === "" || form.cargo === null}
+                disabled={form.selectedParticipantes.length === 0}
               />
             </div>
           );

@@ -20,6 +20,7 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
   const [participar, setParticipar] = useState("");
   const [cargo, setCargo] = useState("");
   const [isClient, setIsClient] = useState(false);
+  const [selectedParticipantes, setSetlectedParticipantes] = useState([]);
 
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -28,9 +29,14 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
     participara: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
 
+
   React.useEffect(() => {
     setIsClient(true);
   }, []);
+
+  React.useEffect(() => {
+    console.log(selectedParticipantes)
+  }, [selectedParticipantes])
 
   const imgBody = (rowData) => {
     return (
@@ -126,16 +132,24 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
               toast={toast}
               nombre_empresa={nombre_empresa}
               nombre_evento={nombre_evento}
+              selectedParticipantes={selectedParticipantes}
             />
           }
           footer={<Footer data={data} router={router} evento={evento} />}
           emptyMessage="No se encontraron participantes"
           rows={3}
+          selectionMode={"checkbox"}
+          selection={selectedParticipantes}
+          onSelectionChange={(e) => setSetlectedParticipantes(e.value)}
           globalFilterFields={["nombre", "participara"]}
           currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Participantes"
           paginator
           filters={filters}
         >
+          <Column
+            selectionMode="multiple"
+            headerStyle={{ width: "3rem" }}
+          ></Column>
           <Column field="nombre" header="Nombre Participante" />
           <Column field="cedula" header="Cedula de Participante" />
           <Column field="correo" header="Correo Participante" />

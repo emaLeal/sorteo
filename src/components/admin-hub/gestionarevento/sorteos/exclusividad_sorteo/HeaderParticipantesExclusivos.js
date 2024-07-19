@@ -74,6 +74,18 @@ const Header = ({ evento_id, sorteo_id }) => {
               tooltipOptions={{ position: "left" }}
             />
           </Link>
+          <Link
+            href={`/admin-hub/gestionarevento/${evento_id}/sorteos/asistencia/${sorteo_id}`}
+          >
+            <Button
+              label="Asistencia"
+              text
+              rounded
+              raised
+              tooltip="Modulo de Asistencia del sorteo"
+              tooltipOptions={{ position: "left" }}
+            />
+          </Link>
         </div>
       </div>
     </>

@@ -3,18 +3,18 @@ import MoverParticipantesForm from "./MoverParticipantesForm";
 import { Dialog } from "primereact/dialog";
 import { useRouter } from "next/navigation";
 import { Toast } from "primereact/toast";
-
 const initialForm = {
   cargo: "",
+  selectedParticipantes: [],
   sorteos: [],
 };
-
 const MoverParticipantes = ({
   visible,
   setVisible,
   cargos,
   sorteos,
   evento,
+  selectedParticipantes,
 }) => {
   const [form, setForm] = useState(initialForm);
   const router = useRouter();
@@ -28,8 +28,16 @@ const MoverParticipantes = ({
     );
   };
 
+  React.useEffect(() => {
+    setForm({ ...form, selectedParticipantes });
+  }, [visible, form, selectedParticipantes]);
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+      selectedParticipantes,
+    });
   };
 
   const handleSubmit = async (e) => {
