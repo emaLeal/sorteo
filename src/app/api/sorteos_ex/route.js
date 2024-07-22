@@ -7,7 +7,7 @@ export async function POST(req, params) {
   body.sorteos.forEach(async (element) => {
     const participantes = body.selectedParticipantes;
     participantes.forEach(async (participante) => {
-      const addParticipantes = await executeQuery({
+      await executeQuery({
         query:
           "insert into exclusividad_sorteo(participante_id, sorteo_id) values (?,?)",
         values: [participante.id, element],
@@ -26,7 +26,7 @@ export async function DELETE(req, params) {
   const body = await req.json();
   console.log(body);
 
-  const quitarParticipantes = await executeQuery({
+  await executeQuery({
     query: "delete from exclusividad_sorteo where sorteo_id=?",
     values: [body.sorteo],
   });
