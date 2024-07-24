@@ -7,10 +7,8 @@ const Menu = ({ id }) => {
   const router = useRouter();
   const activeRoute = usePathname();
   const [activeIndex, setActiveIndex] = useState(0);
-  
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const items = [
-   
     {
       index: 0,
       label: "Sorteos",
@@ -35,20 +33,20 @@ const Menu = ({ id }) => {
     },
     {
       index: 3,
-      label: '',
-      icon: 'pi',
+      label: "",
+      icon: "pi",
       route: `/admin-hub/gestionarevento/${id}`,
       command: () => router.push(`/admin-hub/gestionarevento/${id}/sorteos`),
-
-    }
+    },
   ];
-
   React.useEffect(() => {
-    const route = items.find((e) => e.route === activeRoute)
+    const route = items.find((e) => e.route === activeRoute);
     if (route !== undefined) {
-      setActiveIndex(route.index)
+      setActiveIndex(route.index);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeRoute]);
+
 
   return (
     <div className="flex justify-center">
@@ -56,7 +54,6 @@ const Menu = ({ id }) => {
         model={items}
         activeIndex={activeIndex}
         onTabChange={(e) => {
-          console.log(e.index);
           if (e.value.route === activeRoute) setActiveIndex(e.index);
         }}
       />

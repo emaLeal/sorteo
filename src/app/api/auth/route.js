@@ -10,7 +10,6 @@ export async function POST(req) {
       query: "SELECT * FROM admin WHERE usuario=? and contrasena=?",
       values: [body.usuario, body.contrasena],
     });
-    console.log(result)
     if (result.length === 0) {
       return NextResponse.json(
         { message: "Credenciales Incorrectos" },

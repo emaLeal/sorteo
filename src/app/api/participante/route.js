@@ -23,7 +23,7 @@ export async function POST(req) {
       ],
     });
     console.log(result);
-    revalidatePath(`/admin-hub/gestionarevento/[id]/participantes`);
+    revalidatePath("/admin-hub/gestionarevento/[id]/participantes");
     return NextResponse.json(
       { message: "Participante Registrado" },
       { status: 201 }

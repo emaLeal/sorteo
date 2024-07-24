@@ -46,15 +46,15 @@ const MoverParticipantes = ({
       method: "POST",
       body: JSON.stringify(form),
     });
-    if (res.ok) {
+    if (res.status === 201) {
       setVisible(!visible);
-      router.refresh();
       toast.current.show({
         severity: "success",
         summary: "Participantes Trasladados",
         detail: "Se han trasladado los participantes correctamente",
         life: 3000,
       });
+      router.refresh();
     }
   };
 

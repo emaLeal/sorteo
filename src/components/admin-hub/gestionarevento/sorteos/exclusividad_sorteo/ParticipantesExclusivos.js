@@ -33,7 +33,6 @@ const ParticipantesExclusivos = ({ data, evento_id, sorteo_id }) => {
     const url = `/api/sorteos_ex/${id}`;
     const res = await fetch(url, { method: "DELETE" });
     if (res.ok) {
-      console.log(":D");
       toast.current.show({
         severity: "error",
         summary: "Participante quitado",

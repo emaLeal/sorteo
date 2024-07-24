@@ -231,6 +231,7 @@ const Header = ({
       <ConfirmDialog />
       <CrearParticipantes
         visible={visible}
+        router={router}
         evento={evento}
         onHide={() => setVisible(!visible)}
       />

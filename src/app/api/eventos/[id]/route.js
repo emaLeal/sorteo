@@ -106,18 +106,6 @@ export async function DELETE(req, params) {
       values: [id],
     });
 
-    sorteos.forEach(async (sorteo) => {
-      if (sorteo.pregunta) {
-        const delPregunta = await executeQuery({
-          query: "DELETE FROM preguntas where sorteo_id=?",
-          values: [sorteo.id],
-        });
-      }
-      unlink("img" + sorteo.premio_foto, (err) => {
-        if (err) throw err;
-      });
-    });
-
     const participantes = await executeQuery({
       query: "SELECT * FROM participantes where evento_id=?",
       values: [id],
@@ -149,6 +137,21 @@ export async function DELETE(req, params) {
     });
     unlink(imgEvento, (err) => {
       if (err) throw err;
+    });
+    sorteos.forEach(async (sorteo) => {
+      if (sorteo.pregunta) {
+        const delPregunta = await executeQuery({
+          query: "DELETE FROM preguntas where sorteo_id=?",
+          values: [sorteo.id],
+        });
+      }
+      unlink("img" + sorteo.premio_foto, (err) => {
+        if (err) throw err;
+      });
+      const delExclusivo = await executeQuery({
+        query: "DELETE FROM exclusividad_sorteos WHERE sorteo_id=?",
+        values: [sorteo.id],
+      });
     });
     revalidatePath("/admin-hub");
     return NextResponse.json({ message: "Evento Eliminado" }, { status: 200 });

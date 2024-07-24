@@ -11,10 +11,9 @@ const initialForm = {
   cedula: "",
 };
 
-const CrearParticipantes = ({ visible, onHide, evento }) => {
+const CrearParticipantes = ({ visible, onHide, evento, router }) => {
   const [form, setForm] = useState({ ...initialForm, evento_id: evento });
-  const toast = useRef(null);
-  const router = useRouter();
+  const toast = useRef();
 
   const handleChange = (e) => {
     setForm({
@@ -54,25 +53,28 @@ const CrearParticipantes = ({ visible, onHide, evento }) => {
   };
 
   return (
-    <Dialog
-      visible={visible}
-      onHide={onHide}
-      header={header}
-      className="w-1/2"
-      modal
-    >
+    <>
       <Toast ref={toast} />
-      <div className="form-demo">
-        <div>
+
+      <Dialog
+        visible={visible}
+        onHide={onHide}
+        header={header}
+        className="w-1/2"
+        modal
+      >
+        <div className="form-demo">
           <div>
-            <h2 className="font-bold mb-4">Crear Participante</h2>
-            <form className="p-fluid" onSubmit={onSubmit} method="post">
-              <ParticipanteForm form={form} handleChange={handleChange} />
-            </form>
+            <div>
+              <h2 className="font-bold mb-4">Crear Participante</h2>
+              <form className="p-fluid" onSubmit={onSubmit} method="post">
+                <ParticipanteForm form={form} handleChange={handleChange} />
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    </Dialog>
+      </Dialog>
+    </>
   );
 };
 

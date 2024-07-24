@@ -29,9 +29,9 @@ export async function DELETE(req, params) {
     query: "delete from exclusividad_sorteo where participante_id=?",
     values: [sorteo],
   });
-  console.log(deleteParticipante)
   revalidatePath(
     "/admin-hub/gestionarevento/[id]/sorteos/exclusividad_sorteo/[sorteo]"
   );
+  revalidatePath("/admin-hub/gestionarevento/[id]/participantes");
   return NextResponse.json({ message: ":D" });
 }

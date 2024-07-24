@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import executeQuery from "@/lib/db";
 import { revalidatePath } from "next/cache";
 
-export async function POST(req, params) {
+export async function POST(req) {
   const body = await req.json();
   body.sorteos.forEach(async (element) => {
     const participantes = body.selectedParticipantes;
@@ -19,7 +19,7 @@ export async function POST(req, params) {
     "/admin-hub/gestionarevento/[id]/sorteos/exclusividad_sorteo/[sorteo]"
   );
 
-  return NextResponse.json({ message: "ok" });
+  return NextResponse.json({ message: "ok" }, { status: 201 });
 }
 
 export async function DELETE(req, params) {
@@ -35,5 +35,5 @@ export async function DELETE(req, params) {
   revalidatePath(
     "/admin-hub/gestionarevento/[id]/sorteos/exclusividad_sorteo/[sorteo]"
   );
-  return NextResponse.json({ message: ":D" });
+  return NextResponse.json({ message: ":D" }, { status: 200 });
 }

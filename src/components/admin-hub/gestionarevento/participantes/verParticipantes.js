@@ -29,14 +29,9 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
     participara: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
 
-
   React.useEffect(() => {
     setIsClient(true);
   }, []);
-
-  React.useEffect(() => {
-    console.log(selectedParticipantes)
-  }, [selectedParticipantes])
 
   const imgBody = (rowData) => {
     return (
