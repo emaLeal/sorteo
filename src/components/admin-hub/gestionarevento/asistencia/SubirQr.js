@@ -63,11 +63,11 @@ const SubirQr = ({
               setDataQr(data);
               setVisible(!visible);
             } else {
-              throw new Error("El QR no es valido");
+              throw new Error("El QR no tiene buena estructura");
             }
           } catch (e) {
             console.log(e);
-            setError("El QR no es valido");
+            setError("El QR no tiene buena estructura");
           }
         } else {
           setError("El QR no existe o no se pudo identificar");

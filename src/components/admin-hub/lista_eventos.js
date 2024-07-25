@@ -53,13 +53,13 @@ const ListaEventos = ({ data }) => {
     if (res.ok) {
       const json = await res.json();
       const data = json.data.map((participante) => {
-        return {
-          ...participante,
-          habilitado:
-            participante.habilitado === 1
-              ? "ATENDIÓ EL EVENTO"
-              : "NO ATENDIÓ EL EVENTO",
-        };
+        delete participante.evento_id;
+        delete participante.sorteo_id;
+        delete participante.foto;
+        delete participante.id;
+        participante.asistencia = participante.habilitado === 1 ? "SÍ" : "NO";
+        delete participante.habilitado;
+        return participante;
       });
       return data;
     }
@@ -81,15 +81,17 @@ const ListaEventos = ({ data }) => {
       throw new Error("Error fetching participantes");
     }
     const json = await res.json();
-    const allData = json.data.map((part) => ({
-      ...part,
-      participara:
-        part.participara === 1 ? "ATENDIÒ EL EVENTO" : "NO ATENDIÒ EL EVENTO",
-      acepta:
-        part.acepta === 1
-          ? "ACEPTÒ TERMINOS Y CONDICIONES"
-          : "NO ACEPTÒ TERMINOS Y CONDICIONES",
-    }));
+
+    const allData = json.data.map((part) => {
+      part.asistencia = part.participara === 1 ? "SÍ" : "NO";
+      delete part.participara;
+      part.acepta_terminos = part.acepta === 1 ? "SÍ" : "NO";
+      delete part.acepta;
+      delete part.id;
+      delete part.evento_id;
+      delete part.foto;
+      return part;
+    });
 
     return allData;
   };
@@ -109,12 +111,14 @@ const ListaEventos = ({ data }) => {
       const allSorteos = await getAllSorteos(idEvento);
 
       const exclusivos = allSorteos.data.map(async (sorteo) => {
-        const participantesExclusivosSorteo = await getParticipantesExclusivos(
+        let participantesExclusivosSorteo = await getParticipantesExclusivos(
           sorteo.id
         );
+
         const workSheetParticipantesExclusivos = utils.json_to_sheet(
           participantesExclusivosSorteo
         );
+
         return {
           ...workSheetParticipantesExclusivos,
           nombre_sorteo: sorteo.nombre,

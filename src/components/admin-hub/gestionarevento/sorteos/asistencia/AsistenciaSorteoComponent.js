@@ -1,18 +1,9 @@
 "use client";
 import React, { useState, useRef } from "react";
 import SubirQr from "@/components/admin-hub/gestionarevento/asistencia/SubirQr";
+import { Button } from "primereact/button";
+import Link from "next/link";
 
-/*
- p.id,
-      p.nombre,
-      p.cargo,
-      p.correo,
-      p.foto,
-      p.evento_id,
-      p.cedula,
-      es.sorteo_id,
-      es.habilitado
-*/
 const atributos = [
   "id",
   "nombre",
@@ -21,6 +12,7 @@ const atributos = [
   "evento_id",
   "foto",
   "cedula",
+  "habilitado",
   "sorteo_id",
   "nombre_empresa",
   "nombre_evento",
@@ -34,14 +26,13 @@ const initialForm = {
   correo: "",
   evento_id: "",
   foto: "",
-  participara: "",
-  acepta: "",
+  habilitado: "",
   sorteo_id: "",
   nombre_empresa: "",
   nombre_evento: "",
 };
 
-const AsistenciaSorteoComponent = () => {
+const AsistenciaSorteoComponent = ({ evento_id, sorteo_id }) => {
   const canvasRef = useRef(null);
   const errorRef = useRef(null);
   const [dataQr, setDataQr] = useState(initialForm);
@@ -67,9 +58,11 @@ const AsistenciaSorteoComponent = () => {
   };
   return (
     <>
-      <h1 className="flex justify-center font-bold text-5xl my-4">
-        Modulo de Asistencia
-      </h1>
+      <Link
+        href={`/admin-hub/gestionarevento/${evento_id}/sorteos/exclusividad_sorteo/${sorteo_id}`}
+      >
+        <Button label="Volver" severity="secondary" raised rounded />
+      </Link>
       <div className="flex justify-center items-center w-screen h-96">
         <SubirQr
           habilitarParticipante={habilitarParticipante}

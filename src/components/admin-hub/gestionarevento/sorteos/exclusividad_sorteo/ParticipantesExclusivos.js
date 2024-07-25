@@ -19,6 +19,7 @@ const ParticipantesExclusivos = ({
   sorteo_id,
   nombre_empresa,
   nombre_evento,
+  nombre_sorteo,
 }) => {
   const router = useRouter();
   const toast = useRef();
@@ -96,7 +97,7 @@ const ParticipantesExclusivos = ({
                   nombre_empresa={nombre_empresa}
                 />
               }
-              fileName={rowData.cedula}
+              fileName={`${rowData.cedula}-${nombre_sorteo}`}
             >
               <Button
                 tooltip="Descargar Qr"
