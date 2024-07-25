@@ -1,4 +1,6 @@
-export default async function AsistenciaSorteoComponent({ params }) {
+import AsistenciaSorteoComponent from "@/components/admin-hub/gestionarevento/sorteos/asistencia/AsistenciaSorteoComponent";
+
+export default async function AsistenciaSorteoPage({ params }) {
   const { id, sorteo } = params;
-  return <h1>Asistencia de Sorteo Componente</h1>;
+  return <AsistenciaSorteoComponent />;
 }

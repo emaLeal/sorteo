@@ -22,9 +22,9 @@ const CrearParticipantes = ({ visible, onHide, evento, router }) => {
     });
   };
 
-  useEffect(() => {
-    setForm({ ...initialForm, evento_id: evento });
-  }, [visible, evento]);
+  // useEffect(() => {
+  //   setForm({ ...form, evento_id: evento });
+  // }, [visible, evento, form]);
 
   const header = () => {
     return (

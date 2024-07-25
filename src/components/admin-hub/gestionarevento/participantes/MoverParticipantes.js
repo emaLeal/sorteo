@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef } from "react";
 import MoverParticipantesForm from "./MoverParticipantesForm";
 import { Dialog } from "primereact/dialog";
@@ -30,7 +31,7 @@ const MoverParticipantes = ({
 
   React.useEffect(() => {
     setForm({ ...form, selectedParticipantes });
-  }, [visible, form, selectedParticipantes]);
+  }, [visible, selectedParticipantes]);
 
   const handleChange = (e) => {
     setForm({

@@ -1,6 +1,6 @@
 "use client";
-import React, { useRef, useState } from "react";
-import SubirQr from "./SubirQr";
+import React, { useState, useRef } from "react";
+import SubirQr from "@/components/admin-hub/gestionarevento/asistencia/SubirQr";
 
 const initialForm = {
   id: 0,
@@ -16,14 +16,15 @@ const initialForm = {
   nombre_evento: "",
 };
 
-const AsistenciaComponent = () => {
+const AsistenciaSorteoComponent = () => {
   const canvasRef = useRef(null);
   const errorRef = useRef(null);
   const [dataQr, setDataQr] = useState(initialForm);
   const [error, setError] = useState("");
   const [visible, setVisible] = useState(false);
+
   const habilitarParticipante = async (id) => {
-    const url = `/api/participante/habilitar/${id}`;
+    const url = `/api/sorteos_ex/habilitar/${id}`;
     const res = await fetch(url, {
       method: "PUT",
       next: { revalidate: 0 },
@@ -46,12 +47,12 @@ const AsistenciaComponent = () => {
       <div className="flex justify-center items-center w-screen h-96">
         <SubirQr
           habilitarParticipante={habilitarParticipante}
+          dataQr={dataQr}
+          setDataQr={setDataQr}
           error={error}
           setError={setError}
           visible={visible}
           setVisible={setVisible}
-          dataQr={dataQr}
-          setDataQr={setDataQr}
           errorRef={errorRef}
           canvasRef={canvasRef}
         />
@@ -60,4 +61,4 @@ const AsistenciaComponent = () => {
   );
 };
 
-export default AsistenciaComponent;
+export default AsistenciaSorteoComponent;

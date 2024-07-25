@@ -42,9 +42,9 @@ const Header = ({
   const cargos = [...new Set(data.map((dato) => dato.cargo))]; // Creando los cargos posibles
 
   const optionsCargo = [
-    ...cargos.map((cargos) => ({
-      label: cargos,
-      value: cargos,
+    ...cargos.map((cargo) => ({
+      label: cargo,
+      value: cargo,
     })),
     { label: "Cancelar Filtro", value: null },
   ]; // Creando seleccion de cargos

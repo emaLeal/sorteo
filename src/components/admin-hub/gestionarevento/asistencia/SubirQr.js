@@ -26,46 +26,19 @@ const atributos = [
   "nombre_evento",
 ];
 
-const initialForm = {
-  id: 0,
-  nombre: "",
-  cedula: "",
-  cargo: "",
-  correo: "",
-  evento_id: "",
-  foto: "",
-  participara: "",
-  acepta: "",
-  nombre_empresa: "",
-  nombre_evento: "",
-};
-
-const SubirQr = () => {
-  const canvasRef = useRef(null);
-  const errorRef = useRef(null);
-  const [dataQr, setDataQr] = useState(initialForm);
-  const [error, setError] = useState("");
-  const [visible, setVisible] = useState(false);
-
+const SubirQr = ({
+  habilitarParticipante,
+  canvasRef,
+  errorRef,
+  dataQr,
+  setDataQr,
+  error,
+  setError,
+  visible,
+  setVisible,
+}) => {
   const onHide = () => {
     setVisible(!visible);
-  };
-
-  const habilitarParticipante = async () => {
-    const url = `/api/participante/habilitar/${dataQr.id}`;
-    const res = await fetch(url, {
-      method: "PUT",
-      next: { revalidate: 0 },
-    });
-    if (res.ok) {
-      errorRef.current.show({
-        severity: "success",
-        summary: "El Participante fue Habilitado",
-        detail: "El participante fue habilitado exitosamente",
-        life: 3000,
-      });
-      setVisible(!visible);
-    }
   };
 
   const handleUploadPdf = (file) => {
@@ -223,9 +196,10 @@ const SubirQr = () => {
               " p-button-rounded p-button-raised p-button-text p-button-info",
           }}
           cancelOptions={{
-            icon: 'pi pi-times',
-            label: 'Cancelar',
-            className: 'custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-danger'
+            icon: "pi pi-times",
+            label: "Cancelar",
+            className:
+              "custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-danger",
           }}
         />
         <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
