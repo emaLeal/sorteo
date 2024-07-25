@@ -16,6 +16,20 @@ const initialForm = {
   nombre_evento: "",
 };
 
+const atributos = [
+  "id",
+  "nombre",
+  "correo",
+  "cargo",
+  "evento_id",
+  "foto",
+  "cedula",
+  "participara",
+  "acepta",
+  "nombre_empresa",
+  "nombre_evento",
+];
+
 const AsistenciaComponent = () => {
   const canvasRef = useRef(null);
   const errorRef = useRef(null);
@@ -50,6 +64,7 @@ const AsistenciaComponent = () => {
           setError={setError}
           visible={visible}
           setVisible={setVisible}
+          atributos={atributos}
           dataQr={dataQr}
           setDataQr={setDataQr}
           errorRef={errorRef}

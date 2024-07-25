@@ -12,21 +12,8 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url
 ).toString();
 
-const atributos = [
-  "id",
-  "nombre",
-  "correo",
-  "cargo",
-  "evento_id",
-  "foto",
-  "cedula",
-  "participara",
-  "acepta",
-  "nombre_empresa",
-  "nombre_evento",
-];
-
 const SubirQr = ({
+  atributos,
   habilitarParticipante,
   canvasRef,
   errorRef,

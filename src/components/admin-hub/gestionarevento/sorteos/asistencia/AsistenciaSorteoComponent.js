@@ -2,6 +2,30 @@
 import React, { useState, useRef } from "react";
 import SubirQr from "@/components/admin-hub/gestionarevento/asistencia/SubirQr";
 
+/*
+ p.id,
+      p.nombre,
+      p.cargo,
+      p.correo,
+      p.foto,
+      p.evento_id,
+      p.cedula,
+      es.sorteo_id,
+      es.habilitado
+*/
+const atributos = [
+  "id",
+  "nombre",
+  "correo",
+  "cargo",
+  "evento_id",
+  "foto",
+  "cedula",
+  "sorteo_id",
+  "nombre_empresa",
+  "nombre_evento",
+];
+
 const initialForm = {
   id: 0,
   nombre: "",
@@ -12,6 +36,7 @@ const initialForm = {
   foto: "",
   participara: "",
   acepta: "",
+  sorteo_id: "",
   nombre_empresa: "",
   nombre_evento: "",
 };
@@ -24,8 +49,9 @@ const AsistenciaSorteoComponent = () => {
   const [visible, setVisible] = useState(false);
 
   const habilitarParticipante = async (id) => {
-    const url = `/api/sorteos_ex/habilitar/${id}`;
+    const url = `/api/sorteos_ex/habilitar_exclusivo/${id}`;
     const res = await fetch(url, {
+      body: JSON.stringify(dataQr),
       method: "PUT",
       next: { revalidate: 0 },
     });
@@ -51,6 +77,7 @@ const AsistenciaSorteoComponent = () => {
           setDataQr={setDataQr}
           error={error}
           setError={setError}
+          atributos={atributos}
           visible={visible}
           setVisible={setVisible}
           errorRef={errorRef}

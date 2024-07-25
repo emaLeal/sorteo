@@ -13,6 +13,7 @@ export async function GET(req, params) {
       p.foto,
       p.evento_id,
       p.cedula,
+      es.sorteo_id,
       es.habilitado
       FROM participantes p INNER JOIN exclusividad_sorteo es ON p.id = es.participante_id 
       INNER JOIN sorteos s ON es.sorteo_id = s.id WHERE s.id = ?`,

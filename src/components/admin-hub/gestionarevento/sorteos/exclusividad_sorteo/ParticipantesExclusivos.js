@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Header from "./HeaderParticipantesExclusivos";
 import Footer from "./FooterParticipantesExclusivos";
 import HabilitarButton from "./HabilitarButton";
@@ -10,10 +10,23 @@ import { Button } from "primereact/button";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import { useRouter } from "next/navigation";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import Template from "@/lib/template";
 
-const ParticipantesExclusivos = ({ data, evento_id, sorteo_id }) => {
+const ParticipantesExclusivos = ({
+  data,
+  evento_id,
+  sorteo_id,
+  nombre_empresa,
+  nombre_evento,
+}) => {
   const router = useRouter();
   const toast = useRef();
+  const [isClient, setClient] = useState(false);
+  useEffect(() => {
+    setClient(true);
+  }, []);
+
   const imgBody = (rowData) => {
     return (
       <Image
@@ -68,11 +81,36 @@ const ParticipantesExclusivos = ({ data, evento_id, sorteo_id }) => {
           raised
           text
           rounded
-          className="ml-2"
+          className="mx-2"
           tooltip="Quitar Participante"
           onClick={() => quitarParticipante(rowData.id)}
           tooltipOptions={{ position: "left" }}
         />
+        {isClient && (
+          <>
+            <PDFDownloadLink
+              document={
+                <Template
+                  participante={rowData}
+                  nombre_evento={nombre_evento}
+                  nombre_empresa={nombre_empresa}
+                />
+              }
+              fileName={rowData.cedula}
+            >
+              <Button
+                tooltip="Descargar Qr"
+                tooltipOptions={{ position: "left" }}
+                icon="pi pi-qrcode"
+                text
+                raised
+                className="mx-2"
+                rounded
+                severity="help"
+              />
+            </PDFDownloadLink>
+          </>
+        )}
       </>
     );
   };

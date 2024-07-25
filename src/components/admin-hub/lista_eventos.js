@@ -47,30 +47,84 @@ const ListaEventos = ({ data }) => {
     });
   };
 
+  const getParticipantesExclusivos = async (sorteo) => {
+    const url = `/api/sorteos_ex/${sorteo}`;
+    const res = await fetch(url);
+    if (res.ok) {
+      const json = await res.json();
+      const data = json.data.map((participante) => {
+        return {
+          ...participante,
+          habilitado:
+            participante.habilitado === 1
+              ? "ATENDIÓ EL EVENTO"
+              : "NO ATENDIÓ EL EVENTO",
+        };
+      });
+      return data;
+    }
+  };
+
+  const getAllSorteos = async (id) => {
+    const url = `/api/sorteos/${id}`;
+    const res = await fetch(url);
+    if (res.ok) {
+      const json = await res.json();
+      return json;
+    }
+  };
+
+  const getAllParticipantes = async (id) => {
+    const url = `/api/participante/${id}`;
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error("Error fetching participantes");
+    }
+    const json = await res.json();
+    const allData = json.data.map((part) => ({
+      ...part,
+      participara:
+        part.participara === 1 ? "ATENDIÒ EL EVENTO" : "NO ATENDIÒ EL EVENTO",
+      acepta:
+        part.acepta === 1
+          ? "ACEPTÒ TERMINOS Y CONDICIONES"
+          : "NO ACEPTÒ TERMINOS Y CONDICIONES",
+    }));
+
+    return allData;
+  };
+
   const downloadXlsx = async (rowData) => {
     try {
       const idEvento = rowData.id;
       const nombreEvento = rowData.nombre_evento;
-
-      const res = await fetch(`/api/participante/${idEvento}`);
-      if (!res.ok) {
-        throw new Error("Error fetching participantes");
-      }
-
-      const participantes = (await res.json()).data;
-      const transformedData = participantes.map((part) => ({
-        ...part,
-        participara:
-          part.participara === 1 ? "ATENDIÒ EL EVENTO" : "NO ATENDIÒ EL EVENTO",
-        acepta:
-          part.acepta === 1
-            ? "ACEPTÒ TERMINOS Y CONDICIONES"
-            : "NO ACEPTÒ TERMINOS Y CONDICIONES",
-      }));
-
-      const workSheet = utils.json_to_sheet(transformedData);
       const work = utils.book_new();
-      utils.book_append_sheet(work, workSheet, "Participantes");
+
+      // Participantes
+      const transformedData = await getAllParticipantes(idEvento);
+      const workSheetParticipantes = utils.json_to_sheet(transformedData);
+      utils.book_append_sheet(work, workSheetParticipantes, "Participantes");
+
+      // Sorteos Exclusivos
+      const allSorteos = await getAllSorteos(idEvento);
+
+      const exclusivos = allSorteos.data.map(async (sorteo) => {
+        const participantesExclusivosSorteo = await getParticipantesExclusivos(
+          sorteo.id
+        );
+        const workSheetParticipantesExclusivos = utils.json_to_sheet(
+          participantesExclusivosSorteo
+        );
+        return {
+          ...workSheetParticipantesExclusivos,
+          nombre_sorteo: sorteo.nombre,
+        };
+      });
+
+      const allExclusivos = await Promise.all(exclusivos);
+      allExclusivos.forEach((el) => {
+        utils.book_append_sheet(work, el, el.nombre_sorteo);
+      });
 
       const buffer = write(work, { type: "array", bookType: "xlsx" });
       saveAsExcel(buffer, `Participantes de evento ${nombreEvento}`);
@@ -170,7 +224,6 @@ const ListaEventos = ({ data }) => {
           className="max-sm:hidden hover:scale-110 transition-transform mx-2"
           onClick={() => downloadXlsx(rowData)}
         />
-        
       </div>
     );
   };
