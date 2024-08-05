@@ -11,6 +11,7 @@ import useMobile from "@/hooks/useMobile";
 import Image from "next/image";
 import QrScanner from "qr-scanner";
 import QrFrame from "./qr-frame.svg";
+import "./qr.css"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
