@@ -33,6 +33,7 @@ const SubirQr = ({
   const onHide = () => {
     setVisible(!visible);
   };
+  const [result, setResult] = useState("");
 
   const handleUploadPdf = (file) => {
     const fileReader = new FileReader();
@@ -209,14 +210,13 @@ const SubirQr = ({
               "custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-danger button-cancell",
           }}
         />
-        <div className="w-full flex justify-center">
-          <Scanner onScan={(result) => console.log(result)}>
-            <>
-              <label>Xd</label>
-            </>
-          </Scanner>
-        </div>
+
         <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
+      </div>
+      <div className="sm:hidden flex justify-center">
+        <Scanner onScan={(result) => setResult(result)}>
+          {result && <label>{result}</label>}
+        </Scanner>
       </div>
     </>
   );
