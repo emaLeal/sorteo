@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "primereact/button";
 import ParticipanteDetalleDialog from "./ParticipanteDetalleDialog";
@@ -9,8 +10,7 @@ import "./CustomButton.css";
 import { Tooltip } from "primereact/tooltip";
 import useMobile from "@/hooks/useMobile";
 import Image from "next/image";
-import QrScanner from "qr-scanner";
-import "./qr.css"
+import { Scanner } from "@yudiel/react-qr-scanner";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -272,34 +272,10 @@ const SubirQr = ({
               "custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-danger button-cancell",
           }}
         />
-        <div className="qr-reader sm:hidden">
-          {/* QR */}
-          <video ref={videoEl}></video>
-          <div ref={qrBoxEl} className="qr-box">
-            <Image
-              src={'./qr-frame.svg'}
-              alt="Qr Frame"
-              width={256}
-              height={256}
-              className="qr-frame"
-            />
-          </div>
-
-          {/* Show Data Result if scan is success */}
-          {scannedResult && (
-            <p
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                zIndex: 99999,
-                color: "white",
-              }}
-            >
-              Scanned Result: {scannedResult}
-            </p>
-          )}
-        </div>
+        <Scanner
+          onScan={(result) => console.log(result)}
+          className="sm:hidden"
+        />
         <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
       </div>
     </>
