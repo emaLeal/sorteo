@@ -10,6 +10,7 @@ import { Tooltip } from "primereact/tooltip";
 import useMobile from "@/hooks/useMobile";
 import Image from "next/image";
 import QrScanner from "qr-scanner";
+import QrFrame from "./qr-frame.svg";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -33,7 +34,7 @@ const SubirQr = ({
   const videoEl = useRef(null);
   const qrBoxEl = useRef(null);
   const [qrOn, setQrOn] = useState(true);
-  
+
   // Result
   const [scannedResult, setScannedResult] = useState(null);
   const onHide = () => {
@@ -275,7 +276,13 @@ const SubirQr = ({
           {/* QR */}
           <video ref={videoEl}></video>
           <div ref={qrBoxEl} className="qr-box">
-           
+            <Image
+              src={QrFrame}
+              alt="Qr Frame"
+              width={256}
+              height={256}
+              className="qr-frame"
+            />
           </div>
 
           {/* Show Data Result if scan is success */}
