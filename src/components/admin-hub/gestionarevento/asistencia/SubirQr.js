@@ -277,7 +277,7 @@ const SubirQr = ({
           <video ref={videoEl}></video>
           <div ref={qrBoxEl} className="qr-box">
             <Image
-              src={QrFrame}
+              src={'./qr-frame.svg'}
               alt="Qr Frame"
               width={256}
               height={256}
