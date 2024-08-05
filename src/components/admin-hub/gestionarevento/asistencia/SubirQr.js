@@ -30,13 +30,6 @@ const SubirQr = ({
   setVisible,
 }) => {
   const isMobile = useMobile();
-  const scanner = useRef();
-  const videoEl = useRef(null);
-  const qrBoxEl = useRef(null);
-  const [qrOn, setQrOn] = useState(true);
-
-  // Result
-  const [scannedResult, setScannedResult] = useState(null);
   const onHide = () => {
     setVisible(!visible);
   };
@@ -168,62 +161,6 @@ const SubirQr = ({
     }
   }, [error]);
 
-  // Success
-  const onScanSuccess = (result) => {
-    // 🖨 Print the "result" to browser console.
-    console.log(result);
-    // ✅ Handle success.
-    // 😎 You can do whatever you want with the scanned result.
-    setScannedResult(result.data);
-  };
-
-  // Fail
-  const onScanFail = (err) => {
-    // 🖨 Print the "err" to browser console.
-    console.log(err);
-  };
-
-  useEffect(() => {
-    if (videoEl.current && !scanner.current) {
-      // 👉 Instantiate the QR Scanner
-      scanner.current = new QrScanner(videoEl.current, onScanSuccess, {
-        onDecodeError: onScanFail,
-        // 📷 This is the camera facing mode. In mobile devices, "environment" means back camera and "user" means front camera.
-        preferredCamera: "environment",
-        // 🖼 This will help us position our "QrFrame.svg" so that user can only scan when qr code is put in between our QrFrame.svg.
-        highlightScanRegion: true,
-        // 🔥 This will produce a yellow (default color) outline around the qr code that we scan, showing a proof that our qr-scanner is scanning that qr code.
-        highlightCodeOutline: true,
-        // 📦 A custom div which will pair with "highlightScanRegion" option above 👆. This gives us full control over our scan region.
-        overlay: qrBoxEl.current || undefined,
-      });
-
-      // 🚀 Start QR Scanner
-      scanner.current
-        .start()
-        .then(() => setQrOn(true))
-        .catch((err) => {
-          if (err) setQrOn(false);
-        });
-    }
-
-    // 🧹 Clean up on unmount.
-    // 🚨 This removes the QR Scanner from rendering and using camera when it is closed or removed from the UI.
-    return () => {
-      if (!videoEl.current) {
-        scanner.current.stop();
-      }
-    };
-  }, []);
-
-  // ❌ If "camera" is not allowed in browser permissions, show an alert.
-  useEffect(() => {
-    if (!qrOn)
-      alert(
-        "Camera is blocked or not accessible. Please allow camera in your browser permissions and Reload."
-      );
-  }, [qrOn]);
-
   return (
     <>
       <Tooltip
@@ -272,10 +209,13 @@ const SubirQr = ({
               "custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-danger button-cancell",
           }}
         />
-        <Scanner
-          onScan={(result) => console.log(result)}
-          className="sm:hidden"
-        />
+        <div className="w-full flex justify-center">
+          <Scanner onScan={(result) => console.log(result)}>
+            <>
+              <label>Xd</label>
+            </>
+          </Scanner>
+        </div>
         <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
       </div>
     </>
