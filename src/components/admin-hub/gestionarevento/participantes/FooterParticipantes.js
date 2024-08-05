@@ -35,6 +35,7 @@ const Footer = ({ data, router, evento }) => {
             severity="success"
             text
             onClick={habilitarTodos}
+            className="max-sm:hidden"
             label="Habilitar Todos"
             rounded
           />
@@ -51,6 +52,7 @@ const Footer = ({ data, router, evento }) => {
             severity="danger"
             text
             rounded
+            className="max-sm:hidden"
             label="Inhabilitar Todos"
             onClick={inhabilitarTodos}
           />

@@ -250,16 +250,18 @@ const Header = ({
             value={globalFilterValue}
             name="nombre"
             onChange={onGlobalFilterChange}
+            className="max-sm:hidden"
           />
           <Dropdown
             options={optionsCargo}
             name="cargo"
             value={cargo}
+            className="max-sm:hidden"
             onChange={onGlobalFilterChange}
             placeholder="Filtrar por cargo"
           />
           <Dropdown
-            className="w-4"
+            className="max-sm:hidden w-4"
             options={options}
             name="participara"
             value={participar}
@@ -278,11 +280,11 @@ const Header = ({
             text
             disabled={selectedParticipantes.length === 0}
             size="small"
-            className="my-2 mx-2"
+            className="max-sm:hidden my-2 mx-2"
             onClick={() => setMostrarVisible(!visible)}
           />
           <Button
-            className="my-2"
+            className="max-sm:hidden my-2"
             label="Eliminar Participantes"
             severity="danger"
             text
@@ -294,18 +296,7 @@ const Header = ({
             raised
             rounded
           />
-          <Button
-            severity="secondary"
-            icon="pi pi-send"
-            className="mx-2 my-2"
-            text
-            tooltip="Enviar Correo sobre Participantes"
-            tooltipOptions={{ position: "right" }}
-            size="small"
-            onClick={() => enviarMensajes()}
-            raised
-            rounded
-          />
+
           <FileUpload
             mode="basic"
             name="demo[]"
@@ -321,7 +312,7 @@ const Header = ({
                 "custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-success",
               size: "small",
             }}
-            className="my-2 ml-2"
+            className="max-sm:hidden my-2 ml-2"
           />
           <Button
             severity="success"
@@ -333,20 +324,9 @@ const Header = ({
             tooltipOptions={{ position: "left" }}
             onClick={() => setVisible(!visible)}
             icon="pi pi-plus"
-            className="ml-2 my-2"
+            className="max-sm:hidden ml-2 my-2"
           />
-          <Button
-            severity="info"
-            text
-            raised
-            rounded
-            size="small"
-            tooltip="Crear ZIP"
-            tooltipOptions={{ position: "left" }}
-            icon="pi pi-file-export"
-            className="my-2 ml-2"
-            onClick={() => generarZipCompleto()}
-          />
+         
         </div>
       </div>
     </>

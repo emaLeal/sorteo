@@ -12,6 +12,7 @@ import Header from "./HeaderSorteos";
 import DetalleSorteoDialog from "./DetalleSorteoDialog";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import useMobile from "@/hooks/useMobile";
 
 const ListaSorteos = ({ evento, data }) => {
   const [visible, setVisible] = useState(false);
@@ -20,6 +21,7 @@ const ListaSorteos = ({ evento, data }) => {
   const [sorteoData, setSorteoData] = useState(null);
   const toast = useRef(null);
   const router = useRouter();
+  const isMobile = useMobile();
 
   const onHideDetalle = () => {
     setVisibleDetalle(!visibleDetalle);
@@ -34,7 +36,7 @@ const ListaSorteos = ({ evento, data }) => {
   const Acciones = (rowData) => {
     return (
       <div>
-        {rowData.jugado === 0 && (
+        {!isMobile && rowData.jugado === 0 && (
           <Button
             icon="pi pi-pencil"
             tooltip="Editar Sorteo"
@@ -47,22 +49,25 @@ const ListaSorteos = ({ evento, data }) => {
             onClick={() => edit(rowData)}
           />
         )}
-        <Button
-          rounded
-          text
-          raised
-          severity="danger"
-          icon="pi pi-trash"
-          tooltip="Eliminar Sorteo"
-          tooltipOptions={{ position: "bottom" }}
-          className="mr-2"
-          onClick={() => del(rowData.id)}
-        />
+        {!isMobile && (
+          <Button
+            rounded
+            text
+            raised
+            severity="danger"
+            icon="pi pi-trash"
+            tooltip="Eliminar Sorteo"
+            tooltipOptions={{ position: "bottom" }}
+            className="mx-2"
+            onClick={() => del(rowData.id)}
+          />
+        )}
         <Button
           text
           rounded
           raised
           severity="secondary"
+          className="mx-2"
           icon="pi pi-eye"
           tooltipOptions={{ position: "bottom" }}
           tooltip={"Ver Datos Sorteo"}

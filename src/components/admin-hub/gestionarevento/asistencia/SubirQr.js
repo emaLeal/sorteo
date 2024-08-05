@@ -6,6 +6,10 @@ import { FileUpload } from "primereact/fileupload";
 import jsQR from "jsqr";
 import { pdfjs } from "react-pdf";
 import "./CustomButton.css";
+import { Tooltip } from "primereact/tooltip";
+import useMobile from "@/hooks/useMobile";
+import Image from "next/image";
+import QrScanner from "qr-scanner";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -24,6 +28,14 @@ const SubirQr = ({
   visible,
   setVisible,
 }) => {
+  const isMobile = useMobile();
+  const scanner = useRef();
+  const videoEl = useRef(null);
+  const qrBoxEl = useRef(null);
+  const [qrOn, setQrOn] = useState(true);
+  
+  // Result
+  const [scannedResult, setScannedResult] = useState(null);
   const onHide = () => {
     setVisible(!visible);
   };
@@ -155,15 +167,82 @@ const SubirQr = ({
     }
   }, [error]);
 
+  // Success
+  const onScanSuccess = (result) => {
+    // 🖨 Print the "result" to browser console.
+    console.log(result);
+    // ✅ Handle success.
+    // 😎 You can do whatever you want with the scanned result.
+    setScannedResult(result?.data);
+  };
+
+  // Fail
+  const onScanFail = (err) => {
+    // 🖨 Print the "err" to browser console.
+    console.log(err);
+  };
+
+  useEffect(() => {
+    if (videoEl?.current && !scanner.current) {
+      // 👉 Instantiate the QR Scanner
+      scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
+        onDecodeError: onScanFail,
+        // 📷 This is the camera facing mode. In mobile devices, "environment" means back camera and "user" means front camera.
+        preferredCamera: "environment",
+        // 🖼 This will help us position our "QrFrame.svg" so that user can only scan when qr code is put in between our QrFrame.svg.
+        highlightScanRegion: true,
+        // 🔥 This will produce a yellow (default color) outline around the qr code that we scan, showing a proof that our qr-scanner is scanning that qr code.
+        highlightCodeOutline: true,
+        // 📦 A custom div which will pair with "highlightScanRegion" option above 👆. This gives us full control over our scan region.
+        overlay: qrBoxEl?.current || undefined,
+      });
+
+      // 🚀 Start QR Scanner
+      scanner?.current
+        ?.start()
+        .then(() => setQrOn(true))
+        .catch((err) => {
+          if (err) setQrOn(false);
+        });
+    }
+
+    // 🧹 Clean up on unmount.
+    // 🚨 This removes the QR Scanner from rendering and using camera when it is closed or removed from the UI.
+    return () => {
+      if (!videoEl?.current) {
+        scanner?.current?.stop();
+      }
+    };
+  }, []);
+
+  // ❌ If "camera" is not allowed in browser permissions, show an alert.
+  useEffect(() => {
+    if (!qrOn)
+      alert(
+        "Camera is blocked or not accessible. Please allow camera in your browser permissions and Reload."
+      );
+  }, [qrOn]);
+
   return (
     <>
+      <Tooltip
+        target=".button-upload"
+        content="Subir Documento"
+        position="bottom"
+      />
+      <Tooltip
+        target=".button-choose"
+        content="Elegir Documento"
+        position="bottom"
+      />
+      <Tooltip target=".button-cancell" content="Cancelar" position="bottom" />
       <ParticipanteDetalleDialog
         visible={visible}
         onHide={onHide}
         participante={dataQr}
         habilitarParticipante={habilitarParticipante}
       />
-      <div className="w-screen h-96 flex justify-around items-center">
+      <div className="hidden sm:flex w-screen h-96  justify-around items-center ">
         <Toast ref={errorRef} />
         <FileUpload
           name="demo[]"
@@ -173,22 +252,47 @@ const SubirQr = ({
           uploadOptions={{
             icon: "pi pi-file-import",
             label: "Subir Documento",
+            iconOnly: isMobile ? true : false,
             className:
-              " p-button-rounded p-button-raised p-button-text p-button-success",
+              " p-button-rounded p-button-raised p-button-text p-button-success button-upload",
           }}
           chooseOptions={{
             icon: "pi pi-file",
             label: "Elegir Documento",
+            iconOnly: isMobile ? true : false,
             className:
-              " p-button-rounded p-button-raised p-button-text p-button-info",
+              " p-button-rounded p-button-raised p-button-text p-button-info button-choose",
           }}
           cancelOptions={{
             icon: "pi pi-times",
             label: "Cancelar",
+            iconOnly: isMobile ? true : false,
             className:
-              "custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-danger",
+              "custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-danger button-cancell",
           }}
         />
+        <div className="qr-reader sm:hidden">
+          {/* QR */}
+          <video ref={videoEl}></video>
+          <div ref={qrBoxEl} className="qr-box">
+           
+          </div>
+
+          {/* Show Data Result if scan is success */}
+          {scannedResult && (
+            <p
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: 99999,
+                color: "white",
+              }}
+            >
+              Scanned Result: {scannedResult}
+            </p>
+          )}
+        </div>
         <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
       </div>
     </>

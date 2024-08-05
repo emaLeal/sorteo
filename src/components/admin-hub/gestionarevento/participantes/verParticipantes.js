@@ -84,6 +84,14 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
                 severity="help"
               />
             </PDFDownloadLink>
+            <Button
+              severity="primary"
+              icon="pi pi-eye"
+              text
+              rounded
+              raised
+              className="sm:hidden mx-2"
+            />
           </>
         )}
       </>
@@ -146,10 +154,26 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
             headerStyle={{ width: "3rem" }}
           ></Column>
           <Column field="nombre" header="Nombre Participante" />
-          <Column field="cedula" header="Cedula de Participante" />
-          <Column field="correo" header="Correo Participante" />
-          <Column field="cargo" header="Cargo Participante" />
-          <Column header="Foto del Participante" body={imgBody} />
+          <Column
+            field="cedula"
+            header="Cedula de Participante"
+            className="max-sm:hidden"
+          />
+          <Column
+            field="correo"
+            header="Correo Participante"
+            className="max-sm:hidden"
+          />
+          <Column
+            field="cargo"
+            header="Cargo Participante"
+            className="max-sm:hidden"
+          />
+          <Column
+            header="Foto del Participante"
+            body={imgBody}
+            className="max-sm:hidden"
+          />
           <Column header="Acciones" body={Acciones} />
         </DataTable>
       </div>

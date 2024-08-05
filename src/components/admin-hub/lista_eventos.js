@@ -174,10 +174,7 @@ const ListaEventos = ({ data }) => {
           className=" sm:mr-2 hover:scale-110 transition-transform"
           onClick={() => del(rowData.id)}
         />
-        <Link
-          href={`/admin-hub/gestionarevento/${rowData.id}`}
-          className="max-sm:hidden"
-        >
+        <Link href={`/admin-hub/gestionarevento/${rowData.id}`}>
           <Button
             rounded
             raised

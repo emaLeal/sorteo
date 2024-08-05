@@ -27,9 +27,7 @@ const Navbar = async ({ id }) => {
         className="flex justify-start p-2"
         style={{ backgroundColor: "#071426" }}
       >
-        <Link href={"/admin-hub"}>
-          <ButtonPrime />
-        </Link>
+    
         <Menu id={id} />
       </div>
     </>
