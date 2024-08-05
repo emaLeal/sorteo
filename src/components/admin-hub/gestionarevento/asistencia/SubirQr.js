@@ -33,7 +33,7 @@ const SubirQr = ({
   const onHide = () => {
     setVisible(!visible);
   };
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState(null);
 
   const handleUploadPdf = (file) => {
     const fileReader = new FileReader();
@@ -213,12 +213,11 @@ const SubirQr = ({
 
         <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
       </div>
-      <Scanner
-        classNames={"sm:hidden w-28"}
-        onScan={(result) => setResult(result)}
-      >
-        {result && <label>{result}</label>}
-      </Scanner>
+      <div className="sm:hidden w-48  flex flex-column">
+        <Scanner classNames={'w-1/2'} onScan={(result) => setResult(result)} />
+
+        {result && <label>Resultado: {result}</label>}
+      </div>
     </>
   );
 };
