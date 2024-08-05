@@ -213,11 +213,12 @@ const SubirQr = ({
 
         <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
       </div>
-      <div className="sm:hidden flex justify-center">
-        <Scanner onScan={(result) => setResult(result)}>
-          {result && <label>{result}</label>}
-        </Scanner>
-      </div>
+      <Scanner
+        classNames={"sm:hidden w-28"}
+        onScan={(result) => setResult(result)}
+      >
+        {result && <label>{result}</label>}
+      </Scanner>
     </>
   );
 };
