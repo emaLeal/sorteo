@@ -53,7 +53,7 @@ const AsistenciaComponent = () => {
   return (
     <>
   
-      <div className="flex justify-center items-center w-screen h-96">
+      <div className="">
         <SubirQr
           habilitarParticipante={habilitarParticipante}
           error={error}
