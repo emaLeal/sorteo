@@ -172,6 +172,7 @@ const SubirQr = ({
   useEffect(() => {
     if (scannedResult !== "") {
       const data = decodeURIComponent(scannedResult);
+      console.log("data:" + data)
       habilitarParticipante(data.id, data.nombre);
     }
   }, [scannedResult]);
