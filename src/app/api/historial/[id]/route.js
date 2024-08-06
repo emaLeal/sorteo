@@ -12,7 +12,7 @@ export async function GET(req, params) {
     s.nombre
     from historial h inner join participantes p on h.evento_id=p.evento_id
     inner join sorteos s on s.evento_id=p.evento_id
-    inner join evento e on e.id=p.evento_id where e.id=?
+    inner join evento e on e.id=p.evento_id where h.evento_id=?
     `,
     values: [id],
   });
