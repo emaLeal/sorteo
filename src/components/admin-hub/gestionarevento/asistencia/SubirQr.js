@@ -166,7 +166,8 @@ const SubirQr = ({
 
     // ✅ Handle success.
     // 😎 You can do whatever you want with the scanned result.
-    setScannedResult(result.data);
+    const data = decodeURIComponent(result.data)
+    console.log(data.id, data.nombre)
   };
 
   // Fail
