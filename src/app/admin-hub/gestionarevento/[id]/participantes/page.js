@@ -19,14 +19,12 @@ export default async function SorteoIdPage({ params }) {
   const data = await getData(id);
   return (
     <>
-      <div>
-        <VerParticipantes
-          evento={id}
-          data={data.data}
-          nombre_evento={data.comp.data.nombre_evento}
-          nombre_empresa={data.comp.data.empresa}
-        />
-      </div>
+      <VerParticipantes
+        evento={id}
+        data={data.data}
+        nombre_evento={data.comp.data.nombre_evento}
+        nombre_empresa={data.comp.data.empresa}
+      />
     </>
   );
 }

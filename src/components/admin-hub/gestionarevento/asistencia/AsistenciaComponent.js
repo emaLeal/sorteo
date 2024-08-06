@@ -30,7 +30,7 @@ const atributos = [
   "nombre_evento",
 ];
 
-const AsistenciaComponent = () => {
+const AsistenciaComponent = ({ evento_id }) => {
   const canvasRef = useRef(null);
   const errorRef = useRef(null);
   const [dataQr, setDataQr] = useState(initialForm);
@@ -48,11 +48,19 @@ const AsistenciaComponent = () => {
         detail: `El participante ${nombre} fue habilitado exitosamente`,
         life: 3000,
       });
+
+      const url2 = `/api/historial/${evento_id}`;
+      const res2 = await fetch(url2, {
+        method: "POST",
+        body: JSON.stringify({
+          evento_id,
+          participante_id: id,
+        }),
+      });
     }
   };
   return (
     <>
-  
       <div className="">
         <SubirQr
           habilitarParticipante={habilitarParticipante}

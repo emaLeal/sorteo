@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
-const HistorialComponent = ({data}) => {
-  return (
-    <>
-    
-    </>
-  )
-}
+const HistorialComponent = ({ data }) => {
+  return <h1> Hola</h1>;
+};
 
-export default HistorialComponent
+export default HistorialComponent;

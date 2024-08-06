@@ -4,7 +4,7 @@ export default async function AsistenciaPage({ params }) {
   const { id } = params;
   return (
     <>
-      <AsistenciaComponent />
+      <AsistenciaComponent evento_id={id}/>
     </>
   );
 }
