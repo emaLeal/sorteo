@@ -233,7 +233,7 @@ const SubirQr = ({
       <Tooltip target=".button-cancell" content="Cancelar" position="bottom" />
 
       <div className="hidden sm:flex w-screen h-96  justify-around items-center ">
-        <Toast ref={errorRef} />
+        <Toast ref={errorRef} position="bottom-left"/>
         <FileUpload
           name="demo[]"
           customUpload
