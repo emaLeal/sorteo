@@ -44,6 +44,13 @@ const Menu = ({ id }) => {
     },
     {
       index: 4,
+      label: "Historial",
+      icon: 'pi pi-stopwatch',
+      route: `/admin-hub/gestionarevento/${id}/historial`,
+      command: () => router.push(`/admin-hub/gestionarevento/${id}/historial`)
+    },
+    {
+      index: 5,
       label: "",
       icon: "pi",
       route: `/admin-hub/gestionarevento/${id}`,
