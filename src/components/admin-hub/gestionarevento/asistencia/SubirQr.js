@@ -168,12 +168,13 @@ const SubirQr = ({
   };
 
   useEffect(() => {
-  console.log(scannedResult)
-    // if (scannedResult !== "") {
-    //   const data = decodeURIComponent(scannedResult);
-    //   console.log("data:" + data)
-    //   habilitarParticipante(data.id, data.nombre);
-    // }
+    if (scannedResult !== "") {
+      console.log(scannedResult)
+
+      // const data = decodeURIComponent(scannedResult);
+      // console.log("data:" + data)
+      // habilitarParticipante(data.id, data.nombre);
+    }
   }, [scannedResult]);
 
   // Fail
