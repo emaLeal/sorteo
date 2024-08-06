@@ -162,19 +162,18 @@ const SubirQr = ({
   // Success
   const onScanSuccess = (result) => {
     // 🖨 Print the "result" to browser console.
-    console.log("result aqui")
-    console.log(result);
     // ✅ Handle success.
     // 😎 You can do whatever you want with the scanned result.
-    setScannedResult(result.data);
+    setScannedResult(result);
   };
 
   useEffect(() => {
-    if (scannedResult !== "") {
-      const data = decodeURIComponent(scannedResult);
-      console.log("data:" + data)
-      habilitarParticipante(data.id, data.nombre);
-    }
+  console.log(scannedResult)
+    // if (scannedResult !== "") {
+    //   const data = decodeURIComponent(scannedResult);
+    //   console.log("data:" + data)
+    //   habilitarParticipante(data.id, data.nombre);
+    // }
   }, [scannedResult]);
 
   // Fail
