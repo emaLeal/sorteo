@@ -169,6 +169,7 @@ const SubirQr = ({
     const { id, nombre } = JSON.parse(decodeURIComponent(result.data));
     console.log(id, nombre);
     habilitarParticipante(id, nombre);
+    scanner.current.stop();
   };
 
   // Fail
@@ -195,7 +196,6 @@ const SubirQr = ({
       // 🚀 Start QR Scanner
       scanner.current
         .start()
-        .stop()
         .then(() => setQrOn(true))
         .catch((err) => {
           if (err) setQrOn(false);
