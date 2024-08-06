@@ -27,7 +27,7 @@ export async function POST(req, params) {
     const query =
       "sorteo_id" in body
         ? "insert into historial (evento_id, sorteo_id, participante_id) values (?,?,?)"
-        : "insert into historial (evento_id, participante_id) values (?,?,?)";
+        : "insert into historial (evento_id, participante_id) values (?,?)";
     let insert;
     if ("sorteo_id" in body) {
       insert = await executeQuery({
