@@ -168,6 +168,13 @@ const SubirQr = ({
     setScannedResult(result?.data);
   };
 
+  useEffect(() => {
+    if (scannedResult !== "") {
+      const data = decodeURIComponent(scannedResult)
+      console.log(data)
+    }
+  }, [scannedResult])
+
   // Fail
   const onScanFail = (err) => {
     // 🖨 Print the "err" to browser console.
@@ -265,7 +272,7 @@ const SubirQr = ({
         <video ref={videoEl}></video>
         <div ref={qrBoxEl} className="qr-box">
           <Image
-            src={"./qr-frame.svg"}
+            src={"/qr-frame.svg"}
             alt="Qr Frame"
             width={256}
             height={256}
