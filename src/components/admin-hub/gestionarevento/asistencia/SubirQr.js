@@ -162,7 +162,8 @@ const SubirQr = ({
   // Success
   const onScanSuccess = (result) => {
     // 🖨 Print the "result" to browser console.
-    console.log(result);
+    console.log("Exito", result);
+
     // ✅ Handle success.
     // 😎 You can do whatever you want with the scanned result.
     setScannedResult(result.data);
