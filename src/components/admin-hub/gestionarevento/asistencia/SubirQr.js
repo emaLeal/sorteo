@@ -33,6 +33,7 @@ const SubirQr = ({
   const qrBoxEl = useRef(null);
   const [qrOn, setQrOn] = useState(true);
   const [scannedResult, setScannedResult] = useState("");
+  const [scannedQRs, setScannedQRs] = useState(new Set());
 
   const handleUploadPdf = (file) => {
     const fileReader = new FileReader();
@@ -164,11 +165,25 @@ const SubirQr = ({
     // 🖨 Print the "result" to browser console.
     console.log("Exito", result);
 
-    // ✅ Handle success.
-    // 😎 You can do whatever you want with the scanned result.
-    const { id, nombre } = JSON.parse(decodeURIComponent(result.data));
-    console.log(id, nombre);
-    habilitarParticipante(id, nombre);
+    try {
+      const { id, nombre } = JSON.parse(decodeURIComponent(result.data));
+      
+      // Check if QR code has already been scanned
+      if (scannedQRs.has(id)) {
+        console.log(`QR code with id ${id} has already been scanned.`);
+        return;
+      }
+
+      // Add the new QR code id to the scannedQRs set
+      setScannedQRs(prev => new Set(prev).add(id));
+
+      console.log(id, nombre);
+      habilitarParticipante(id, nombre);
+      setScannedResult(result.data);
+    } catch (error) {
+      console.error("Failed to parse QR code data", error);
+    }
+  
   };
 
   // Fail
