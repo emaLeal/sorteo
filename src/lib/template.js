@@ -64,7 +64,9 @@ Font.register({
 });
 
 const Template = ({ participante, nombre_evento, nombre_empresa }) => {
-  const invitacionLink = `${encodeURIComponent(JSON.stringify(participante))}`;
+  const invitacionLink = `${encodeURIComponent(
+    JSON.stringify({ id: participante.id, nombre: participante.nombre })
+  )}`;
   const qrCodeRef = useRef(null);
   const qrCodeDataURL = () => {
     const canvas = document.createElement("canvas");

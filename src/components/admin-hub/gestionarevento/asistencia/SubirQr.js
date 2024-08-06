@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
-import { Button } from "primereact/button";
 import ParticipanteDetalleDialog from "./ParticipanteDetalleDialog";
 import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
@@ -10,7 +9,7 @@ import "./CustomButton.css";
 import { Tooltip } from "primereact/tooltip";
 import useMobile from "@/hooks/useMobile";
 import Image from "next/image";
-import { Scanner } from "@yudiel/react-qr-scanner";
+import QrScanner from "qr-scanner";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -22,18 +21,17 @@ const SubirQr = ({
   habilitarParticipante,
   canvasRef,
   errorRef,
-  dataQr,
   setDataQr,
   error,
   setError,
-  visible,
-  setVisible,
 }) => {
   const isMobile = useMobile();
-  const onHide = () => {
-    setVisible(!visible);
-  };
-  const [result, setResult] = useState(null);
+  // QR States
+  const scanner = useRef();
+  const videoEl = useRef(null);
+  const qrBoxEl = useRef(null);
+  const [qrOn, setQrOn] = useState(true);
+  const [scannedResult, setScannedResult] = useState("");
 
   const handleUploadPdf = (file) => {
     const fileReader = new FileReader();
@@ -67,8 +65,7 @@ const SubirQr = ({
           try {
             const data = JSON.parse(decodeURIComponent(code.data));
             if (verificarEstructuraParticipante(data, atributos)) {
-              setDataQr(data);
-              setVisible(!visible);
+              habilitarParticipante(data.id, data.nombre);
             } else {
               throw new Error("El QR no tiene buena estructura");
             }
@@ -104,8 +101,7 @@ const SubirQr = ({
           try {
             const data = JSON.parse(decodeURIComponent(code.data));
             if (verificarEstructuraParticipante(data, atributos)) {
-              setDataQr(data);
-              setVisible(!visible);
+              habilitarParticipante(data.id, data.nombre);
             } else {
               throw new Error("El QR no es valido");
             }
@@ -162,6 +158,62 @@ const SubirQr = ({
     }
   }, [error]);
 
+  // Success
+  const onScanSuccess = (result) => {
+    // 🖨 Print the "result" to browser console.
+    console.log(result);
+    // ✅ Handle success.
+    // 😎 You can do whatever you want with the scanned result.
+    setScannedResult(result?.data);
+  };
+
+  // Fail
+  const onScanFail = (err) => {
+    // 🖨 Print the "err" to browser console.
+    console.log(err);
+  };
+
+  useEffect(() => {
+    if (videoEl?.current && !scanner.current) {
+      // 👉 Instantiate the QR Scanner
+      scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
+        onDecodeError: onScanFail,
+        // 📷 This is the camera facing mode. In mobile devices, "environment" means back camera and "user" means front camera.
+        preferredCamera: "environment",
+        // 🖼 This will help us position our "QrFrame.svg" so that user can only scan when qr code is put in between our QrFrame.svg.
+        highlightScanRegion: true,
+        // 🔥 This will produce a yellow (default color) outline around the qr code that we scan, showing a proof that our qr-scanner is scanning that qr code.
+        highlightCodeOutline: true,
+        // 📦 A custom div which will pair with "highlightScanRegion" option above 👆. This gives us full control over our scan region.
+        overlay: qrBoxEl?.current || undefined,
+      });
+
+      // 🚀 Start QR Scanner
+      scanner?.current
+        ?.start()
+        .then(() => setQrOn(true))
+        .catch((err) => {
+          if (err) setQrOn(false);
+        });
+    }
+
+    // 🧹 Clean up on unmount.
+    // 🚨 This removes the QR Scanner from rendering and using camera when it is closed or removed from the UI.
+    return () => {
+      if (!videoEl?.current) {
+        scanner?.current?.stop();
+      }
+    };
+  }, []);
+
+  // ❌ If "camera" is not allowed in browser permissions, show an alert.
+  useEffect(() => {
+    if (!qrOn)
+      alert(
+        "Camera is blocked or not accessible. Please allow camera in your browser permissions and Reload."
+      );
+  }, [qrOn]);
+
   return (
     <>
       <Tooltip
@@ -175,12 +227,7 @@ const SubirQr = ({
         position="bottom"
       />
       <Tooltip target=".button-cancell" content="Cancelar" position="bottom" />
-      <ParticipanteDetalleDialog
-        visible={visible}
-        onHide={onHide}
-        participante={dataQr}
-        habilitarParticipante={habilitarParticipante}
-      />
+
       <div className="hidden sm:flex w-screen h-96  justify-around items-center ">
         <Toast ref={errorRef} />
         <FileUpload
@@ -210,13 +257,35 @@ const SubirQr = ({
               "custom-choose-btn p-button-rounded p-button-raised p-button-text p-button-danger button-cancell",
           }}
         />
-
         <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
       </div>
-      <div className="sm:hidden w-48  flex flex-column">
-        <Scanner classNames={'w-1/2'} onScan={(result) => setResult(result)} />
+      <div className="qr-reader sm:hidden">
+        {/* QR */}
+        <video ref={videoEl}></video>
+        <div ref={qrBoxEl} className="qr-box">
+          <Image
+            src={"./qr-frame.svg"}
+            alt="Qr Frame"
+            width={256}
+            height={256}
+            className="qr-frame"
+          />
+        </div>
 
-        {result && <label>Resultado: {result}</label>}
+        {/* Show Data Result if scan is success */}
+        {scannedResult && (
+          <p
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              zIndex: 99999,
+              color: "white",
+            }}
+          >
+            Scanned Result: {scannedResult}
+          </p>
+        )}
       </div>
     </>
   );

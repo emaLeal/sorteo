@@ -36,7 +36,7 @@ const AsistenciaComponent = () => {
   const [dataQr, setDataQr] = useState(initialForm);
   const [error, setError] = useState("");
   const [visible, setVisible] = useState(false);
-  const habilitarParticipante = async (id) => {
+  const habilitarParticipante = async (id, nombre) => {
     const url = `/api/participante/habilitar/${id}`;
     const res = await fetch(url, {
       method: "PUT",
@@ -46,7 +46,7 @@ const AsistenciaComponent = () => {
       errorRef.current.show({
         severity: "success",
         summary: "El Participante fue Habilitado",
-        detail: "El participante fue habilitado exitosamente",
+        detail: `El participante ${nombre} fue habilitado exitosamente`,
         life: 3000,
       });
       setVisible(!visible);
