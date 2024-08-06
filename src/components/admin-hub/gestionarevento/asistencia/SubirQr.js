@@ -10,7 +10,7 @@ import { Tooltip } from "primereact/tooltip";
 import useMobile from "@/hooks/useMobile";
 import Image from "next/image";
 import QrScanner from "qr-scanner";
-import "./qr.css";
+import './qr.css'
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
