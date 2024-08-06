@@ -196,9 +196,10 @@ const SubirQr = ({
       scanner.current
         .start()
         .then(() => setQrOn(true))
+        .stop()
         .catch((err) => {
           if (err) setQrOn(false);
-        }).stop();
+        });
     }
 
     // 🧹 Clean up on unmount.
