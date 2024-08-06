@@ -195,8 +195,8 @@ const SubirQr = ({
       // 🚀 Start QR Scanner
       scanner.current
         .start()
-        .then(() => setQrOn(true))
         .stop()
+        .then(() => setQrOn(true))
         .catch((err) => {
           if (err) setQrOn(false);
         });
