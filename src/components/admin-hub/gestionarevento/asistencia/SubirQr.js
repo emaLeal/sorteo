@@ -162,10 +162,11 @@ const SubirQr = ({
   // Success
   const onScanSuccess = (result) => {
     // 🖨 Print the "result" to browser console.
+    console.log("result aqui")
     console.log(result);
     // ✅ Handle success.
     // 😎 You can do whatever you want with the scanned result.
-    setScannedResult(result?.data);
+    setScannedResult(result.data);
   };
 
   useEffect(() => {
@@ -178,7 +179,7 @@ const SubirQr = ({
   // Fail
   const onScanFail = (err) => {
     // 🖨 Print the "err" to browser console.
-    console.log(err);
+    console.log("Error: " + err);
   };
 
   useEffect(() => {
