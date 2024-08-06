@@ -58,8 +58,6 @@ const AsistenciaComponent = () => {
           habilitarParticipante={habilitarParticipante}
           error={error}
           setError={setError}
-          visible={visible}
-          setVisible={setVisible}
           atributos={atributos}
           dataQr={dataQr}
           setDataQr={setDataQr}
