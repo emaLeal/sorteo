@@ -10,7 +10,7 @@ import { Tooltip } from "primereact/tooltip";
 import useMobile from "@/hooks/useMobile";
 import Image from "next/image";
 import QrScanner from "qr-scanner";
-import './qr.css'
+import "./qr.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -165,7 +165,7 @@ const SubirQr = ({
     console.log(result);
     // ✅ Handle success.
     // 😎 You can do whatever you want with the scanned result.
-    setScannedResult(result?.data);
+    setScannedResult(result.data);
   };
 
   // Fail
@@ -177,7 +177,7 @@ const SubirQr = ({
   useEffect(() => {
     if (videoEl?.current && !scanner.current) {
       // 👉 Instantiate the QR Scanner
-      scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
+      scanner.current = new QrScanner(videoEl.current, onScanSuccess, {
         onDecodeError: onScanFail,
         // 📷 This is the camera facing mode. In mobile devices, "environment" means back camera and "user" means front camera.
         preferredCamera: "environment",
@@ -186,12 +186,12 @@ const SubirQr = ({
         // 🔥 This will produce a yellow (default color) outline around the qr code that we scan, showing a proof that our qr-scanner is scanning that qr code.
         highlightCodeOutline: true,
         // 📦 A custom div which will pair with "highlightScanRegion" option above 👆. This gives us full control over our scan region.
-        overlay: qrBoxEl?.current || undefined,
+        overlay: qrBoxEl.current || undefined,
       });
 
       // 🚀 Start QR Scanner
-      scanner?.current
-        ?.start()
+      scanner.current
+        .start()
         .then(() => setQrOn(true))
         .catch((err) => {
           if (err) setQrOn(false);
