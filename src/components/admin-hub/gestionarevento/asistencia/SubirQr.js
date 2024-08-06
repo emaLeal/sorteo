@@ -10,7 +10,7 @@ import { Tooltip } from "primereact/tooltip";
 import useMobile from "@/hooks/useMobile";
 import Image from "next/image";
 import QrScanner from "qr-scanner";
-import './qr.css'
+import "./qr.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -170,10 +170,10 @@ const SubirQr = ({
 
   useEffect(() => {
     if (scannedResult !== "") {
-      const data = decodeURIComponent(scannedResult)
-      console.log(data)
+      const data = decodeURIComponent(scannedResult);
+      habilitarParticipante(data.id, data.nombre);
     }
-  }, [scannedResult])
+  }, [scannedResult]);
 
   // Fail
   const onScanFail = (err) => {
