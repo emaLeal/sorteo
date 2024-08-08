@@ -192,7 +192,7 @@ const SubirQr = ({
         highlightCodeOutline: true,
         // 📦 A custom div which will pair with "highlightScanRegion" option above 👆. This gives us full control over our scan region.
         overlay: qrBoxEl.current || undefined,
-        maxScansPerSecond: 1,
+        maxScansPerSecond: 0.2,
       });
 
       // 🚀 Start QR Scanner
