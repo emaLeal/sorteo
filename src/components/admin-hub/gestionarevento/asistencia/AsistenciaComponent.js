@@ -42,8 +42,6 @@ const AsistenciaComponent = ({ evento_id }) => {
       next: { revalidate: 0 },
     });
     if (res.ok) {
-     
-
       const url2 = `/api/historial/${evento_id}`;
       const res2 = await fetch(url2, {
         method: "POST",
@@ -62,7 +60,7 @@ const AsistenciaComponent = ({ evento_id }) => {
         });
       } else {
         errorRef.current.show({
-          severity: "help",
+          severity: "info",
           summary: "El Participante ya ha Habilitado",
           detail: `El participante ${nombre} fue habilitado exitosamente`,
           life: 3000,
