@@ -161,15 +161,10 @@ const SubirQr = ({
 
   // Success
   const onScanSuccess = (result) => {
-
     try {
       if (result.data === scannedResult) return;
-      console.log(result.data);
-      console.log(scannedResult);
       const { id, nombre } = JSON.parse(decodeURIComponent(result.data));
-
       // Add the new QR code id to the scannedQRs set
-
       console.log(id, nombre);
       habilitarParticipante(id, nombre);
       setScannedResult(result.data);
@@ -197,7 +192,7 @@ const SubirQr = ({
         highlightCodeOutline: true,
         // 📦 A custom div which will pair with "highlightScanRegion" option above 👆. This gives us full control over our scan region.
         overlay: qrBoxEl.current || undefined,
-        maxScansPerSecond: 1
+        maxScansPerSecond: 1,
       });
 
       // 🚀 Start QR Scanner
@@ -239,7 +234,7 @@ const SubirQr = ({
         position="bottom"
       />
       <Tooltip target=".button-cancell" content="Cancelar" position="bottom" />
-      <Toast ref={errorRef} position="bottom-left" />
+      <Toast ref={errorRef} />
 
       <div className="hidden sm:flex w-screen h-96  justify-around items-center ">
         <FileUpload
