@@ -23,7 +23,7 @@ export async function GET(req, params) {
 export async function POST(req, params) {
   const body = await req.json();
   const select =
-    "select * from historial where not exists (select 1 from historial where participante_id=? and evento_id=?)";
+    "select * from historial where participante_id=? and evento_id=?";
 
   const exists = await executeQuery({
     query: select,
