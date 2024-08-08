@@ -57,6 +57,9 @@ const AsistenciaComponent = ({ evento_id }) => {
           participante_id: id,
         }),
       });
+      if (res2.status === 201) {
+        console.log("Ya esta habilitado");
+      }
     }
   };
   return (

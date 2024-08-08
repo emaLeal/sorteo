@@ -30,7 +30,7 @@ export async function POST(req, params) {
     values: [body.participante_id, body.evento_id],
   });
   console.log(exists);
-  if (exists.length === 1) {
+  if (exists.length === 0) {
     try {
       const query =
         "sorteo_id" in body
