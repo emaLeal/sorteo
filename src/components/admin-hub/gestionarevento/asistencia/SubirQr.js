@@ -162,7 +162,10 @@ const SubirQr = ({
   // Success
   const onScanSuccess = (result) => {
     try {
-      if (result.data === scannedResult) return;
+      if (result.data === scannedResult) {
+        console.log("Resultados iguales");
+        return;
+      }
       const { id, nombre } = JSON.parse(decodeURIComponent(result.data));
       // Add the new QR code id to the scannedQRs set
       console.log(id, nombre);
