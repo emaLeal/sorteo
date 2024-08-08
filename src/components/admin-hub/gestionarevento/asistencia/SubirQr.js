@@ -33,6 +33,7 @@ const SubirQr = ({
   const qrBoxEl = useRef(null);
   const [qrOn, setQrOn] = useState(true);
   const [scannedResult, setScannedResult] = useState("");
+  const [isScanning, setIsScanning] = useState(true);
 
   const handleUploadPdf = (file) => {
     const fileReader = new FileReader();
@@ -161,15 +162,27 @@ const SubirQr = ({
 
   // Success
   const onScanSuccess = (result) => {
-    // 🖨 Print the "result" to browser console.
+    if (!isScanning) return; // Skip if scanning is disabled
+
     console.log("Exito", result);
 
-    // ✅ Handle success.
-    // 😎 You can do whatever you want with the scanned result.
-    const { id, nombre } = JSON.parse(decodeURIComponent(result.data));
-    console.log(id, nombre);
-    habilitarParticipante(id, nombre);
-    scanner.current.stop();
+    try {
+      const { id, nombre } = JSON.parse(decodeURIComponent(result.data));
+
+      // Add the new QR code id to the scannedQRs set
+
+      console.log(id, nombre);
+      habilitarParticipante(id, nombre);
+      setScannedResult(result.data);
+
+      // Disable scanning for a period of time
+      setIsScanning(false);
+      setTimeout(() => {
+        setIsScanning(true);
+      }, 5000);
+    } catch (error) {
+      console.error("Failed to parse QR code data", error);
+    }
   };
 
   // Fail
@@ -276,21 +289,6 @@ const SubirQr = ({
             className="qr-frame"
           />
         </div>
-
-        {/* Show Data Result if scan is success */}
-        {scannedResult && (
-          <p
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              zIndex: 99999,
-              color: "white",
-            }}
-          >
-            Scanned Result: {scannedResult}
-          </p>
-        )}
       </div>
     </>
   );
