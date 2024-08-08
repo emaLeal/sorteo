@@ -178,9 +178,7 @@ const SubirQr = ({
 
       // Disable scanning for a period of time
       setIsScanning(false);
-      setTimeout(() => {
-        setIsScanning(true);
-      }, 5000);
+      setScanDelay(true); // Trigger delay
     } catch (error) {
       console.error("Failed to parse QR code data", error);
     }
@@ -192,7 +190,7 @@ const SubirQr = ({
       const timeout = setTimeout(() => {
         setIsScanning(true);
         setScanDelay(false); // Reset delay state
-      }, 2000); // Delay time in milliseconds
+      }, 5000); // Delay time in milliseconds
 
       return () => clearTimeout(timeout); // Cleanup the timeout if the component unmounts or delay changes
     }
