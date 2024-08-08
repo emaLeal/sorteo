@@ -42,12 +42,7 @@ const AsistenciaComponent = ({ evento_id }) => {
       next: { revalidate: 0 },
     });
     if (res.ok) {
-      errorRef.current.show({
-        severity: "success",
-        summary: "El Participante fue Habilitado",
-        detail: `El participante ${nombre} fue habilitado exitosamente`,
-        life: 3000,
-      });
+     
 
       const url2 = `/api/historial/${evento_id}`;
       const res2 = await fetch(url2, {
@@ -59,6 +54,19 @@ const AsistenciaComponent = ({ evento_id }) => {
       });
       if (res2.status === 201) {
         console.log("Ya esta habilitado");
+        errorRef.current.show({
+          severity: "success",
+          summary: "El Participante fue Habilitado",
+          detail: `El participante ${nombre} fue habilitado exitosamente`,
+          life: 3000,
+        });
+      } else {
+        errorRef.current.show({
+          severity: "help",
+          summary: "El Participante ya ha Habilitado",
+          detail: `El participante ${nombre} fue habilitado exitosamente`,
+          life: 3000,
+        });
       }
     }
   };

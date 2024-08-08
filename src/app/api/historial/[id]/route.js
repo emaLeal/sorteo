@@ -29,7 +29,6 @@ export async function POST(req, params) {
     query: select,
     values: [body.participante_id, body.evento_id],
   });
-  console.log(exists);
   if (exists.length === 0) {
     try {
       const query =
