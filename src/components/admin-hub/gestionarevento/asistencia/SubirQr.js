@@ -34,6 +34,7 @@ const SubirQr = ({
   const [qrOn, setQrOn] = useState(true);
   const [scannedResult, setScannedResult] = useState("");
   const [isScanning, setIsScanning] = useState(true);
+  const [scanDelay, setScanDelay] = useState(false);
 
   const handleUploadPdf = (file) => {
     const fileReader = new FileReader();
@@ -184,6 +185,18 @@ const SubirQr = ({
       console.error("Failed to parse QR code data", error);
     }
   };
+
+  // Manage scan delay and re-enable scanning after delay
+  useEffect(() => {
+    if (scanDelay) {
+      const timeout = setTimeout(() => {
+        setIsScanning(true);
+        setScanDelay(false); // Reset delay state
+      }, 2000); // Delay time in milliseconds
+
+      return () => clearTimeout(timeout); // Cleanup the timeout if the component unmounts or delay changes
+    }
+  }, [scanDelay]);
 
   // Fail
   const onScanFail = (err) => {
