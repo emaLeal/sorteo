@@ -116,67 +116,65 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
     <>
       <Toast ref={toast} />
 
-      <div>
-        <DataTable
-          value={data}
-          header={
-            <Header
-              globalFilterValue={globalFilterValue}
-              setGlobalFilterValue={setGlobalFilterValue}
-              filters={filters}
-              setFilters={setFilters}
-              participar={participar}
-              setParticipar={setParticipar}
-              setCargo={setCargo}
-              cargo={cargo}
-              evento={evento}
-              data={data}
-              router={router}
-              toast={toast}
-              nombre_empresa={nombre_empresa}
-              nombre_evento={nombre_evento}
-              selectedParticipantes={selectedParticipantes}
-            />
-          }
-          footer={<Footer data={data} router={router} evento={evento} />}
-          emptyMessage="No se encontraron participantes"
-          rows={3}
-          selectionMode={"checkbox"}
-          selection={selectedParticipantes}
-          onSelectionChange={(e) => setSetlectedParticipantes(e.value)}
-          globalFilterFields={["nombre", "participara"]}
-          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Participantes"
-          paginator
-          filters={filters}
-        >
-          <Column
-            selectionMode="multiple"
-            headerStyle={{ width: "3rem" }}
-          ></Column>
-          <Column field="nombre" header="Nombre Participante" />
-          <Column
-            field="cedula"
-            header="Cedula de Participante"
-            className="max-sm:hidden"
+      <DataTable
+        value={data}
+        header={
+          <Header
+            globalFilterValue={globalFilterValue}
+            setGlobalFilterValue={setGlobalFilterValue}
+            filters={filters}
+            setFilters={setFilters}
+            participar={participar}
+            setParticipar={setParticipar}
+            setCargo={setCargo}
+            cargo={cargo}
+            evento={evento}
+            data={data}
+            router={router}
+            toast={toast}
+            nombre_empresa={nombre_empresa}
+            nombre_evento={nombre_evento}
+            selectedParticipantes={selectedParticipantes}
           />
-          <Column
-            field="correo"
-            header="Correo Participante"
-            className="max-sm:hidden"
-          />
-          <Column
-            field="cargo"
-            header="Cargo Participante"
-            className="max-sm:hidden"
-          />
-          <Column
-            header="Foto del Participante"
-            body={imgBody}
-            className="max-sm:hidden"
-          />
-          <Column header="Acciones" body={Acciones} />
-        </DataTable>
-      </div>
+        }
+        footer={<Footer data={data} router={router} evento={evento} />}
+        emptyMessage="No se encontraron participantes"
+        rows={3}
+        selectionMode={"checkbox"}
+        selection={selectedParticipantes}
+        onSelectionChange={(e) => setSetlectedParticipantes(e.value)}
+        globalFilterFields={["nombre", "participara"]}
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Participantes"
+        paginator
+        filters={filters}
+      >
+        <Column
+          selectionMode="multiple"
+          headerStyle={{ width: "3rem" }}
+        ></Column>
+        <Column field="nombre" header="Nombre Participante" />
+        <Column
+          field="cedula"
+          header="Cedula de Participante"
+          className="max-sm:hidden"
+        />
+        <Column
+          field="correo"
+          header="Correo Participante"
+          className="max-sm:hidden"
+        />
+        <Column
+          field="cargo"
+          header="Cargo Participante"
+          className="max-sm:hidden"
+        />
+        <Column
+          header="Foto del Participante"
+          body={imgBody}
+          className="max-sm:hidden"
+        />
+        <Column header="Acciones" body={Acciones} />
+      </DataTable>
     </>
   );
 };

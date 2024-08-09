@@ -14,38 +14,38 @@ import QRCode from "qrcode";
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
-    padding: 5,
+    padding: 1,
     backgroundColor: "lightblue",
   },
   section: {
-    margin: 10,
-    padding: 10,
+    margin: 2,
+    padding: 2,
     flexGrow: 1,
   },
   title: {
-    fontSize: 20,
+    fontSize: 4,
     fontFamily: "Open Sans",
     textAlign: "center",
     fontWeight: "600",
-    marginBottom: 20,
+    marginBottom: 3,
   },
   text: {
     fontSize: 12,
   },
   listItem: {
     backgroundColor: "white",
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 1,
+    paddingRight: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     borderRadius: "200%",
-    fontSize: 12,
-    marginBottom: 5,
+    fontSize: 4,
+    marginBottom: 1,
   },
   qrDiv: {
-    padding: 10,
+    padding: 2,
     border: 3,
-    marginTop: 15,
+    marginTop: 4,
     borderColor: "black",
   },
 });
@@ -75,17 +75,13 @@ const Template = ({ participante, nombre_evento, nombre_empresa }) => {
   };
   return (
     <Document>
-      <Page size={"A6"} style={styles.page}>
+      <Page size={"A10"} style={styles.page}>
         <View style={styles.section}>
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Image
-              src="/logo.png"
-              alt="logo"
-              style={{ width: 40, height: 25 }}
-            />
-            <Text style={{ fontSize: 8, color: "gray" }}>{nombre_empresa}</Text>
+            <Image src="/logo.png" alt="logo" style={{ width: 5, height: 2 }} />
+            <Text style={{ fontSize: 3, color: "gray" }}>{nombre_empresa}</Text>
           </View>
           <Text style={styles.title}>{nombre_evento}</Text>
           <View>
@@ -94,7 +90,7 @@ const Template = ({ participante, nombre_evento, nombre_empresa }) => {
                 <Image
                   src={"/usuario.png"}
                   alt="logo usuario"
-                  style={{ width: 12, height: 10, marginTop: 2 }}
+                  style={{ width: 3, height: 3, marginTop: 1 }}
                 />
                 <Text style={{ fontFamily: "Open Sans", fontWeight: 600 }}>
                   Nombre:{" "}
@@ -107,7 +103,7 @@ const Template = ({ participante, nombre_evento, nombre_empresa }) => {
                 <Image
                   src={"/clip-de-tarjeta-de-identificacion-alt.png"}
                   alt="logo usuario"
-                  style={{ width: 12, height: 12, marginTop: 2 }}
+                  style={{ width: 3, height: 3, marginTop: 1 }}
                 />
                 <Text style={{ fontFamily: "Open Sans", fontWeight: 600 }}>
                   Cedula:{" "}
@@ -121,7 +117,7 @@ const Template = ({ participante, nombre_evento, nombre_empresa }) => {
                 <Image
                   src="/cargo.png"
                   alt="Cargo de Usuario"
-                  style={{ width: 12, height: 12, marginTop: 2 }}
+                  style={{ width: 3, height: 3, marginTop: 1 }}
                 />
                 <Text style={{ fontFamily: "Open Sans", fontWeight: 600 }}>
                   Cargo:{" "}
@@ -136,7 +132,7 @@ const Template = ({ participante, nombre_evento, nombre_empresa }) => {
               <Image
                 src={qrCodeDataURL()}
                 alt="qr-code"
-                style={{ width: 220, height: 180 }}
+                style={{ width: 53, height: 40 }}
               />
               <Text
                 style={{
@@ -144,7 +140,7 @@ const Template = ({ participante, nombre_evento, nombre_empresa }) => {
                   family: "Open Sans",
                   color: "black",
                   textAlign: "center",
-                  fontSize: 10,
+                  fontSize: 2,
                   marginTop: 4,
                 }}
               >
