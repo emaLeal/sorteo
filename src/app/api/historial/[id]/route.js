@@ -5,7 +5,7 @@ export async function GET(req, params) {
   const { id } = params.params;
   const data = await executeQuery({
     query: `select
-    h.id
+    h.id,
     p.nombre,
     p.cedula,
     e.nombre_evento
