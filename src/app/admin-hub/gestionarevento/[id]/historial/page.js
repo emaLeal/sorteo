@@ -5,12 +5,12 @@ async function getData(id) {
   const res = await fetch(url, { next: { revalidate: 60 } });
   if (res.ok) {
     const json = await res.json();
-    console.log(json);
+    return json;
   }
 }
 
 export default async function HistorialPage({ params }) {
   const { id } = params;
-  getData(id);
-  return <HistorialComponent />;
+  const data = await getData(id);
+  return <HistorialComponent data={data} evento_id={id} />;
 }
