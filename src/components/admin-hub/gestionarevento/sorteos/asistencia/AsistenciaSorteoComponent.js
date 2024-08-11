@@ -37,23 +37,40 @@ const AsistenciaSorteoComponent = ({ evento_id, sorteo_id }) => {
   const errorRef = useRef(null);
   const [dataQr, setDataQr] = useState(initialForm);
   const [error, setError] = useState("");
-  const [visible, setVisible] = useState(false);
 
-  const habilitarParticipante = async (id) => {
+  const habilitarParticipante = async (id, nombre) => {
     const url = `/api/sorteos_ex/habilitar_exclusivo/${id}`;
     const res = await fetch(url, {
-      body: JSON.stringify(dataQr),
+      body: JSON.stringify({ id, sorteo_id }),
       method: "PUT",
       next: { revalidate: 0 },
     });
     if (res.ok) {
-      errorRef.current.show({
-        severity: "success",
-        summary: "El Participante fue Habilitado",
-        detail: "El participante fue habilitado exitosamente",
-        life: 3000,
+      const url2 = `/api/historial/${sorteo_id}`;
+      const res2 = await fetch(url2, {
+        method: "POST",
+        body: JSON.stringify({
+          evento_id,
+          participante_id: id,
+          sorteo_id,
+        }),
       });
-      setVisible(!visible);
+      if (res2.status === 201) {
+        console.log("Ya esta habilitado");
+        errorRef.current.show({
+          severity: "success",
+          summary: "El Participante fue Habilitado",
+          detail: `El participante ${nombre} fue habilitado exitosamente`,
+          life: 3000,
+        });
+      } else {
+        errorRef.current.show({
+          severity: "info",
+          summary: "El Participante ya ha Habilitado",
+          detail: `El participante ${nombre} fue habilitado exitosamente`,
+          life: 3000,
+        });
+      }
     }
   };
   return (
@@ -71,8 +88,6 @@ const AsistenciaSorteoComponent = ({ evento_id, sorteo_id }) => {
           error={error}
           setError={setError}
           atributos={atributos}
-          visible={visible}
-          setVisible={setVisible}
           errorRef={errorRef}
           canvasRef={canvasRef}
         />

@@ -11,9 +11,10 @@ export async function PUT(req) {
       "UPDATE exclusividad_sorteo set habilitado=? where participante_id=? and sorteo_id=?",
     values: [true, body.id, body.sorteo_id],
   });
+  console.log(query)
   if (query) {
     revalidatePath("/admin-hub/gestionarevento/[id]/sorteos/exclusividad_sorteo/[sorteo]")
-    return NextResponse.json({ message: "ok" }, { status: 200 });
+    return NextResponse.json({ message: "ok" }, { status: 201 });
   }
   return NextResponse.json({ message: "Error" }, { status: 400 });
 }
