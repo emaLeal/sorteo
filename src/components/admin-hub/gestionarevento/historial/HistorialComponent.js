@@ -1,10 +1,18 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import Header from "./Header";
+import { useRouter } from "next/router";
 
 const HistorialComponent = ({ data, evento_id }) => {
+  const router = useRouter();
+  useEffect(() => {
+    setInterval(() => {
+      router.refresh();
+    }, 12000);
+  }, []);
+
   return (
     <DataTable
       value={data.data}

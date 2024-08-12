@@ -21,6 +21,15 @@ export async function GET(req, params) {
 export async function DELETE(req, params) {
   const { id } = params.params;
   try {
+    const del2 = await executeQuery({
+      query: "DELETE FROM historial WHERE participante_id=?",
+      values: [id],
+    });
+    const del = await executeQuery({
+      query: "DELETE FROM exclusividad_sorteos WHERE participante_id=?",
+      values: [id],
+    });
+
     const result = await executeQuery({
       query: "DELETE FROM participantes where id=?",
       values: [id],

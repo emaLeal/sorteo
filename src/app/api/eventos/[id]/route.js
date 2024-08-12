@@ -111,6 +111,11 @@ export async function DELETE(req, params) {
       values: [id],
     });
 
+    const delHistorial = await executeQuery({
+      query: "DELETE FROM historial WHERE evento_id=?",
+      values: [id],
+    });
+
     const delSorteo = await executeQuery({
       query: "DELETE from sorteos where evento_id=?",
       values: [id],

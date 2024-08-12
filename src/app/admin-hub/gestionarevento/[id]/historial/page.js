@@ -2,7 +2,7 @@ import HistorialComponent from "@/components/admin-hub/gestionarevento/historial
 
 async function getData(id) {
   const url = `${process.env.COMPLETE_HOST}/api/historial/${id}`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
+  const res = await fetch(url, { next: { revalidate: 12 } });
   if (res.ok) {
     const json = await res.json();
     return json;

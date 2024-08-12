@@ -9,7 +9,7 @@ const HistorialComponent = ({ data }) => {
   const router = useRouter();
 
   useEffect(() => {
-    setTimeout(() => {
+    setInterval(() => {
       router.refresh();
     }, 12000);
   }, []);

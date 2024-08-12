@@ -21,3 +21,14 @@ export async function GET(req, params) {
     return NextResponse.json({ e }, { status: 400 });
   }
 }
+
+export async function DELETE(req, params) {
+  const { id } = params.params;
+  try {
+    const query = `DELETE FROM historial WHERE id=?`;
+    const del = await executeQuery({ query, values: [id] });
+    return NextResponse.json({ message: "ok" }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+}
