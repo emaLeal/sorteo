@@ -20,7 +20,7 @@ const HistorialComponent = ({ data, evento_id }) => {
       header={<Header data={data} evento_id={evento_id} />}
     >
       <Column field="nombre" header="Nombre" />
-      <Column field="cedula" header="Nombre" />
+      <Column field="cedula" header="Cedula" />
       <Column field="nombre_evento" header="Nombre del Evento" />
     </DataTable>
   );
