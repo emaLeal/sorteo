@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import Header from "./Header";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const HistorialComponent = ({ data, evento_id }) => {
   const router = useRouter();
