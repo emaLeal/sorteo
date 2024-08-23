@@ -7,8 +7,7 @@ export async function GET(req, params) {
   try {
     const data = await executeQuery({
       query: `SELECT * FROM participantes p where 
-        p.evento_id=? and not exists
-        (select 1 from exclusividad_sorteo ex where ex.participante_id=p.id)`,
+        p.evento_id=?`,
       values: [id],
     });
 

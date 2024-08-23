@@ -10,9 +10,12 @@ const Menu = ({ id }) => {
   const activeRoute = usePathname();
   const [activeIndex, setActiveIndex] = useState(0);
   const isMobile = useMobile();
+  const [isClient, setIsClient] = useState(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const items = [
+  useEffect(() => {
+    setIsClient(!isClient);
+  }, []);
+  const [items, setItems] = useState([
     {
       index: 0,
       label: "Volver",
@@ -45,9 +48,9 @@ const Menu = ({ id }) => {
     {
       index: 4,
       label: "Historial",
-      icon: 'pi pi-stopwatch',
+      icon: "pi pi-stopwatch",
       route: `/admin-hub/gestionarevento/${id}/historial`,
-      command: () => router.push(`/admin-hub/gestionarevento/${id}/historial`)
+      command: () => router.push(`/admin-hub/gestionarevento/${id}/historial`),
     },
     {
       index: 5,
@@ -56,7 +59,9 @@ const Menu = ({ id }) => {
       route: `/admin-hub/gestionarevento/${id}`,
       command: () => router.push(`/admin-hub/gestionarevento/${id}/sorteos`),
     },
-  ];
+  ]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   React.useEffect(() => {
     const route = items.find((e) => e.route === activeRoute);
     if (route !== undefined) {
@@ -66,7 +71,7 @@ const Menu = ({ id }) => {
   }, [activeRoute]);
 
   return (
-    <div className="flex justify-center">
+    <>
       {isMobile ? (
         <Menubar model={items} className="w-72" />
       ) : (
@@ -78,7 +83,7 @@ const Menu = ({ id }) => {
           }}
         />
       )}
-    </div>
+    </>
   );
 };
 

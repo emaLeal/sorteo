@@ -99,6 +99,7 @@ const Header = ({ evento_id, sorteo_id }) => {
               tooltipOptions={{ position: "left" }}
             />
           </Link>
+          
         </div>
       </div>
     </>

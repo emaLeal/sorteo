@@ -108,9 +108,39 @@ const ListaEventos = ({ data }) => {
           severity="secondary"
           icon="pi pi-qrcode"
           tooltip="Qr para Registro"
-          className="max-sm:hidden hover:scale-110 transition-transform"
+          className="max-sm:hidden hover:scale-110 transition-transform mx-2"
           onClick={() => onHideQr(rowData)}
         />
+        <Button
+          text
+          raised
+          rounded
+          severity="success"
+          tooltip="Copiar invitacion de descarga de qr"
+          icon="pi pi-qrcode"
+          className="mx-2 hover:scale-110 transition-transform"
+          tooltipOptions={{ position: "left" }}
+          onClick={() =>
+            navigator.clipboard.writeText(
+              `https://eventos.smartie.com.co/certificados/${rowData.id}`
+            )
+          }
+        />
+        <Link
+          href={`https://eventos.smartie.com.co/certificados/${rowData.id}`}
+          target="_blank"
+        >
+          <Button
+            text
+            raised
+            rounded
+            severity="warning"
+            tooltip="Ir al link de invitacion de descarga de qr"
+            icon="pi pi-qrcode"
+            className="mx-2 hover:scale-110 transition-transform"
+            tooltipOptions={{ position: "left" }}
+          />
+        </Link>
       </div>
     );
   };

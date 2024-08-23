@@ -41,7 +41,7 @@ const ListaSorteos = ({ evento, data }) => {
             icon="pi pi-pencil"
             tooltip="Editar Sorteo"
             tooltipOptions={{ position: "bottom" }}
-            className="mr-2"
+            className="mx-2"
             rounded
             raised
             severity="warning"
@@ -50,17 +50,48 @@ const ListaSorteos = ({ evento, data }) => {
           />
         )}
         {!isMobile && (
-          <Button
-            rounded
-            text
-            raised
-            severity="danger"
-            icon="pi pi-trash"
-            tooltip="Eliminar Sorteo"
-            tooltipOptions={{ position: "bottom" }}
-            className="mx-2"
-            onClick={() => del(rowData.id)}
-          />
+          <>
+            <Button
+              rounded
+              text
+              raised
+              severity="danger"
+              icon="pi pi-trash"
+              tooltip="Eliminar Sorteo"
+              tooltipOptions={{ position: "bottom" }}
+              className="mx-2"
+              onClick={() => del(rowData.id)}
+            />
+            <Button
+              text
+              raised
+              rounded
+              tooltip="Copiar invitacion de descarga de qr"
+              icon="pi pi-qrcode"
+              className="mx-2 hover:scale-110 transition-transform"
+              tooltipOptions={{ position: "left" }}
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  `eventos.smartie.com.co/certificados/${rowData.evento_id}/${rowData.id}`
+                )
+              }
+            />
+            <Link
+              href={`https://eventos.smartie.com.co/certificados/${rowData.evento_id}/${rowData.id}`}
+              target="_blank"
+            >
+              <Button
+                text
+                raised
+                rounded
+                severity="help"
+                tooltip="Ir al link de invitacion de descarga de qr"
+                icon="pi pi-qrcode"
+                className="mx-2 hover:scale-110 transition-transform"
+                tooltipOptions={{ position: "left" }}
+              />
+            </Link>
+          </>
         )}
         <Button
           text
@@ -84,7 +115,7 @@ const ListaSorteos = ({ evento, data }) => {
             tooltip="Gestionar Participantes exlusivos del sorteo"
             tooltipOptions={{ position: "bottom" }}
             icon="pi pi-users"
-            className="ml-2"
+            className="mx-2"
           />
         </Link>
       </div>
