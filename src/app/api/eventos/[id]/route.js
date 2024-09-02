@@ -154,7 +154,7 @@ export async function DELETE(req, params) {
         if (err) throw err;
       });
       const delExclusivo = await executeQuery({
-        query: "DELETE FROM exclusividad_sorteos WHERE sorteo_id=?",
+        query: "DELETE FROM exclusividad_sorteo WHERE sorteo_id=?",
         values: [sorteo.id],
       });
     });
