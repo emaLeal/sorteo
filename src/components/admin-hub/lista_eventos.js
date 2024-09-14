@@ -1,7 +1,6 @@
 "use client";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { write, utils } from "xlsx";
 import { Button } from "primereact/button";
 import { useState, useRef } from "react";
 import { Toast } from "primereact/toast";
@@ -141,6 +140,15 @@ const ListaEventos = ({ data }) => {
             tooltipOptions={{ position: "left" }}
           />
         </Link>
+        <Button
+          icon="pi pi-cog"
+          rounded
+          raised
+          text
+          severity="warning"
+          tooltip="Configurar Plantilla de Participante"
+          tooltipOptions={{ position: "left" }}
+        />
       </div>
     );
   };

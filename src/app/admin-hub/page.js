@@ -16,6 +16,7 @@ async function getData() {
 
 export default async function AdminHubPage() {
   const data = await getData()
+  console.log(data)
   return (
     <>
       <Menu />

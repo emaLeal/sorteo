@@ -17,6 +17,7 @@ async function getData(id) {
 export default async function SorteoIdPage({ params }) {
   const { id } = params;
   const data = await getData(id);
+  console.log(data)
   return (
     <>
       <VerParticipantes
@@ -24,6 +25,11 @@ export default async function SorteoIdPage({ params }) {
         data={data.data}
         nombre_evento={data.comp.data.nombre_evento}
         nombre_empresa={data.comp.data.empresa}
+        foto_empresa={data.comp.data.foto_empresa}
+        fondo_color={data.comp.data.fondo_color}
+        fuente_color={data.comp.data.fuente_color}
+        borde_color={data.comp.data.borde_color}
+        fondo_campos={data.comp.data.fondo_campos}
       />
     </>
   );

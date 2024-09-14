@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
@@ -12,8 +13,19 @@ import Template from "@/lib/template";
 import Header from "./HeaderParticipantes";
 import Footer from "./FooterParticipantes";
 import { pdf, PDFDownloadLink } from "@react-pdf/renderer";
+import ImprimirPdf from "./ImprimirPdf";
 
-const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
+const VerParticipantes = ({
+  evento,
+  data,
+  nombre_evento,
+  nombre_empresa,
+  foto_empresa,
+  fondo_color,
+  fuente_color,
+  borde_color,
+  fondo_campos
+}) => {
   const router = useRouter();
   const toast = useRef(null);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
@@ -21,6 +33,7 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
   const [cargo, setCargo] = useState("");
   const [isClient, setIsClient] = useState(false);
   const [selectedParticipantes, setSetlectedParticipantes] = useState([]);
+  const [urlFotoEmpresa, setUrlFotoEmpresa] = useState();
 
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -31,7 +44,18 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
 
   React.useEffect(() => {
     setIsClient(true);
+    turnImageToBlob();
   }, []);
+
+  const turnImageToBlob = async () => {
+    const url = `/api/foto${foto_empresa}`;
+    const res = await fetch(url);
+
+    if (res.ok) {
+      const blob = await res.blob();
+      setUrlFotoEmpresa(URL.createObjectURL(blob));
+    }
+  };
 
   const imgBody = (rowData) => {
     return (
@@ -48,7 +72,7 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
     );
   };
 
-  const imprimirCertificado = async(rowData) => {
+  const imprimirCertificado = async (rowData) => {
     const blob = await pdf(
       <Template
         participante={rowData}
@@ -56,24 +80,7 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
         nombre_empresa={nombre_empresa}
       />
     ).toBlob();
-    const blobUrl = URL.createObjectURL(blob);
-    // Crear un iframe oculto
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    document.body.appendChild(iframe);
-
-    // Cargar el blob en el iframe
-    iframe.src = blobUrl;
-
-    iframe.onload = () => {
-      // Esperar a que el contenido esté completamente cargado
-      iframe.contentWindow.focus();
-      iframe.contentWindow.print();
-
-      // Limpiar después de imprimir
-      document.body.removeChild(iframe);
-      URL.revokeObjectURL(blobUrl);
-    };
+    return blob;
   };
 
   const Acciones = (rowData) => {
@@ -90,16 +97,6 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
           onClick={() => eliminarParticipante(rowData.id)}
           className="mr-2"
         />
-        <Button
-          text
-          raised
-          rounded
-          severity="success"
-          icon="pi pi-print"
-          tooltip="Imprimir Certificado"
-          onClick={() => imprimirCertificado(rowData)}
-          tooltipOptions={{ position: "left" }}
-        />
 
         {isClient && (
           <>
@@ -109,6 +106,11 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
                   participante={rowData}
                   nombre_evento={nombre_evento}
                   nombre_empresa={nombre_empresa}
+                  foto_empresa={urlFotoEmpresa}
+                  fondo_color={fondo_color}
+                  fuente_color={fuente_color}
+                  borde_color={borde_color}
+                  fondo_campos={fondo_campos}
                 />
               }
               fileName={rowData.cedula}
@@ -178,7 +180,7 @@ const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
         }
         footer={<Footer data={data} router={router} evento={evento} />}
         emptyMessage="No se encontraron participantes"
-        rows={3}
+        rows={5}
         selectionMode={"checkbox"}
         selection={selectedParticipantes}
         onSelectionChange={(e) => setSetlectedParticipantes(e.value)}
