@@ -11,17 +11,16 @@ async function getData() {
 
     return json;
   }
-  return res
+  return res;
 }
 
 export default async function AdminHubPage() {
-  const data = await getData()
-  console.log(data)
+  const data = await getData();
   return (
     <>
       <Menu />
       <div>
-        <ListaEventos data={data.data}/>
+        <ListaEventos data={data.data} />
       </div>
     </>
   );

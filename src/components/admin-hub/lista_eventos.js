@@ -13,10 +13,12 @@ import { useRouter } from "next/navigation";
 import Header from "./HeaderEventos";
 import QrCode from "./QrCode";
 import ConfiguracionEvento from "./ConfiguracionEvento";
+import CambiarColorDialog from "./CambiarColorDialog";
 
 const ListaEventos = ({ data }) => {
   const [visible, setVisible] = useState(false);
   const [visibleQr, setVisibleQr] = useState(false);
+  const [visibleColor, setVisibleColor] = useState(false);
   const [eventoData, setEventoData] = useState(undefined);
   const [prevData, setPrevData] = useState(null);
   const [configEventoVisible, setConfigEventoVisible] = useState(false);
@@ -148,6 +150,7 @@ const ListaEventos = ({ data }) => {
           severity="warning"
           tooltip="Configurar Plantilla de Participante"
           tooltipOptions={{ position: "left" }}
+          onClick={() => setVisibleColor(!visibleColor)}
         />
       </div>
     );
@@ -206,6 +209,10 @@ const ListaEventos = ({ data }) => {
     setVisibleQr(!visibleQr);
   };
 
+  const onHideColor = () => {
+    setVisibleColor(!visibleColor);
+  };
+
   const onHide = () => {
     setVisible(!visible);
   };
@@ -216,6 +223,11 @@ const ListaEventos = ({ data }) => {
         visible={configEventoVisible}
         onHide={() => setConfigEventoVisible(!configEventoVisible)}
         id={idEvento}
+      />
+      <CambiarColorDialog
+        visible={visibleColor}
+        onHide={onHideColor}
+        datosEvento={data}
       />
       <ConfirmDialog />
       <QrCode onHide={onHideQr} visible={visibleQr} evento_data={eventoData} />

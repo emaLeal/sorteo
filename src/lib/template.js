@@ -10,6 +10,7 @@ import {
 } from "@react-pdf/renderer";
 import { useRef } from "react";
 import QRCode from "qrcode";
+import "primeicons/primeicons.css";
 
 Font.register({
   family: "Open Sans",
@@ -24,6 +25,21 @@ Font.register({
   ],
 });
 
+const calculateLuminance = (hex) => {
+  // Convierte el color hex a RGB
+  const rgb = parseInt(hex.slice(1), 16); // Remueve el '#' y convierte a número
+  const r = (rgb >> 16) & 255;
+  const g = (rgb >> 8) & 255;
+  const b = rgb & 255;
+
+  // Normaliza los valores RGB a [0, 1]
+  const [rNorm, gNorm, bNorm] = [r, g, b].map((v) => v / 255);
+
+  // Calcula la luminancia usando una fórmula estándar
+  const luminance = 0.299 * rNorm + 0.587 * gNorm + 0.114 * bNorm;
+  return luminance;
+};
+
 const Template = ({
   participante,
   nombre_evento,
@@ -34,6 +50,13 @@ const Template = ({
   borde_color,
   fondo_campos,
 }) => {
+  const luminance = calculateLuminance(fondo_campos);
+  const nombreImg = luminance < 0.5 ? "/usuario.png" : "/usuario-light.png";
+  const cargoImg = luminance < 0.5 ? "/cargo.png" : "/cargo-light.png";
+  const cedulaImg =
+    luminance < 0.5
+      ? "/clip-de-tarjeta-de-identificacion-alt.png"
+      : "/clip-de-tarjeta-de-identificacion-alt-light.png";
   const styles = StyleSheet.create({
     page: {
       flexDirection: "column",
@@ -102,7 +125,7 @@ const Template = ({
             <View style={styles.listItem}>
               <View style={{ flexDirection: "row" }}>
                 <Image
-                  src={"/usuario.png"}
+                  src={nombreImg}
                   alt="logo usuario"
                   style={{ width: 3, height: 3, marginTop: 1 }}
                 />
@@ -115,7 +138,7 @@ const Template = ({
             <View style={styles.listItem}>
               <View style={{ flexDirection: "row" }}>
                 <Image
-                  src={"/clip-de-tarjeta-de-identificacion-alt.png"}
+                  src={cedulaImg}
                   alt="logo usuario"
                   style={{ width: 3, height: 3, marginTop: 1 }}
                 />
@@ -129,7 +152,7 @@ const Template = ({
             <View style={styles.listItem}>
               <View style={{ flexDirection: "row" }}>
                 <Image
-                  src="/cargo.png"
+                  src={cargoImg}
                   alt="Cargo de Usuario"
                   style={{ width: 3, height: 3, marginTop: 1 }}
                 />
