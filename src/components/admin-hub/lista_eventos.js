@@ -14,11 +14,13 @@ import Header from "./HeaderEventos";
 import QrCode from "./QrCode";
 import ConfiguracionEvento from "./ConfiguracionEvento";
 import CambiarColorDialog from "./CambiarColorDialog";
+import DescargaQrDialog from "./DescargaQrDialog";
 
 const ListaEventos = ({ data }) => {
   const [visible, setVisible] = useState(false);
   const [visibleQr, setVisibleQr] = useState(false);
   const [visibleColor, setVisibleColor] = useState(false);
+  const [visibleDescargaQr, setVisibleDescargaQr] = useState(false);
   const [eventoData, setEventoData] = useState(undefined);
   const [prevData, setPrevData] = useState(null);
   const [configEventoVisible, setConfigEventoVisible] = useState(false);
@@ -117,31 +119,15 @@ const ListaEventos = ({ data }) => {
           raised
           rounded
           severity="success"
-          tooltip="Copiar invitacion de descarga de qr"
+          tooltip="Codigo Qr"
           icon="pi pi-qrcode"
+          onClick={() => {
+            onHideDescargaQr(rowData);
+          }}
           className="mx-2 hover:scale-110 transition-transform"
           tooltipOptions={{ position: "left" }}
-          onClick={() =>
-            navigator.clipboard.writeText(
-              `https://eventos.smartie.com.co/certificados/${rowData.id}`
-            )
-          }
         />
-        <Link
-          href={`https://eventos.smartie.com.co/certificados/${rowData.id}`}
-          target="_blank"
-        >
-          <Button
-            text
-            raised
-            rounded
-            severity="warning"
-            tooltip="Ir al link de invitacion de descarga de qr"
-            icon="pi pi-qrcode"
-            className="mx-2 hover:scale-110 transition-transform"
-            tooltipOptions={{ position: "left" }}
-          />
-        </Link>
+
         <Button
           icon="pi pi-cog"
           rounded
@@ -202,6 +188,13 @@ const ListaEventos = ({ data }) => {
     setInvitacionVisible(!invitacionVisible);
   };
 
+  const onHideDescargaQr = (data) => {
+    if (data !== undefined) {
+      setEventoData(data);
+    }
+    setVisibleDescargaQr(!visibleDescargaQr);
+  };
+
   const onHideQr = (data) => {
     if (data !== undefined) {
       setEventoData(data);
@@ -228,6 +221,11 @@ const ListaEventos = ({ data }) => {
         visible={visibleColor}
         onHide={onHideColor}
         datosEvento={data}
+      />
+      <DescargaQrDialog
+        visible={visibleDescargaQr}
+        onHide={onHideDescargaQr}
+        evento_data={eventoData}
       />
       <ConfirmDialog />
       <QrCode onHide={onHideQr} visible={visibleQr} evento_data={eventoData} />
