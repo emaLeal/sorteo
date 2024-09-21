@@ -54,6 +54,14 @@ const Menu = ({ id }) => {
     },
     {
       index: 5,
+      label: "Certificados",
+      icon: "pi pi-file",
+      route: `/admin-hub/gestionarevento/${id}/certificados`,
+      command: () =>
+        router.push(`/admin-hub/gestionarevento/${id}/certificados`),
+    },
+    {
+      index: 6,
       label: "",
       icon: "pi",
       route: `/admin-hub/gestionarevento/${id}`,

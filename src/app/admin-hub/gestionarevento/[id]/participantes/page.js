@@ -17,7 +17,6 @@ async function getData(id) {
 export default async function SorteoIdPage({ params }) {
   const { id } = params;
   const data = await getData(id);
-  console.log(data)
   return (
     <>
       <VerParticipantes

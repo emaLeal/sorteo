@@ -24,7 +24,7 @@ const VerParticipantes = ({
   fondo_color,
   fuente_color,
   borde_color,
-  fondo_campos
+  fondo_campos,
 }) => {
   const router = useRouter();
   const toast = useRef(null);
@@ -100,7 +100,7 @@ const VerParticipantes = ({
 
         {isClient && (
           <>
-            <PDFDownloadLink
+            {/* <PDFDownloadLink
               document={
                 <Template
                   participante={rowData}
@@ -124,7 +124,7 @@ const VerParticipantes = ({
                 rounded
                 severity="help"
               />
-            </PDFDownloadLink>
+            </PDFDownloadLink> */}
             <Button
               severity="primary"
               icon="pi pi-eye"
@@ -159,6 +159,7 @@ const VerParticipantes = ({
 
       <DataTable
         value={data}
+        paginator
         header={
           <Header
             globalFilterValue={globalFilterValue}
@@ -180,13 +181,12 @@ const VerParticipantes = ({
         }
         footer={<Footer data={data} router={router} evento={evento} />}
         emptyMessage="No se encontraron participantes"
-        rows={5}
+        rows={10}
         selectionMode={"checkbox"}
         selection={selectedParticipantes}
         onSelectionChange={(e) => setSetlectedParticipantes(e.value)}
         globalFilterFields={["nombre", "participara"]}
         currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Participantes"
-        paginator
         filters={filters}
       >
         <Column

@@ -8,10 +8,6 @@ import { Tooltip } from "primereact/tooltip";
 import CrearParticipantes from "./CrearParticipantes";
 import MoverParticipantes from "./MoverParticipantes";
 import { useState, useEffect } from "react";
-import { pdf } from "@react-pdf/renderer";
-import Template from "@/lib/template";
-import { saveAs } from "file-saver";
-import JSZip from "jszip";
 
 const Header = ({
   globalFilterValue,
@@ -26,8 +22,6 @@ const Header = ({
   router,
   evento,
   toast,
-  nombre_evento,
-  nombre_empresa,
   selectedParticipantes,
 }) => {
   const [visible, setVisible] = useState(false);
@@ -57,73 +51,6 @@ const Header = ({
       });
   }, [evento]);
 
-  const generarPdfs = async () => {
-    const pdfPromises = data.map(async (item) => {
-      const blob = await pdf(
-        <Template
-          participante={item}
-          nombre_evento={nombre_evento}
-          nombre_empresa={nombre_empresa}
-        />
-      ).toBlob();
-      return blob;
-    });
-
-    // Esperamos a que todas las conversiones se completen
-    const pdfs = await Promise.all(pdfPromises);
-
-    return pdfs;
-  };
-
-  const generarZip = async (pdfs) => {
-    const zip = new JSZip();
-    pdfs.forEach((pdf, index) => {
-      zip.file(`${data[index].cedula}.pdf`, pdf);
-    });
-    const file = await zip.generateAsync({ type: "blob" });
-    saveAs(file, `${nombre_evento}.zip`);
-  };
-
-  const generarZipCompleto = async () => {
-    try {
-      const pdfs = await generarPdfs();
-      const zipBlob = await generarZip(pdfs); // Asegúrate de pasar 'data' como argumento si es necesario
-      saveAs(zipBlob, "documento.zip");
-      console.log("Archivo ZIP generado y descargado.");
-    } catch (error) {
-      console.error("Error al generar el archivo ZIP:", error);
-    }
-  };
-
-  const enviarMensajes = () => {
-    confirmDialog({
-      message: "¿Quieres Enviar correos a todos los participantes del evento?",
-      header: "Enviar Mensajes",
-      icon: "pi pi-exclamation-triangle",
-      acceptLabel: "Enviar Mensajes",
-      rejectLabel: "Cancelar",
-      acceptIcon: "pi pi-send",
-      rejectIcon: "pi pi-check",
-      acceptClassName:
-        "p-button p-button-success p-button-text p-button-raised",
-      rejectClassName: "p-button p-button-text p-button-raised",
-      accept: () => env(),
-    });
-  };
-
-  const env = async () => {
-    const body = JSON.stringify({
-      evento,
-    });
-    const data = await fetch("/api/enviarmensaje", {
-      method: "POST",
-      body,
-    });
-    if (data.ok) {
-      console.log(":D");
-    }
-  };
-
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
     let _filters = { ...filters };
@@ -151,6 +78,7 @@ const Header = ({
       const ws = wb.Sheets[wsname];
       const data = utils.sheet_to_json(ws);
       const participantes = [];
+      console.log(data)
       /* Update state */
       data.forEach((row) => {
         const dataEl = {

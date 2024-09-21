@@ -239,7 +239,7 @@ const SubirQr = ({
       <Tooltip target=".button-cancell" content="Cancelar" position="bottom" />
       <Toast ref={errorRef} />
 
-      <div className="hidden sm:flex w-screen h-96  justify-around items-center ">
+      <div className="hidden md:flex w-screen h-96  justify-around items-center ">
         <FileUpload
           name="demo[]"
           customUpload
@@ -269,7 +269,7 @@ const SubirQr = ({
         />
         <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
       </div>
-      <div className="qr-reader sm:hidden">
+      <div className="qr-reader md:hidden">
         {/* QR */}
         <video ref={videoEl}></video>
         <div ref={qrBoxEl} className="qr-box">
