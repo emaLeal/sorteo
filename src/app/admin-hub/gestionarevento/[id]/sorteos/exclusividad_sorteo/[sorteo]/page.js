@@ -32,8 +32,13 @@ export default async function ExclusividadPage({ params }) {
       data={data.data}
       evento_id={id}
       sorteo_id={sorteo}
+      fondo_color={data.comp.data.fondo_color}
+      fuente_color={data.comp.data.fuente_color}
+      borde_color={data.comp.data.borde_color}
+      fondo_campos={data.comp.data.fondo_campos}
       nombre_sorteo={sorteo_data.nombre}
       nombre_evento={data.comp.data.nombre_evento}
+      foto_empresa={data.comp.data.foto_empresa}
       nombre_empresa={data.comp.data.empresa}
     />
   );

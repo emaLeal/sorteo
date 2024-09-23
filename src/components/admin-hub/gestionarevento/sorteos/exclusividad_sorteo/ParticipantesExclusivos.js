@@ -19,6 +19,11 @@ const ParticipantesExclusivos = ({
   sorteo_id,
   nombre_empresa,
   nombre_evento,
+  fondo_color,
+  fuente_color,
+  foto_empresa,
+  borde_color,
+  fondo_campos,
   nombre_sorteo,
 }) => {
   const router = useRouter();
@@ -93,7 +98,12 @@ const ParticipantesExclusivos = ({
               document={
                 <Template
                   participante={rowData}
+                  fondo_campos={fondo_campos}
+                  fuente_color={fuente_color}
+                  fondo_color={fondo_color}
+                  borde_color={borde_color}
                   nombre_evento={nombre_evento}
+                  foto_empresa={foto_empresa}
                   nombre_empresa={nombre_empresa}
                 />
               }
