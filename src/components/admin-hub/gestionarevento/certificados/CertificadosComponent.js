@@ -54,7 +54,7 @@ const CertificadosComponent = ({
     ).toBlob();
     const formData = new FormData();
     formData.append("file", blob, "certificado.pdf");
-    fetch("http://localhost:3060/api/imprimir", {
+    fetch("https://socket.smartie.com.co/api/imprimir", {
       method: "POST",
       body: formData,
     });
