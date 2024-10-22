@@ -9,23 +9,10 @@ import { Button } from "primereact/button";
 import { FilterMatchMode } from "primereact/api";
 import HabilitarButton from "./HabilitarButton";
 import { useRouter } from "next/navigation";
-import Template from "@/lib/template";
 import Header from "./HeaderParticipantes";
 import Footer from "./FooterParticipantes";
-import { pdf, PDFDownloadLink } from "@react-pdf/renderer";
-import ImprimirPdf from "./ImprimirPdf";
 
-const VerParticipantes = ({
-  evento,
-  data,
-  nombre_evento,
-  nombre_empresa,
-  foto_empresa,
-  fondo_color,
-  fuente_color,
-  borde_color,
-  fondo_campos,
-}) => {
+const VerParticipantes = ({ evento, data, nombre_evento, nombre_empresa }) => {
   const router = useRouter();
   const toast = useRef(null);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
@@ -33,7 +20,6 @@ const VerParticipantes = ({
   const [cargo, setCargo] = useState("");
   const [isClient, setIsClient] = useState(false);
   const [selectedParticipantes, setSetlectedParticipantes] = useState([]);
-  const [urlFotoEmpresa, setUrlFotoEmpresa] = useState();
 
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -44,18 +30,7 @@ const VerParticipantes = ({
 
   React.useEffect(() => {
     setIsClient(true);
-    turnImageToBlob();
   }, []);
-
-  const turnImageToBlob = async () => {
-    const url = `/api/foto${foto_empresa}`;
-    const res = await fetch(url);
-
-    if (res.ok) {
-      const blob = await res.blob();
-      setUrlFotoEmpresa(URL.createObjectURL(blob));
-    }
-  };
 
   const imgBody = (rowData) => {
     return (
@@ -70,17 +45,6 @@ const VerParticipantes = ({
         height={75}
       />
     );
-  };
-
-  const imprimirCertificado = async (rowData) => {
-    const blob = await pdf(
-      <Template
-        participante={rowData}
-        nombre_evento={nombre_evento}
-        nombre_empresa={nombre_empresa}
-      />
-    ).toBlob();
-    return blob;
   };
 
   const Acciones = (rowData) => {

@@ -2,7 +2,7 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Panel } from "primereact/panel";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { pdf, PDFDownloadLink } from "@react-pdf/renderer";
 import React, { useEffect, useState } from "react";
 import Template from "@/lib/template";
 
@@ -39,6 +39,27 @@ const CertificadosComponent = ({
     setError(false);
   };
 
+  const imprimirCertificado = async () => {
+    const blob = await pdf(
+      <Template
+        participante={participante}
+        nombre_evento={nombre_evento}
+        nombre_empresa={nombre_empresa}
+        foto_empresa={foto_empresa}
+        fondo_color={fondo_color}
+        fuente_color={fuente_color}
+        borde_color={borde_color}
+        fondo_campos={fondo_campos}
+      />
+    ).toBlob();
+    const formData = new FormData();
+    formData.append("file", blob, "certificado.pdf");
+    fetch("http://localhost:3060/api/imprimir", {
+      method: "POST",
+      body: formData,
+    });
+  };
+
   return (
     <>
       <section className="flex justify-center my-24">
@@ -68,31 +89,43 @@ const CertificadosComponent = ({
             </div>
             <div>
               {client && (
-                <PDFDownloadLink
-                  document={
-                    <Template
-                      participante={participante}
-                      nombre_evento={nombre_evento}
-                      nombre_empresa={nombre_empresa}
-                      foto_empresa={foto_empresa}
-                      fondo_color={fondo_color}
-                      fuente_color={fuente_color}
-                      borde_color={borde_color}
-                      fondo_campos={fondo_campos}
+                <>
+                  <PDFDownloadLink
+                    document={
+                      <Template
+                        participante={participante}
+                        nombre_evento={nombre_evento}
+                        nombre_empresa={nombre_empresa}
+                        foto_empresa={foto_empresa}
+                        fondo_color={fondo_color}
+                        fuente_color={fuente_color}
+                        borde_color={borde_color}
+                        fondo_campos={fondo_campos}
+                      />
+                    }
+                    fileName={`${participante.cedula}`}
+                  >
+                    <Button
+                      icon="pi pi-download"
+                      raised
+                      rounded
+                      text
+                      size="small"
+                      tooltip={"Descargar Certificado"}
+                      tooltipOptions={{ position: "left" }}
                     />
-                  }
-                  fileName={`${participante.cedula}`}
-                >
+                  </PDFDownloadLink>
                   <Button
-                    icon="pi pi-download"
+                    icon="pi pi-print"
+                    severity="success"
+                    text
                     raised
                     rounded
-                    text
-                    size="small"
-                    tooltip={"Descargar Certificado"}
+                    tooltip="Imprimir"
+                    onClick={() => imprimirCertificado()}
                     tooltipOptions={{ position: "left" }}
                   />
-                </PDFDownloadLink>
+                </>
               )}
             </div>
           </section>
